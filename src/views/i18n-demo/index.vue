@@ -10,6 +10,9 @@
           <el-radio label="zh" border>
             简体中文
           </el-radio>
+          <el-radio label="zh-TW" border>
+            繁體中文
+          </el-radio>
           <el-radio label="en" border>
             English
           </el-radio>
@@ -125,7 +128,8 @@ export default {
   created() {
     if (!this.$i18n.getLocaleMessage('en')[viewName]) {
       this.$i18n.mergeLocaleMessage('en', local.en)
-      this.$i18n.mergeLocaleMessage('zh', local.zh)
+      this.$i18n.mergeLocaleMessage('zh-CN', local['zh-CN'])
+      this.$i18n.mergeLocaleMessage('zh-TW', local['zh-TW'])
       this.$i18n.mergeLocaleMessage('es', local.es)
       this.$i18n.mergeLocaleMessage('ja', local.ja)
     }
