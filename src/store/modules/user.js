@@ -33,12 +33,16 @@ const actions = {
   login({ commit }, userInfo) {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
-      login({ username: username.trim(), password: password }).then(response => {
-        const { data } = response
-        commit('SET_TOKEN', data.token)
-        setToken(data.token)
+      const formData = new FormData()
+      formData.append('account', username.trim())
+      formData.append('password', password)
+      login(formData).then(response => {
+        const { token } = response.data
+        commit('SET_TOKEN', token)
+        setToken(token)
         resolve()
       }).catch(error => {
+        console.log(789)
         reject(error)
       })
     })
@@ -47,15 +51,16 @@ const actions = {
   // get user info
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
-      getInfo(state.token).then(response => {
+      getInfo().then(response => {
+        console.log(response)
         const { data } = response
 
         if (!data) {
           reject('Verification failed, please Login again.')
         }
 
-        const { roles, name, avatar, introduction } = data
-
+        const { name } = data
+        const roles = [data.roles]
         // roles must be a non-empty array
         if (!roles || roles.length <= 0) {
           reject('getInfo: roles must be a non-null array!')
@@ -63,8 +68,8 @@ const actions = {
 
         commit('SET_ROLES', roles)
         commit('SET_NAME', name)
-        commit('SET_AVATAR', avatar)
-        commit('SET_INTRODUCTION', introduction)
+        commit('SET_AVATAR', 'https://stickershop.line-scdn.net/stickershop/v1/product/10691644/LINEStorePC/main.png;compress=true')
+        commit('SET_INTRODUCTION', 'I am a super administrator')
         resolve(data)
       }).catch(error => {
         reject(error)

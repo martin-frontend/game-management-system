@@ -36,6 +36,15 @@ module.exports = {
       warnings: false,
       errors: true
     },
+    proxy: {
+      '/data': {
+        target: 'http://pengbill.com/',
+        changeOrigin: true,
+        pathRewrite : {
+          '^/data': '',
+        },
+      }
+    },
     before: require('./mock/mock-server.js')
   },
   configureWebpack: {
