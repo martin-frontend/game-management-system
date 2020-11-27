@@ -42,7 +42,6 @@ const actions = {
         setToken(token)
         resolve()
       }).catch(error => {
-        console.log(789)
         reject(error)
       })
     })
