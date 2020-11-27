@@ -169,7 +169,7 @@
 import searchPanel from './searchPanel'
 
 export default {
-  name: 'Eeeeeeeeee',
+  name: 'AccountInfo',
   components: { searchPanel },
   data() {
     return {
