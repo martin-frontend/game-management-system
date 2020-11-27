@@ -8,7 +8,7 @@ const operationRouter = {
   redirect: '/operation/online-announcement',
   meta: {
     title: 'operation',
-    icon: 'chart'
+    icon: 'el-icon-s-help'
   },
   children: [
     {
