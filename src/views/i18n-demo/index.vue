@@ -7,7 +7,7 @@
       </div>
       <div>
         <el-radio-group v-model="lang" size="small">
-          <el-radio label="zh" border>
+          <el-radio label="zh-CN" border>
             简体中文
           </el-radio>
           <el-radio label="zh-TW" border>
