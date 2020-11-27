@@ -62,7 +62,12 @@ export default {
     clipboardDemo: 'Clipboard',
     i18n: '国际化',
     externalLink: '外链',
-    profile: '个人中心'
+    profile: '个人中心',
+    // 自定義
+    players: '玩家资料',
+    accountInfo: '帐号资讯',
+    gameHistory: '游戏历程'
+
   },
   navbar: {
     dashboard: '首页',
