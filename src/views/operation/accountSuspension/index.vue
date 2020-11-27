@@ -2,7 +2,7 @@
   <div class="page-container">
     <div class="table-container">
       <el-tag>帳號停權</el-tag>
-      <el-button icon="el-icon-plus" type="primary" circle style="float: right" />
+      <el-button icon="el-icon-plus" type="primary" circle style="float: right" @click="add" />
       <el-tabs v-model="activeName" style="margin-top:10px;">
         <el-tab-pane v-for="item in tabMapOptions" :key="item.key" :label="item.label" :name="item.key">
           <template v-if="activeName === 'a'">
@@ -11,13 +11,15 @@
         </el-tab-pane>
       </el-tabs>
     </div>
+    <Dialog ref="dialog" />
   </div>
 </template>
 
 <script>
-
+import Dialog from './dialog'
 export default {
   name: 'AccountSuspension',
+  components: { Dialog },
   data() {
     return {
       tabMapOptions: [
@@ -32,6 +34,9 @@ export default {
 
   },
   methods: {
+    add() {
+      this.$refs.dialog.handleOpen()
+    }
   }
 }
 </script>
