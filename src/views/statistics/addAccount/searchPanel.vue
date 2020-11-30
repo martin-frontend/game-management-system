@@ -17,8 +17,12 @@
           placeholder="選擇結束日期"
         />
       </el-form-item>
+      <el-form-item>
+        <el-select v-model="formData.type" placeholder="請選擇" @change="handleChange">
+          <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+        </el-select>
+      </el-form-item>
       <el-button type="primary" @click="handleSearch">查詢</el-button>
-
     </el-form>
   </div>
 </template>
@@ -36,14 +40,16 @@ export default {
           { type: 'date', required: true, message: '日期錯誤', trigger: 'change' }
         ]
       },
-      error: ''
+      options: [
+        { value: 'all', label: 'ALL' },
+        { value: 'android', label: 'Android' },
+        { value: 'ios', label: 'iOS' }
+      ]
     }
   },
   methods: {
     handleSearch() {
       this.$refs['form'].validate((valid, err) => {
-        console.log(err)
-        this.error = err
         if (valid) {
           alert('submit!')
         } else {
@@ -51,6 +57,9 @@ export default {
           return false
         }
       })
+    },
+    handleChange(val) {
+      this.$emit('onType', val)
     },
     checkDate(rule, value, callback) {
       console.log(rule, value)
