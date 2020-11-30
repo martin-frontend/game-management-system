@@ -9,10 +9,12 @@
         label="功能"
         width="180"
       >
-        <el-button type="primary">瀏覽</el-button>
-        <el-button type="primary">編輯</el-button>
-        <el-button type="success">立即發送</el-button>
-        <el-button type="danger">刪除</el-button>
+        <template slot-scope="scope">
+          <el-button type="primary">瀏覽</el-button>
+          <el-button type="primary">編輯</el-button>
+          <el-button v-if="scope.row.status==='未發送'" type="success">立即發送</el-button>
+          <el-button type="danger">刪除</el-button>
+        </template>
       </el-table-column>
       <el-table-column
         prop="id"
@@ -30,9 +32,12 @@
         width="180"
       />
       <el-table-column
-        prop="sendTime"
         label="發送時間"
-      />
+      >
+        <template slot-scope="scope">
+          {{ scope.row.sendTime | moment }}
+        </template>
+      </el-table-column>
       <el-table-column
         prop="creator"
         label="建立者"
@@ -58,14 +63,16 @@
 <script>
 export default {
   name: 'FreePanel',
+  props: {
+    tableData: {
+      type: Array,
+      default() {
+        return []
+      }
+    }
+  },
   data() {
     return {
-      tableData: [
-        { 'id': '0001', 'title': '事前登入禮', 'status': '未發送', 'sendTime': '2020/12/1 00:00', 'creator': 'GM0001', 'content': '感謝各位玩家的是前登錄...' },
-        { 'id': '0002', 'title': '事前登入禮', 'status': '未發送', 'sendTime': '2020/12/1 00:00', 'creator': 'GM0001', 'content': '感謝各位玩家的是前登錄...' },
-        { 'id': '0003', 'title': '事前登入禮', 'status': '未發送', 'sendTime': '2020/12/1 00:00', 'creator': 'GM0001', 'content': '感謝各位玩家的是前登錄...' },
-        { 'id': '0004', 'title': '事前登入禮', 'status': '未發送', 'sendTime': '2020/12/1 00:00', 'creator': 'GM0001', 'content': '感謝各位玩家的是前登錄...' }
-      ]
     }
   },
   methods: {
