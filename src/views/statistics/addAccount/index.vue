@@ -2,7 +2,7 @@
   <div class="page-container">
     <search-panel @onType="handleType" />
     <div class="table-container">
-      <el-tag>遊戲歷程</el-tag>
+      <el-tag>新增帳戶</el-tag>
       <chart class="account-chart" />
       <tableData />
     </div>
