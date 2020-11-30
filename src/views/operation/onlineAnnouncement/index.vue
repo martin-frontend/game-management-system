@@ -6,7 +6,7 @@
       <el-tabs v-model="activeName" style="margin-top:10px;">
         <el-tab-pane v-for="item in tabMapOptions" :key="item.key" :label="item.label" :name="item.key">
           <template v-if="activeName === 'announcement'">
-            <Announcement />
+            <Announcement :table-data="tableData" />
           </template>
           <template v-if="activeName === 'launched'">
             <p>上架中</p>
@@ -38,13 +38,20 @@ export default {
         { label: '未上架', key: 'notLaunched' },
         { label: '已下架', key: 'removed' }
       ],
-      activeName: 'announcement'
+      activeName: 'announcement',
+      initData: [
+        { 'id': '0001', 'title': '開服公告', 'type': '重要', 'status': '未上架', 'launchTime': '2020/12/1 00:00', 'removeTime': '2020/12/31 23:59', 'creator': 'GM0001', 'content': '歡慶遊戲開服！加碼大放送...' },
+        { 'id': '0002', 'title': '開服公告', 'type': '重要', 'status': '未上架', 'launchTime': '2020/12/1 00:00', 'removeTime': '2020/12/31 23:59', 'creator': 'GM0001', 'content': '歡慶遊戲開服！加碼大放送...' },
+        { 'id': '0003', 'title': '開服公告', 'type': '重要', 'status': '未上架', 'launchTime': '2020/12/1 00:00', 'removeTime': '2020/12/31 23:59', 'creator': 'GM0001', 'content': '歡慶遊戲開服！加碼大放送...' },
+        { 'id': '0004', 'title': '開服公告', 'type': '重要', 'status': '未上架', 'launchTime': '2020/12/1 00:00', 'removeTime': '2020/12/31 23:59', 'creator': 'GM0001', 'content': '歡慶遊戲開服！加碼大放送...' }
+      ],
+      tableData: []
     }
   },
   computed: {
   },
   created() {
-
+    this.tableData = this.initData
   },
   methods: {
     add() {
