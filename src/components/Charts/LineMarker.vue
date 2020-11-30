@@ -25,10 +25,6 @@ export default {
     autoResize: {
       type: Boolean,
       default: true
-    },
-    chartData: {
-      type: Object,
-      required: true
     }
   },
   inject: ['group'],
@@ -38,7 +34,7 @@ export default {
     }
   },
   watch: {
-    chartData: {
+    'group.chartData': {
       deep: true,
       handler(val) {
         this.setOptions(val)
@@ -47,7 +43,7 @@ export default {
     'group.type': {
       deep: true,
       handler(val) {
-        if (val) { console.log(val); this.setOptions(this.chartData) }
+        if (val) { this.setOptions(this.group.chartData) }
       }
     }
   },
@@ -66,7 +62,7 @@ export default {
   methods: {
     initChart() {
       this.chart = echarts.init(this.$el, 'macarons')
-      this.setOptions(this.chartData)
+      this.setOptions(this.group.chartData)
     },
     setOptions({ allData, androidData, iosData } = {}) {
       const data = this.group.type === 'all' ? allData : this.group.type === 'android' ? androidData : iosData
