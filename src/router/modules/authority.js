@@ -8,7 +8,7 @@ const authorityRouter = {
   redirect: '/authority/manage-account',
   meta: {
     title: 'authority',
-    icon: 'chart'
+    icon: 'lock'
   },
   children: [
     {

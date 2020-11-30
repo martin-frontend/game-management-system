@@ -8,7 +8,7 @@ const playersRouter = {
   redirect: '/players/account-info',
   meta: {
     title: 'players',
-    icon: 'chart'
+    icon: 'el-icon-s-custom'
   },
   children: [
     {
