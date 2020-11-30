@@ -62,7 +62,7 @@
 </template>
 <script>
 export default {
-  name: 'FreePanel',
+  name: 'Item',
   props: {
     tableData: {
       type: Array,
