@@ -28,7 +28,7 @@ export default {
       activeName: 'a'
     }
   },
-  computed: {
+  mounted() {
   },
   created() {
 
@@ -37,6 +37,7 @@ export default {
     add() {
       this.$refs.dialog.handleOpen()
     }
+
   }
 }
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div class="page-container">
-    <searchPanel />
+    <searchPanel @onSearch="onSearch" />
     <div class="table-container">
       <el-tag>帳號資訊</el-tag>
       <p v-if="activeName === 'stored'" style="margin-top:15px">累計儲值金額：3000NTD</p>
@@ -9,49 +9,49 @@
           <template v-if="activeName === 'account'">
             <el-form label-position="left" label-width="180px" class="table-form">
               <el-form-item label="角色ID">
-                <span>{{ account.a1 }}</span>
+                <span>{{ accountdata.user_id }}</span>
               </el-form-item>
               <el-form-item label="角色名稱">
-                <span>{{ account.a2 }}</span>
+                <span>{{ accountdata.user_name }}</span>
               </el-form-item>
               <el-form-item label="帳號狀態">
-                <span>{{ account.a3 }}</span>
+                <span>{{ accountdata.status }}</span>
               </el-form-item>
               <el-form-item label="關聯FB帳號">
-                <span>{{ account.a4 }}</span>
+                <span>{{ accountdata.fb_account }}</span>
               </el-form-item>
               <el-form-item label="關聯Google帳號">
-                <span>{{ account.a5 }}</span>
+                <span>{{ accountdata.google_account }}</span>
               </el-form-item>
               <el-form-item label="關聯beanfun!帳號">
-                <span>{{ account.a6 }}</span>
+                <span>{{ accountdata.beanfun_account }}</span>
               </el-form-item>
               <el-form-item label="關聯apple id">
-                <span>{{ account.a7 }}</span>
+                <span>{{ accountdata.apple_id }}</span>
               </el-form-item>
               <el-form-item label="帳號建立時間">
-                <span>{{ account.a8 }}</span>
+                <span>{{ accountdata.last_create_at }}</span>
               </el-form-item>
               <el-form-item label="最後登入時間">
-                <span>{{ account.a9 }}</span>
+                <span>{{ accountdata.last_login_at }}</span>
               </el-form-item>
               <el-form-item label="最後登入IP">
-                <span>{{ account.a10 }}</span>
+                <span>{{ accountdata.last_login_ip }}</span>
               </el-form-item>
               <el-form-item label="使用設備">
-                <span>{{ account.a11 }}</span>
+                <span>{{ accountdata.used_device }}</span>
               </el-form-item>
               <el-form-item label="使用遊戲版本">
-                <span>{{ account.a12 }}</span>
+                <span>{{ accountdata.game_version }}</span>
               </el-form-item>
               <el-form-item label="伺服器">
-                <span>{{ account.a13 }}</span>
+                <span>{{ accountdata.server }}</span>
               </el-form-item>
             </el-form>
           </template>
           <template v-if="activeName === 'stored'">
             <el-table
-              :data="tableData"
+              :data="storedata"
               style="width: 100%"
               border
             >
@@ -59,20 +59,28 @@
                 prop="name"
                 label="訂單編號"
                 width="180"
-              />
+              >
+                <template slot-scope="scope">{{ scope.row.order_number }}</template>
+              </el-table-column>
               <el-table-column
                 prop="money"
                 label="金額"
                 width="180"
-              />
+              >
+                <template slot-scope="scope">{{ scope.row.amount }}</template>
+              </el-table-column>
               <el-table-column
                 prop="address"
                 label="平台"
-              />
+              >
+                <template slot-scope="scope">{{ scope.row.platform }}</template>
+              </el-table-column>
               <el-table-column
                 prop="date"
                 label="時間"
-              />
+              >
+                <template slot-scope="scope">{{ scope.row.datetime }}</template>
+              </el-table-column>
             </el-table>
             <div class="table-pagination">
               <el-pagination
@@ -180,28 +188,28 @@ export default {
       ],
       activeName: 'account',
       createdTimes: 0,
-      tableData: [
+      storedata: [
         {
-          date: '2016-05-02',
-          name: 'ML05TF63VA',
-          money: '3000 NTD',
-          address: 'Apple Store'
+          order_number: '',
+          amount: '',
+          platform: '',
+          datetime: ''
         }
       ],
-      account: {
-        a1: '角色ID',
-        a2: '角色名稱',
-        a3: '帳號狀態',
-        a4: '關聯FB帳號',
-        a5: '關聯Google帳號',
-        a6: '關聯beanfun!帳號',
-        a7: '關聯apple id',
-        a8: '帳號建立時間',
-        a9: '最後登入時間',
-        a10: '最後登入IP',
-        a11: '使用設備',
-        a12: '使用遊戲版本',
-        a13: '伺服器'
+      accountdata: {
+        user_id: '',
+        user_name: '',
+        status: '',
+        fb_account: '',
+        google_account: '',
+        beanfun_account: '',
+        apple_id: '',
+        last_create_at: '',
+        last_login_at: '',
+        last_login_ip: '',
+        used_device: '',
+        game_version: '',
+        server: ''
       },
       store: {
         a1: '商店資訊',
@@ -241,6 +249,14 @@ export default {
     },
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`)
+    },
+    onSearch(data) {
+      if (data !== '') {
+        this.accountdata = Object.assign({}, data)
+        this.storedata = [...data.deposit_list]
+      } else {
+        alert('查無資料')
+      }
     }
   }
 }
