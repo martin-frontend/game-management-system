@@ -1,5 +1,5 @@
 <template>
-  <div :style="{height:height,width:width}"></div>
+  <div :style="{ height: height, width: width }"></div>
 </template>
 
 <script>
@@ -31,6 +31,7 @@ export default {
       required: true
     }
   },
+  inject: ['group'],
   data() {
     return {
       chart: null
@@ -41,6 +42,12 @@ export default {
       deep: true,
       handler(val) {
         this.setOptions(val)
+      }
+    },
+    'group.type': {
+      deep: true,
+      handler(val) {
+        if (val) { console.log(val); this.setOptions(this.chartData) }
       }
     }
   },
@@ -61,10 +68,19 @@ export default {
       this.chart = echarts.init(this.$el, 'macarons')
       this.setOptions(this.chartData)
     },
-    setOptions({ expectedData, actualData } = {}) {
+    setOptions({ allData, androidData, iosData } = {}) {
+      const data = this.group.type === 'all' ? allData : this.group.type === 'android' ? androidData : iosData
       this.chart.setOption({
         xAxis: {
-          data: ['2020年10月11日', '2020年10月12日', '2020年10月13日', '2020年10月14日', '2020年10月15日', '2020年10月16日', '2020年10月17日'],
+          data: [
+            '2020年10月11日',
+            '2020年10月12日',
+            '2020年10月13日',
+            '2020年10月14日',
+            '2020年10月15日',
+            '2020年10月16日',
+            '2020年10月17日'
+          ],
           boundaryGap: false,
           axisTick: {
             show: false
@@ -127,27 +143,29 @@ export default {
             color: ['FC7127']
           }
         },
-        series: [{
-          name: '新增帳戶數',
-          itemStyle: {
-            normal: {
-              color: '#20B2B0',
-              lineStyle: {
+        series: [
+          {
+            name: '新增帳戶數',
+            itemStyle: {
+              normal: {
                 color: '#20B2B0',
-                width: 4
+                lineStyle: {
+                  color: '#20B2B0',
+                  width: 4
+                },
+                barBorderRadius: [50, 50, 0, 0]
               },
-              barBorderRadius: [50, 50, 0, 0]
+              emphasis: {
+                barBorderRadius: [50, 50]
+              }
             },
-            emphasis: {
-              barBorderRadius: [50, 50]
-            }
-          },
-          smooth: true,
-          type: 'line',
-          data: expectedData,
-          animationDuration: 2800,
-          animationEasing: 'cubicInOut'
-        }]
+            smooth: true,
+            type: 'line',
+            data: data,
+            animationDuration: 2800,
+            animationEasing: 'cubicInOut'
+          }
+        ]
       })
     }
   }

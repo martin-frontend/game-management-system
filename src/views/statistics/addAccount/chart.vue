@@ -11,7 +11,9 @@ export default {
   data() {
     return {
       chartData: {
-        expectedData: [100, 120, 161, 134, 105, 160, 165]
+        allData: [52, 120, 21, 134, 105, 160, 42],
+        androidData: [100, 222, 333, 44, 2434, 512, 1],
+        iosData: [3, 5553, 4, 232, 244, 16560, 332]
       }
     }
   }
