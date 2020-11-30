@@ -4,16 +4,29 @@
     <div class="table-container">
       <el-tag>遊戲歷程</el-tag>
       <el-tabs v-model="activeName" style="margin-top:10px;">
-        <el-tab-pane v-for="item in tabMapOptions" :key="item.key" :label="item.label" :name="item.key" />
+        <el-tab-pane v-for="item in tabMapOptions" :key="item.key" :label="item.label" :name="item.key">
+          <template v-if="activeName === 'gold'">
+            <goldPanel />
+          </template>
+          <template v-else-if="activeName === 'free'">
+            <freePanel />
+          </template>
+          <template v-else>
+            <paidPanel />
+          </template>
+        </el-tab-pane>
       </el-tabs>
     </div>
   </div>
 </template>
 <script>
 import searchPanel from './searchPanel'
+import goldPanel from './goldPanel'
+import freePanel from './freePanel'
+import paidPanel from './paidPanel'
 export default {
   name: 'Index',
-  components: { searchPanel },
+  components: { searchPanel, goldPanel, freePanel, paidPanel },
   data() {
     return {
       activeName: 'gold',
