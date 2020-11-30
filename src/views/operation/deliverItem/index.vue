@@ -5,13 +5,13 @@
       <el-button icon="el-icon-plus" type="primary" circle style="float: right" @click="add" />
       <el-tabs v-model="activeName" style="margin-top:10px;">
         <el-tab-pane v-for="item in tabMapOptions" :key="item.key" :label="item.label" :name="item.key">
-          <template v-if="activeName === 'a'">
-            <p>信件欄</p>
+          <template v-if="activeName === 'all'">
+            <Item />
           </template>
-          <template v-if="activeName === 'b'">
+          <template v-if="activeName === 'notSend'">
             <p>未發送</p>
           </template>
-          <template v-if="activeName === 'c'">
+          <template v-if="activeName === 'sent'">
             <p>已發送</p>
           </template>
         </el-tab-pane>
@@ -22,18 +22,19 @@
 </template>
 
 <script>
+import Item from './item'
 import Dialog from './dialog'
 export default {
   name: 'DeliverItem',
-  components: { Dialog },
+  components: { Dialog, Item },
   data() {
     return {
       tabMapOptions: [
-        { label: '信件欄', key: 'a' },
-        { label: '未發送', key: 'b' },
-        { label: '已發送', key: 'c' }
+        { label: '信件欄', key: 'all' },
+        { label: '未發送', key: 'notSend' },
+        { label: '已發送', key: 'sent' }
       ],
-      activeName: 'a'
+      activeName: 'all'
     }
   },
   computed: {
