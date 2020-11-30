@@ -6,7 +6,7 @@
       <el-tabs v-model="activeName" style="margin-top:10px;">
         <el-tab-pane v-for="item in tabMapOptions" :key="item.key" :label="item.label" :name="item.key">
           <template v-if="activeName === 'announcement'">
-            <announcement />
+            <Announcement />
           </template>
           <template v-if="activeName === 'launched'">
             <p>上架中</p>
@@ -25,11 +25,11 @@
 </template>
 
 <script>
-import announcement from './announcement'
+import Announcement from './announcement'
 import Dialog from './dialog'
 export default {
   name: 'OnlineAnnouncement',
-  components: { Dialog, announcement },
+  components: { Dialog, Announcement },
   data() {
     return {
       tabMapOptions: [
