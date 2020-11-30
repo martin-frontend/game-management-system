@@ -1,9 +1,10 @@
 <template>
-  <div :id="id" :class="className" :style="{height:height,width:width}" />
+  <div :style="{height:height,width:width}"></div>
 </template>
 
 <script>
 import echarts from 'echarts'
+// require('echarts/theme/macarons') // echarts theme
 import resize from './mixins/resize'
 
 export default {
@@ -13,17 +14,21 @@ export default {
       type: String,
       default: 'chart'
     },
-    id: {
-      type: String,
-      default: 'chart'
-    },
     width: {
       type: String,
-      default: '200px'
+      default: '100%'
     },
     height: {
       type: String,
-      default: '200px'
+      default: '250px'
+    },
+    autoResize: {
+      type: Boolean,
+      default: true
+    },
+    chartData: {
+      type: Object,
+      required: true
     }
   },
   data() {
@@ -31,8 +36,18 @@ export default {
       chart: null
     }
   },
+  watch: {
+    chartData: {
+      deep: true,
+      handler(val) {
+        this.setOptions(val)
+      }
+    }
+  },
   mounted() {
-    this.initChart()
+    this.$nextTick(() => {
+      this.initChart()
+    })
   },
   beforeDestroy() {
     if (!this.chart) {
@@ -43,182 +58,95 @@ export default {
   },
   methods: {
     initChart() {
-      this.chart = echarts.init(document.getElementById(this.id))
-
+      this.chart = echarts.init(this.$el, 'macarons')
+      this.setOptions(this.chartData)
+    },
+    setOptions({ expectedData, actualData } = {}) {
       this.chart.setOption({
-        backgroundColor: '#394056',
-        title: {
-          top: 20,
-          text: 'Requests',
-          textStyle: {
-            fontWeight: 'normal',
-            fontSize: 16,
-            color: '#F1F1F3'
+        xAxis: {
+          data: ['2020年10月11日', '2020年10月12日', '2020年10月13日', '2020年10月14日', '2020年10月15日', '2020年10月16日', '2020年10月17日'],
+          boundaryGap: false,
+          axisTick: {
+            show: false
           },
-          left: '1%'
+          splitLine: {
+            show: false
+          },
+          axisLine: {
+            lineStyle: {
+              color: '#20B2B0'
+            },
+            borderType: 'dashed'
+          }
+        },
+        grid: {
+          left: 15,
+          right: 15,
+          bottom: 77,
+          top: 67,
+          containLabel: true
         },
         tooltip: {
           trigger: 'axis',
           axisPointer: {
-            lineStyle: {
-              color: '#57617B'
-            }
-          }
-        },
-        legend: {
-          top: 20,
-          icon: 'rect',
-          itemWidth: 14,
-          itemHeight: 5,
-          itemGap: 13,
-          data: ['CMCC', 'CTCC', 'CUCC'],
-          right: '4%',
-          textStyle: {
-            fontSize: 12,
-            color: '#F1F1F3'
-          }
-        },
-        grid: {
-          top: 100,
-          left: '2%',
-          right: '2%',
-          bottom: '2%',
-          containLabel: true
-        },
-        xAxis: [{
-          type: 'category',
-          boundaryGap: false,
-          axisLine: {
-            lineStyle: {
-              color: '#57617B'
+            type: 'cross',
+            label: {
+              color: '#1F1F1F',
+              shadowBlur: 0
             }
           },
-          data: ['13:00', '13:05', '13:10', '13:15', '13:20', '13:25', '13:30', '13:35', '13:40', '13:45', '13:50', '13:55']
-        }],
-        yAxis: [{
-          type: 'value',
-          name: '(%)',
+          padding: [5, 10]
+        },
+        yAxis: {
           axisTick: {
             show: false
           },
           axisLine: {
             lineStyle: {
-              color: '#57617B'
+              color: '#20B2B0'
             }
           },
-          axisLabel: {
-            margin: 10,
-            textStyle: {
-              fontSize: 14
-            }
-          },
-          splitLine: {
-            lineStyle: {
-              color: '#57617B'
-            }
+          axisPointer: {
+            show: false
           }
-        }],
+        },
+        toolbox: {
+          feature: {
+            saveAsImage: {}
+          }
+        },
+        legend: {
+          y: 'bottom',
+          icon: 'circle',
+          itemWidth: 9,
+          itemHeight: 9,
+          padding: [35, 0, 25, 0],
+          data: ['新增帳戶數'],
+          textStyle: {
+            fontSize: 13,
+            color: ['FC7127']
+          }
+        },
         series: [{
-          name: 'CMCC',
-          type: 'line',
-          smooth: true,
-          symbol: 'circle',
-          symbolSize: 5,
-          showSymbol: false,
-          lineStyle: {
-            normal: {
-              width: 1
-            }
-          },
-          areaStyle: {
-            normal: {
-              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                offset: 0,
-                color: 'rgba(137, 189, 27, 0.3)'
-              }, {
-                offset: 0.8,
-                color: 'rgba(137, 189, 27, 0)'
-              }], false),
-              shadowColor: 'rgba(0, 0, 0, 0.1)',
-              shadowBlur: 10
-            }
-          },
+          name: '新增帳戶數',
           itemStyle: {
             normal: {
-              color: 'rgb(137,189,27)',
-              borderColor: 'rgba(137,189,2,0.27)',
-              borderWidth: 12
-
+              color: '#20B2B0',
+              lineStyle: {
+                color: '#20B2B0',
+                width: 4
+              },
+              barBorderRadius: [50, 50, 0, 0]
+            },
+            emphasis: {
+              barBorderRadius: [50, 50]
             }
           },
-          data: [220, 182, 191, 134, 150, 120, 110, 125, 145, 122, 165, 122]
-        }, {
-          name: 'CTCC',
-          type: 'line',
           smooth: true,
-          symbol: 'circle',
-          symbolSize: 5,
-          showSymbol: false,
-          lineStyle: {
-            normal: {
-              width: 1
-            }
-          },
-          areaStyle: {
-            normal: {
-              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                offset: 0,
-                color: 'rgba(0, 136, 212, 0.3)'
-              }, {
-                offset: 0.8,
-                color: 'rgba(0, 136, 212, 0)'
-              }], false),
-              shadowColor: 'rgba(0, 0, 0, 0.1)',
-              shadowBlur: 10
-            }
-          },
-          itemStyle: {
-            normal: {
-              color: 'rgb(0,136,212)',
-              borderColor: 'rgba(0,136,212,0.2)',
-              borderWidth: 12
-
-            }
-          },
-          data: [120, 110, 125, 145, 122, 165, 122, 220, 182, 191, 134, 150]
-        }, {
-          name: 'CUCC',
           type: 'line',
-          smooth: true,
-          symbol: 'circle',
-          symbolSize: 5,
-          showSymbol: false,
-          lineStyle: {
-            normal: {
-              width: 1
-            }
-          },
-          areaStyle: {
-            normal: {
-              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                offset: 0,
-                color: 'rgba(219, 50, 51, 0.3)'
-              }, {
-                offset: 0.8,
-                color: 'rgba(219, 50, 51, 0)'
-              }], false),
-              shadowColor: 'rgba(0, 0, 0, 0.1)',
-              shadowBlur: 10
-            }
-          },
-          itemStyle: {
-            normal: {
-              color: 'rgb(219,50,51)',
-              borderColor: 'rgba(219,50,51,0.2)',
-              borderWidth: 12
-            }
-          },
-          data: [220, 182, 125, 145, 122, 191, 134, 150, 120, 110, 165, 122]
+          data: expectedData,
+          animationDuration: 2800,
+          animationEasing: 'cubicInOut'
         }]
       })
     }
