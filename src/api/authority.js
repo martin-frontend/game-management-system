@@ -2,13 +2,13 @@ import request from '@/utils/request'
 
 export function getUser() {
   return request({
-    url: 'authority/getuser.php',
+    url: 'authority_getuser',
     method: 'get'
   })
 }
 export function createUser(data) {
   return request({
-    url: 'authority/createuser.php',
+    url: 'authority_createuser',
     method: 'post',
     data
   })
