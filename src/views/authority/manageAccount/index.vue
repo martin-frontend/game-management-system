@@ -6,7 +6,7 @@
     </div>
     <el-table
       style="width: 100%"
-      :data="userdata"
+      :data="tabledata"
       border
     >
       <el-table-column
@@ -25,7 +25,7 @@
         label="權限"
         width="180"
       >
-        <template slot-scope="scope">{{ roleName(scope.row.role) }}</template>
+        <template slot-scope="scope">{{ scope.row.role }}</template>
       </el-table-column>
       <el-table-column
         width="180"
@@ -55,11 +55,7 @@ export default {
   components: { Dialog },
   data() {
     return {
-      tabMapOptions: [
-        { label: '後台帳號', key: 'a' }
-      ],
-      activeName: 'a',
-      userdata: []
+      tabledata: []
     }
   },
   computed: {
@@ -71,16 +67,6 @@ export default {
     createUser() {
       this.$refs.dialog.handleOpen('新增')
     },
-    roleName(num) {
-      switch (num) {
-        case '1':
-          return '超級管理員'
-        case '2':
-          return '開發者帳號'
-        case '3':
-          return '客服帳號'
-      }
-    },
     statusName(num) {
       switch (num) {
         case '0':
@@ -91,7 +77,7 @@ export default {
     },
     initData() {
       getUser().then(response => {
-        this.userdata = [...response.data]
+        this.tabledata = [...response.data]
       }).catch(error => {
         console.log(error)
       })
