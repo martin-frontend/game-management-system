@@ -9,31 +9,33 @@
         label="功能"
         width="180"
       >
-        <el-button type="primary" size="small">瀏覽</el-button>
-        <el-button type="primary" size="small">編輯</el-button>
-        <el-button type="success" size="small">立即上架</el-button>
-        <el-button type="warning" size="small">立即下架</el-button>
-        <el-button type="danger" size="small">刪除</el-button>
+        <template slot-scope="scope">
+          <el-button type="primary" size="small">瀏覽</el-button>
+          <el-button type="primary" size="small">編輯</el-button>
+          <el-button v-if="scope.row.status==='未上架'" type="success" size="small">立即上架</el-button>
+          <el-button v-if="scope.row.status==='上架中'" type="warning" size="small">立即下架</el-button>
+          <el-button type="danger" size="small">刪除</el-button>
+        </template>
       </el-table-column>
       <el-table-column
         prop="id"
         label="編號"
-        width="180"
+        width="100"
       />
       <el-table-column
         prop="title"
         label="標題"
-        width="180"
+        width="150"
       />
       <el-table-column
         prop="type"
         label="類型"
-        width="180"
+        width="100"
       />
       <el-table-column
         prop="status"
         label="狀態"
-        width="180"
+        width="100"
       />
       <el-table-column
         prop="launchTime"
@@ -46,6 +48,7 @@
       <el-table-column
         prop="creator"
         label="建立者"
+        width="100"
       />
       <el-table-column
         prop="content"
