@@ -10,10 +10,10 @@
         width="180"
       >
         <template slot-scope="scope">
-          <el-button type="primary">瀏覽</el-button>
-          <el-button type="primary">編輯</el-button>
-          <el-button v-if="scope.row.status==='未發送'" type="success">立即發送</el-button>
-          <el-button type="danger">刪除</el-button>
+          <el-button type="primary" size="small">瀏覽</el-button>
+          <el-button type="primary" size="small">編輯</el-button>
+          <el-button v-if="scope.row.status==='未發送'" type="success" size="small">立即發送</el-button>
+          <el-button type="danger" size="small">刪除</el-button>
         </template>
       </el-table-column>
       <el-table-column
