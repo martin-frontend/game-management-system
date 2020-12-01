@@ -19,7 +19,7 @@
         </el-form-item>
         <el-form-item label="狀態" :label-width="formLabelWidth">
           <el-radio v-model="formData.status" label="1">啟用</el-radio>
-          <el-radio v-model="formData.status" label="2">停用</el-radio>
+          <el-radio v-model="formData.status" label="0">停用</el-radio>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
