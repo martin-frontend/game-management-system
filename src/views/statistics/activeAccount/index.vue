@@ -50,7 +50,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 .account-chart {
-  margin-top: 50px;
   width: 100%;
   .chart {
     width: 100%;
