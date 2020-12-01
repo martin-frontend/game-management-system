@@ -2,7 +2,7 @@
   <div class="page-container">
     <div class="table-container">
       <p>後台帳號</p>
-      <el-button icon="el-icon-plus" type="primary" circle style="float: right" @click="add" />
+      <el-button icon="el-icon-plus" type="primary" circle style="float: right" @click="createUser" />
     </div>
     <el-table
       style="width: 100%"
@@ -35,15 +35,20 @@
       </el-table-column>
       <el-table-column
         label="功能"
-      />
+      >
+        <template slot-scope="scope">
+          <el-button @click="deleteUser(scope.row.id)">刪除</el-button>
+          <el-button @click="modifyUser(scope.row)">修改</el-button>
+        </template>
+      </el-table-column>
     </el-table>
-    <Dialog ref="dialog" />
+    <Dialog ref="dialog" @initData="initData" />
   </div>
 </template>
 
 <script>
 import Dialog from './dialog'
-import { getUser } from '@/api/authority'
+import { getUser, deleteUser } from '@/api/authority'
 
 export default {
   name: 'ManageAccount',
@@ -63,8 +68,8 @@ export default {
     this.initData()
   },
   methods: {
-    add() {
-      this.$refs.dialog.handleOpen()
+    createUser() {
+      this.$refs.dialog.handleOpen('新增')
     },
     roleName(num) {
       switch (num) {
@@ -90,11 +95,23 @@ export default {
       }).catch(error => {
         console.log(error)
       })
+    },
+    deleteUser(id) {
+      const formData = new FormData()
+      formData.append('id', id)
+      deleteUser(formData).then(resopnse => {
+        this.initData()
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    modifyUser(data) {
+      this.$refs.dialog.handleOpen('修改', data)
     }
   }
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
   .table-container{
     display: flex;
     justify-content: space-between;

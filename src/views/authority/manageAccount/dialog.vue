@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-dialog title="新增帳號" :visible.sync="dialogFormVisible" width="30%">
+    <el-dialog :title="title+'帳號'" :visible.sync="dialogFormVisible" width="30%">
       <el-form :model="formData">
         <el-form-item label="帳號ID" :label-width="formLabelWidth">
           <el-input v-model="formData.account" autocomplete="off" placeholder="請輸入ID" class="form-width" />
@@ -19,37 +19,38 @@
         </el-form-item>
         <el-form-item label="狀態" :label-width="formLabelWidth">
           <el-radio v-model="formData.status" label="1">啟用</el-radio>
-          <el-radio v-model="formData.status" label="2">停用</el-radio>
+          <el-radio v-model="formData.status" label="0">停用</el-radio>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="createUser">建 立</el-button>
+        <el-button v-if="title==='新增'" type="primary" @click="createUser">建 立</el-button>
+        <el-button v-else type="primary" @click="updateUser">更 新</el-button>
       </div>
     </el-dialog>
   </div>
 </template>
 <script>
-import { createUser } from '@/api/authority'
+import { createUser, updateUser } from '@/api/authority'
 export default {
   data() {
     return {
       formData: {},
       dialogFormVisible: false,
-      formLabelWidth: '80px'
+      formLabelWidth: '80px',
+      title: ''
     }
   },
   methods: {
-    handleClose(done) {
+    handleClose() {
       this.loading = false
       this.dialogFormVisible = false
     },
-    handleOpen(title, row) {
+    handleOpen(title, data) {
       this.dialogFormVisible = true
       this.title = title
-      //   this.form = {}
       if (title === '修改') {
-        this.form = Object.assign({}, row)
+        this.formData = Object.assign({}, data)
       }
     },
     createUser() {
@@ -59,7 +60,22 @@ export default {
       formData.append('role', this.formData.role)
       formData.append('status', this.formData.status)
       createUser(formData).then(resopnse => {
-        alert(resopnse.data)
+        this.$emit('initData')
+        this.dialogFormVisible = false
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    updateUser() {
+      const formData = new FormData()
+      formData.append('account', this.formData.account)
+      formData.append('password', this.formData.password)
+      formData.append('role', this.formData.role)
+      formData.append('status', this.formData.status)
+      formData.append('id', this.formData.id)
+      updateUser(formData).then(resopnse => {
+        this.$emit('initData')
+        this.dialogFormVisible = false
       }).catch(err => {
         console.log(err)
       })

@@ -37,11 +37,11 @@ module.exports = {
       errors: true
     },
     proxy: {
-      '/data': {
+      '/': {
         target: 'http://pengbill.com/',
         changeOrigin: true,
         pathRewrite : {
-          '^/data': '',
+          '^/': '',
         },
       }
     },

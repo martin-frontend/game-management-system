@@ -7,8 +7,8 @@
         </el-form-item>
         <el-form-item label="類型" :label-width="formLabelWidth">
           <el-select v-model="form.type" placeholder="請選擇類型" class="form-margin form-width">
-            <el-option label="活動獎品型（單次單人使用）" value="shanghai" />
-            <el-option label="社群媒體型（單次多人使用）" value="beijing" />
+            <el-option label="活動獎品型（單次單人使用）" value="single" />
+            <el-option label="社群媒體型（單次多人使用）" value="multi" />
           </el-select>
           <el-input v-model="form.snNumber" class="form-width" autocomplete="off" placeholder="請輸入序號數量" />
         </el-form-item>
@@ -100,6 +100,6 @@ export default {
   margin-bottom: 10px;
 }
 .form-width{
-  width: 220px;
+  width: 250px;
 }
 </style>

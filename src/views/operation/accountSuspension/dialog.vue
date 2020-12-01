@@ -2,8 +2,17 @@
   <div>
     <el-dialog title="停權" :visible.sync="dialogFormVisible" width="50%">
       <el-form :model="form">
-        <el-form-item label="帳號ID" :label-width="formLabelWidth">
-          <i class="el-icon-upload2"></i>
+        <el-form-item
+          v-for="(account, index) in form.accounts"
+          :key="account.key"
+          :label="'帳號ID'"
+          :prop="'accounts.' + index + '.value'"
+          :label-width="formLabelWidth"
+        >
+          <el-input v-model="account.id" class="form-width form-margin" />
+          <el-button v-if="index == 0" @click="addAccount">新增帳號ID</el-button>
+          <i v-if="index == 0" class="el-icon-upload2"></i>
+          <el-button v-if="index != 0" @click.prevent="removeAccount(account)">删除</el-button>
         </el-form-item>
         <el-form-item label="時間" :label-width="formLabelWidth">
           <el-input v-model="form.name" autocomplete="off" placeholder="請輸入天數" class="form-width form-margin" />
@@ -30,6 +39,9 @@ export default {
   data() {
     return {
       form: {
+        accounts: [{
+          id: ''
+        }],
         checked: false,
         radio: ''
       },
@@ -50,6 +62,18 @@ export default {
       if (title === '修改') {
         this.form = Object.assign({}, row)
       }
+    },
+    removeAccount(item) {
+      var index = this.form.accounts.indexOf(item)
+      if (index !== -1) {
+        this.form.accounts.splice(index, 1)
+      }
+    },
+    addAccount() {
+      this.form.accounts.push({
+        id: '',
+        key: Date.now()
+      })
     }
   }
 }
