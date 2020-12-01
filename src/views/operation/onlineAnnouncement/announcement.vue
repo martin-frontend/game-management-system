@@ -9,11 +9,11 @@
         label="功能"
         width="180"
       >
-        <el-button type="primary">瀏覽</el-button>
-        <el-button type="primary">編輯</el-button>
-        <el-button type="success">立即上架</el-button>
-        <el-button type="warning">立即下架</el-button>
-        <el-button type="danger">刪除</el-button>
+        <el-button type="primary" size="small">瀏覽</el-button>
+        <el-button type="primary" size="small">編輯</el-button>
+        <el-button type="success" size="small">立即上架</el-button>
+        <el-button type="warning" size="small">立即下架</el-button>
+        <el-button type="danger" size="small">刪除</el-button>
       </el-table-column>
       <el-table-column
         prop="id"

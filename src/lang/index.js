@@ -49,7 +49,7 @@ export function getLanguage() {
       return locale
     }
   }
-  return 'en'
+  return 'zh-TW'
 }
 const i18n = new VueI18n({
   // set locale

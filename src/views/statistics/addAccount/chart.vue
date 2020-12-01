@@ -1,5 +1,6 @@
 <template>
   <div>
+    <i class="download-icon el-icon-download"></i>
     <line-marker />
   </div>
 </template>
@@ -10,3 +11,9 @@ export default {
   components: { LineMarker }
 }
 </script>
+<style lang="scss" scoped>
+.download-icon{
+  width: 100%;
+  text-align: right;
+}
+</style>

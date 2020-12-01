@@ -9,12 +9,9 @@
         label="功能"
         width="180"
       >
-        <template slot-scope="scope">
-          <el-button type="primary" size="small">瀏覽</el-button>
-          <el-button type="primary" size="small">編輯</el-button>
-          <el-button v-if="scope.row.status==='未發送'" type="success" size="small">立即發送</el-button>
-          <el-button type="danger" size="small">刪除</el-button>
-        </template>
+        <el-button type="primary" size="small">瀏覽</el-button>
+        <el-button type="primary" size="small">查看序號</el-button>
+        <el-button type="danger" size="small">刪除</el-button>
       </el-table-column>
       <el-table-column
         prop="id"
@@ -27,17 +24,28 @@
         width="180"
       />
       <el-table-column
+        prop="type"
+        label="類型"
+        width="180"
+      />
+      <el-table-column
+        prop="amount"
+        label="數量"
+        width="180"
+      />
+      <el-table-column
         prop="status"
         label="狀態"
         width="180"
       />
       <el-table-column
-        label="發送時間"
-      >
-        <template slot-scope="scope">
-          {{ scope.row.sendTime | moment }}
-        </template>
-      </el-table-column>
+        prop="startTime"
+        label="開始時間"
+      />
+      <el-table-column
+        prop="endTime"
+        label="結束時間"
+      />
       <el-table-column
         prop="creator"
         label="建立者"
