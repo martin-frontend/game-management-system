@@ -122,11 +122,6 @@ export default {
             show: false
           }
         },
-        toolbox: {
-          feature: {
-            saveAsImage: {}
-          }
-        },
         legend: {
           y: 'bottom',
           icon: 'circle',
