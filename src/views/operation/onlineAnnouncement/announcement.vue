@@ -67,15 +67,17 @@
 </template>
 <script>
 export default {
-  name: 'FreePanel',
+  name: 'Announcement',
+  props: {
+    tableData: {
+      type: Array,
+      default() {
+        return []
+      }
+    }
+  },
   data() {
     return {
-      tableData: [
-        { 'id': '0001', 'title': '開服公告', 'type': '重要', 'status': '未上架', 'launchTime': '2020/12/1 00:00', 'removeTime': '2020/12/31 23:59', 'creator': 'GM0001', 'content': '歡慶遊戲開服！加碼大放送...' },
-        { 'id': '0002', 'title': '開服公告', 'type': '重要', 'status': '未上架', 'launchTime': '2020/12/1 00:00', 'removeTime': '2020/12/31 23:59', 'creator': 'GM0001', 'content': '歡慶遊戲開服！加碼大放送...' },
-        { 'id': '0003', 'title': '開服公告', 'type': '重要', 'status': '未上架', 'launchTime': '2020/12/1 00:00', 'removeTime': '2020/12/31 23:59', 'creator': 'GM0001', 'content': '歡慶遊戲開服！加碼大放送...' },
-        { 'id': '0004', 'title': '開服公告', 'type': '重要', 'status': '未上架', 'launchTime': '2020/12/1 00:00', 'removeTime': '2020/12/31 23:59', 'creator': 'GM0001', 'content': '歡慶遊戲開服！加碼大放送...' }
-      ]
     }
   },
   methods: {
