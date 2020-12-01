@@ -21,9 +21,6 @@
         <el-select v-model="formData.type" placeholder="請選擇" @change="handleType">
           <el-option v-for="item in typeOptions" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
-        <el-select v-model="formData.date" placeholder="請選擇" @change="handleDate">
-          <el-option v-for="item in dateOptions" :key="item.value" :label="item.label" :value="item.value" />
-        </el-select>
       </el-form-item>
       <el-button type="primary" @click="handleSearch">查詢</el-button>
     </el-form>
@@ -47,11 +44,6 @@ export default {
         { value: 'all', label: 'ALL' },
         { value: 'android', label: 'Android' },
         { value: 'ios', label: 'iOS' }
-      ],
-      dateOptions: [
-        { value: 'dau', label: 'DAU' },
-        { value: 'wau', label: 'WAU' },
-        { value: 'mau', label: 'MAU' }
       ]
     }
   },
@@ -68,10 +60,6 @@ export default {
     },
     handleType(val) {
       this.$emit('onType', val)
-      this.formData.date = ''
-    },
-    handleDate(val) {
-      console.log(val)
     },
     checkDate(rule, value, callback) {
       console.log(rule, value)
