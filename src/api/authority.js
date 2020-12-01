@@ -13,4 +13,18 @@ export function createUser(data) {
     data
   })
 }
+export function updateUser(data) {
+  return request({
+    url: 'authority_updateuser',
+    method: 'post',
+    data
+  })
+}
+export function deleteUser(data) {
+  return request({
+    url: 'authority_deleteuser',
+    method: 'post',
+    data
+  })
+}
 
