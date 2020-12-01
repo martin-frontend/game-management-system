@@ -13,6 +13,7 @@
             <el-option label="補償" value="" />
             <el-option label="其他" value="" />
           </el-select>
+          <svg-icon icon-class="form" class="icon" />
         </el-form-item>
         <el-form-item label="日期" :label-width="formLabelWidth">
           <div>
@@ -98,5 +99,11 @@ export default {
 .form-margin{
   margin-right: 10px;
   margin-bottom: 10px;
+}
+.icon{
+  margin-left: 15px;
+  font-size: 20px;
+  vertical-align: middle;
+  cursor: pointer;
 }
 </style>
