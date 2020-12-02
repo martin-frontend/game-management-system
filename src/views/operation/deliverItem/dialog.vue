@@ -27,7 +27,7 @@
         <el-form-item label="對象" :label-width="formLabelWidth">
           <el-radio v-model="form.radio" label="1">全部玩家</el-radio>
           <el-radio v-model="form.radio" label="2">指定玩家</el-radio>
-          <i class="el-icon-upload2"></i>
+          <i class="el-icon-upload2 icon"></i>
         </el-form-item>
         <el-form-item label="道具" :label-width="formLabelWidth" />
         <el-form-item label="內容" :label-width="formLabelWidth">
@@ -79,5 +79,9 @@ export default {
 .form-margin{
   margin-right: 10px;
   margin-bottom: 10px;
+}
+.icon{
+  font-size: 20px;
+  vertical-align: middle;
 }
 </style>

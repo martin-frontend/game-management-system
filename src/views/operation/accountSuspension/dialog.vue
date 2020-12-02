@@ -11,7 +11,7 @@
         >
           <el-input v-model="account.id" class="form-width form-margin" />
           <el-button v-if="index == 0" @click="addAccount">新增帳號ID</el-button>
-          <i v-if="index == 0" class="el-icon-upload2"></i>
+          <i v-if="index == 0" class="el-icon-upload2 icon"></i>
           <el-button v-if="index != 0" @click.prevent="removeAccount(account)">删除</el-button>
         </el-form-item>
         <el-form-item label="時間" :label-width="formLabelWidth">
@@ -85,5 +85,10 @@ export default {
 }
 .form-width{
   width: 220px;
+}
+.icon{
+  margin-left: 10px;
+  font-size: 20px;
+  vertical-align: middle;
 }
 </style>
