@@ -1,6 +1,6 @@
 <template>
   <div class="page-container">
-    <search-panel @onType="handleType" />
+    <search-panel />
     <div class="table-container">
       <el-tag>留存統計</el-tag>
       <tablePanel class="account-chart" />
@@ -15,7 +15,6 @@ export default {
   components: { searchPanel, tablePanel },
   data() {
     return {
-      type: '',
       tableData: {
         value: [
           { date: '03/01', amount: '334' },
@@ -30,14 +29,14 @@ export default {
         ],
         percent: [
           { date: '03/01', amount: '53' },
-          { date: '03/02', amount: '321' },
-          { date: '03/03', amount: '13144' },
-          { date: '03/04', amount: '4413' },
-          { date: '03/05', amount: '443' },
-          { date: '03/06', amount: '754' },
-          { date: '03/07', amount: '122' },
-          { date: '03/08', amount: '12' },
-          { date: '03/09', amount: '531' }
+          { date: '03/02', amount: '20' },
+          { date: '03/03', amount: '30' },
+          { date: '03/04', amount: '10' },
+          { date: '03/05', amount: '50' },
+          { date: '03/06', amount: '24' },
+          { date: '03/07', amount: '75' },
+          { date: '03/08', amount: '30' },
+          { date: '03/09', amount: '14' }
         ]
       }
     }
@@ -45,11 +44,6 @@ export default {
   provide() {
     return {
       group: this
-    }
-  },
-  methods: {
-    handleType(val) {
-      this.type = val
     }
   }
 }

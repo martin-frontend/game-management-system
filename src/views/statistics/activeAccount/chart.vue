@@ -8,14 +8,17 @@
         :label="item.label"
         :name="item.value"
       /></el-tabs>
-    <line-marker />
+    <line-marker :type="date" />
+    <tableData :date="date" />
   </div>
 </template>
 <script>
 import LineMarker from '@/components/Charts/LineMarker'
+import tableData from './tableData'
+
 export default {
   name: 'Chart',
-  components: { LineMarker },
+  components: { LineMarker, tableData },
   data() {
     return {
       date: 'dau',
