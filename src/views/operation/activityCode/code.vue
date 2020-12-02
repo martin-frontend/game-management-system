@@ -7,7 +7,7 @@
       <el-table-column
         prop="operating"
         label="功能"
-        width="180"
+        width="240"
       >
         <el-button type="primary" size="small">瀏覽</el-button>
         <el-button type="primary" size="small">查看序號</el-button>
@@ -16,7 +16,7 @@
       <el-table-column
         prop="id"
         label="編號"
-        width="180"
+        width="100"
       />
       <el-table-column
         prop="title"
@@ -26,26 +26,36 @@
       <el-table-column
         prop="type"
         label="類型"
-        width="180"
+        width="140"
       />
       <el-table-column
         prop="amount"
         label="數量"
-        width="180"
+        width="100"
       />
       <el-table-column
         prop="status"
         label="狀態"
-        width="180"
+        width="100"
       />
       <el-table-column
         prop="startTime"
         label="開始時間"
-      />
+        width="160"
+      >
+        <template slot-scope="scope">
+          {{ scope.row.startTime | moment }}
+        </template>
+      </el-table-column>
       <el-table-column
         prop="endTime"
         label="結束時間"
-      />
+        width="160"
+      >
+        <template slot-scope="scope">
+          {{ scope.row.endTime | moment }}
+        </template>
+      </el-table-column>
       <el-table-column
         prop="creator"
         label="建立者"
@@ -53,6 +63,7 @@
       <el-table-column
         prop="content"
         label="內容"
+        width="240"
       />
     </el-table>
     <div class="table-pagination">
