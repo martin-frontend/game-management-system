@@ -7,7 +7,7 @@
       <el-table-column
         prop="operating"
         label="功能"
-        width="180"
+        width="300"
       >
         <template slot-scope="scope">
           <el-button type="primary" size="small">瀏覽</el-button>
@@ -40,11 +40,21 @@
       <el-table-column
         prop="launchTime"
         label="上架時間"
-      />
+        width="160"
+      >
+        <template slot-scope="scope">
+          {{ scope.row.launchTime | moment }}
+        </template>
+      </el-table-column>
       <el-table-column
         prop="removeTime"
         label="下架時間"
-      />
+        width="160"
+      >
+        <template slot-scope="scope">
+          {{ scope.row.removeTime | moment }}
+        </template>
+      </el-table-column>
       <el-table-column
         prop="creator"
         label="建立者"

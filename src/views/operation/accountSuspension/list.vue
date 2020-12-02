@@ -7,7 +7,7 @@
       <el-table-column
         prop="operating"
         label="功能"
-        width="180"
+        width="80"
       >
         <el-button type="primary" size="small">復權</el-button>
       </el-table-column>

@@ -18,7 +18,7 @@
         />
       </el-form-item>
       <el-form-item>
-        <el-select v-model="formData.type" placeholder="請選擇" @change="handleChange">
+        <el-select v-model="formData.type" placeholder="請選擇">
           <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
       </el-form-item>
@@ -57,9 +57,6 @@ export default {
           return false
         }
       })
-    },
-    handleChange(val) {
-      this.$emit('onType', val)
     },
     checkDate(rule, value, callback) {
       console.log(rule, value)

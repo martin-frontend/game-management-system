@@ -25,6 +25,10 @@ export default {
     autoResize: {
       type: Boolean,
       default: true
+    },
+    type: {
+      type: String,
+      default: ''
     }
   },
   inject: ['group'],
@@ -34,13 +38,13 @@ export default {
     }
   },
   watch: {
-    'group.chartData': {
+    'chartData': {
       deep: true,
       handler(val) {
         this.setOptions(val)
       }
     },
-    'group.type': {
+    'type': {
       deep: true,
       handler(val) {
         if (val) { this.setOptions(this.group.chartData) }
@@ -64,18 +68,24 @@ export default {
       this.chart = echarts.init(this.$el, 'macarons')
       this.setOptions(this.group.chartData)
     },
-    setOptions({ allData, androidData, iosData } = {}) {
-      const data = this.group.type === 'all' ? allData : this.group.type === 'android' ? androidData : iosData
+    setOptions(chartData) {
+      let data = []
+      if (this.type) {
+        const { dau, wau, mau } = chartData
+        data = this.type === 'dau' ? dau : this.type === 'wau' ? wau : mau
+      } else {
+        data = chartData.allData
+      }
       this.chart.setOption({
         xAxis: {
           data: [
-            '2020年10月11日',
-            '2020年10月12日',
-            '2020年10月13日',
-            '2020年10月14日',
-            '2020年10月15日',
-            '2020年10月16日',
-            '2020年10月17日'
+            '03/01',
+            '03/02',
+            '03/03',
+            '03/04',
+            '03/05',
+            '03/06',
+            '03/07'
           ],
           boundaryGap: false,
           axisTick: {

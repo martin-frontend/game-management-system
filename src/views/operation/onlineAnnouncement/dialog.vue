@@ -55,7 +55,12 @@
           </div>
         </el-form-item>
         <el-form-item label="內容" :label-width="formLabelWidth">
-          <tinymce v-model="form.content" :height="200" />
+          <el-input
+            v-model="form.textarea"
+            type="textarea"
+            :rows="6"
+            placeholder="請輸入公告內容"
+          />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -66,9 +71,8 @@
   </div>
 </template>
 <script>
-import Tinymce from '@/components/Tinymce'
 export default {
-  components: { Tinymce },
+  components: { },
   data() {
     return {
       form: {

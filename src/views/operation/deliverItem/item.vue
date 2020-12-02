@@ -7,7 +7,7 @@
       <el-table-column
         prop="operating"
         label="功能"
-        width="180"
+        width="300"
       >
         <template slot-scope="scope">
           <el-button type="primary" size="small">瀏覽</el-button>
@@ -19,7 +19,7 @@
       <el-table-column
         prop="id"
         label="編號"
-        width="180"
+        width="100"
       />
       <el-table-column
         prop="title"
@@ -29,10 +29,11 @@
       <el-table-column
         prop="status"
         label="狀態"
-        width="180"
+        width="100"
       />
       <el-table-column
         label="發送時間"
+        width="160"
       >
         <template slot-scope="scope">
           {{ scope.row.sendTime | moment }}
@@ -41,6 +42,7 @@
       <el-table-column
         prop="creator"
         label="建立者"
+        width="100"
       />
       <el-table-column
         prop="content"
