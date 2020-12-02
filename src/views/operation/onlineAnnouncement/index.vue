@@ -4,19 +4,8 @@
       <el-tag>線上公告</el-tag>
       <el-button icon="el-icon-plus" type="primary" circle style="float: right" @click="add" />
       <el-tabs v-model="activeName" style="margin-top:10px;">
-        <el-tab-pane v-for="item in tabMapOptions" :key="item.key" :label="item.label" :name="item.key">
-          <template v-if="activeName === 'all'">
-            <Announcement :table-data="tableData" />
-          </template>
-          <template v-if="activeName === 'launched'">
-            <Announcement :table-data="tableData" />
-          </template>
-          <template v-if="activeName === 'notLaunch'">
-            <Announcement :table-data="tableData" />
-          </template>
-          <template v-if="activeName === 'removed'">
-            <Announcement :table-data="tableData" />
-          </template>
+        <el-tab-pane v-for="item in tabMapOptions" :key="item.key" :label="item.label" :name="item.key" @tab-click="changeTab">
+          <Announcement :table-data="tableData" />
         </el-tab-pane>
       </el-tabs>
     </div>
@@ -27,6 +16,8 @@
 <script>
 import Announcement from './announcement'
 import Dialog from './dialog'
+import { getAnnouncementBulletin } from '@/api/announcement'
+
 export default {
   name: 'OnlineAnnouncement',
   components: { Dialog, Announcement },
@@ -75,6 +66,32 @@ export default {
   methods: {
     add() {
       this.$refs.dialog.handleOpen()
+    },
+    initdata() {
+      let state = ''
+      switch (this.activeName) {
+        case 'launched':
+          state = '0'
+          break
+        case 'notLaunch':
+          state = '1'
+          break
+        case 'removed':
+          state = '2'
+          break
+      }
+      const formData = new FormData()
+      formData.append('state', state)
+      getAnnouncementBulletin(formData).then(response => {
+        this.tableData = Object.assign({}, response.data)
+        console.log(this.tableData)
+      }).catch(error => {
+        console.log(error)
+      })
+    },
+    changeTab(tab, event) {
+      // this.initData()
+      alert()
     }
   }
 }
