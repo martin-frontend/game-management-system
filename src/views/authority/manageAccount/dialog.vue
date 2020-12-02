@@ -12,9 +12,8 @@
           <el-input v-model="formData.c_password" autocomplete="off" placeholder="請輸入密碼" class="form-width" />
         </el-form-item>
         <el-form-item label="權限" :label-width="formLabelWidth">
-          <el-select v-model="formData.role" placeholder="請選擇權限" class="form-width">
-            <el-option label="開發者權限" value="2" />
-            <el-option label="客服權限" value="3" />
+          <el-select v-model="formData.role_id" placeholder="請選擇權限" class="form-width">
+            <el-option v-for="item in roleSelectList" :key="item.id" :value="item.id" :label="item.name" />
           </el-select>
         </el-form-item>
         <el-form-item label="狀態" :label-width="formLabelWidth">
@@ -31,15 +30,19 @@
   </div>
 </template>
 <script>
-import { createUser, updateUser } from '@/api/authority'
+import { createUser, updateUser, getRole } from '@/api/authority'
 export default {
   data() {
     return {
       formData: {},
       dialogFormVisible: false,
       formLabelWidth: '80px',
-      title: ''
+      title: '',
+      roleSelectList: []
     }
+  },
+  mounted() {
+    this.initRoleSelect()
   },
   methods: {
     handleClose() {
@@ -53,11 +56,18 @@ export default {
         this.formData = Object.assign({}, data)
       }
     },
+    initRoleSelect() {
+      getRole().then(response => {
+        this.roleSelectList = [...response.data]
+      }).catch(error => {
+        console.log(error)
+      })
+    },
     createUser() {
       const formData = new FormData()
       formData.append('account', this.formData.account)
       formData.append('password', this.formData.password)
-      formData.append('role', this.formData.role)
+      formData.append('role_id', this.formData.role_id)
       formData.append('status', this.formData.status)
       createUser(formData).then(resopnse => {
         this.$emit('initData')
@@ -70,9 +80,10 @@ export default {
       const formData = new FormData()
       formData.append('account', this.formData.account)
       formData.append('password', this.formData.password)
-      formData.append('role', this.formData.role)
+      formData.append('role_id', this.formData.role_id)
       formData.append('status', this.formData.status)
       formData.append('id', this.formData.id)
+      console.log(this.formData.role_id)
       updateUser(formData).then(resopnse => {
         this.$emit('initData')
         this.dialogFormVisible = false
