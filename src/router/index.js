@@ -12,64 +12,64 @@ import statisticsRouter from './modules/statistics'
 import operationRouter from './modules/operation'
 import authorityRouter from './modules/authority'
 
-export const constantRoutes = [
-  {
-    path: '/redirect',
-    component: Layout,
-    hidden: true,
-    children: [
-      {
-        path: '/redirect/:path(.*)',
-        component: () => import('@/views/redirect/index')
-      }
-    ]
-  },
-  {
-    path: '/login',
-    component: () => import('@/views/login/index'),
-    hidden: true
-  },
-  {
-    path: '/auth-redirect',
-    component: () => import('@/views/login/auth-redirect'),
-    hidden: true
-  },
-  {
-    path: '/404',
-    component: () => import('@/views/error-page/404'),
-    hidden: true
-  },
-  {
-    path: '/401',
-    component: () => import('@/views/error-page/401'),
-    hidden: true
-  },
-  {
-    path: '/',
-    component: Layout,
-    redirect: '/dashboard',
-    children: [
-      {
-        path: 'dashboard',
-        component: () => import('@/views/dashboard/index'),
-        name: 'Dashboard',
-        meta: { title: 'dashboard', icon: 'dashboard', affix: true }
-      }
-    ]
-  },
-  {
-    path: '/i18n-demo',
-    component: Layout,
-    redirect: '/i18n-demo',
-    children: [
-      {
-        path: 'i18n-demo',
-        component: () => import('@/views/i18n-demo/index'),
-        name: 'i18n',
-        meta: { title: 'i18n', icon: 'dashboard', affix: true }
-      }
-    ]
-  }
+export const constantRoutes = [{
+  path: '/redirect',
+  component: Layout,
+  hidden: true,
+  children: [{
+    path: '/redirect/:path(.*)',
+    component: () =>
+      import ('@/views/redirect/index')
+  }]
+},
+{
+  path: '/login',
+  component: () =>
+    import ('@/views/login/index'),
+  hidden: true
+},
+{
+  path: '/auth-redirect',
+  component: () =>
+    import ('@/views/login/auth-redirect'),
+  hidden: true
+},
+{
+  path: '/404',
+  component: () =>
+    import ('@/views/error-page/404'),
+  hidden: true
+},
+{
+  path: '/401',
+  component: () =>
+    import ('@/views/error-page/401'),
+  hidden: true
+},
+{
+  path: '/',
+  component: Layout,
+  redirect: '/dashboard',
+  children: [{
+    path: 'dashboard',
+    component: () =>
+      import ('@/views/dashboard/index'),
+    name: 'Dashboard',
+    meta: { title: 'dashboard', icon: 'dashboard', affix: true }
+  }]
+},
+{
+  path: '/i18n-demo',
+  component: Layout,
+  redirect: '/i18n-demo',
+  children: [{
+    path: 'i18n-demo',
+    component: () =>
+      import ('@/views/i18n-demo/index'),
+    name: 'i18n',
+    meta: { title: 'i18n', icon: 'dashboard', affix: true }
+  }]
+}
 ]
 
 /**
@@ -92,19 +92,20 @@ export const asyncRoutes = [
       title: 'errorPages',
       icon: '404'
     },
-    children: [
-      {
-        path: '401',
-        component: () => import('@/views/error-page/401'),
-        name: 'Page401',
-        meta: { title: 'page401', noCache: true }
-      },
-      {
-        path: '404',
-        component: () => import('@/views/error-page/404'),
-        name: 'Page404',
-        meta: { title: 'page404', noCache: true }
-      }
+    children: [{
+      path: '401',
+      component: () =>
+        import ('@/views/error-page/401'),
+      name: 'Page401',
+      meta: { title: 'page401', noCache: true }
+    },
+    {
+      path: '404',
+      component: () =>
+        import ('@/views/error-page/404'),
+      name: 'Page404',
+      meta: { title: 'page404', noCache: true }
+    }
     ]
   },
 
