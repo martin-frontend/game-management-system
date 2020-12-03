@@ -5,7 +5,7 @@
       <el-button icon="el-icon-plus" type="primary" circle style="float: right" @click="add" />
       <el-tabs v-model="activeName" style="margin-top:10px;">
         <el-tab-pane v-for="item in tabMapOptions" :key="item.key" :label="item.label" :name="item.key" @tab-click="changeTab">
-          <Announcement :table-data="tableData" />
+          <Announcement :table-data="filterData(tableData)" />
         </el-tab-pane>
       </el-tabs>
     </div>
@@ -30,42 +30,33 @@ export default {
         { label: '已下架', key: 'removed' }
       ],
       activeName: 'all',
-      initData: [
-        { 'id': '0001', 'title': '開服公告', 'type': '重要', 'status': '未上架', 'launchTime': '2020/12/1 00:00', 'removeTime': '2020/12/31 23:59', 'creator': 'GM0001', 'content': '歡慶遊戲開服！加碼大放送...' },
-        { 'id': '0002', 'title': '開服公告', 'type': '重要', 'status': '已下架', 'launchTime': '2020/12/1 00:00', 'removeTime': '2020/12/31 23:59', 'creator': 'GM0001', 'content': '歡慶遊戲開服！加碼大放送...' },
-        { 'id': '0003', 'title': '開服公告', 'type': '重要', 'status': '未上架', 'launchTime': '2020/12/1 00:00', 'removeTime': '2020/12/31 23:59', 'creator': 'GM0001', 'content': '歡慶遊戲開服！加碼大放送...' },
-        { 'id': '0004', 'title': '開服公告', 'type': '重要', 'status': '上架中', 'launchTime': '2020/12/1 00:00', 'removeTime': '2020/12/31 23:59', 'creator': 'GM0001', 'content': '歡慶遊戲開服！加碼大放送...' }
-      ],
       tableData: []
     }
   },
-  computed: {
-  },
-  watch: {
-    activeName: function(val) {
-      if (val === 'launched') {
-        this.tableData = this.initData.filter(function(item, index, array) {
-          return item.status === '上架中'
-        })
-      } else if (val === 'notLaunch') {
-        this.tableData = this.initData.filter(function(item, index, array) {
-          return item.status === '未上架'
-        })
-      } else if (val === 'removed') {
-        this.tableData = this.initData.filter(function(item, index, array) {
-          return item.status === '已下架'
-        })
-      } else if (val === 'all') {
-        this.tableData = this.initData
-      }
-    }
-  },
-  created() {
-    this.tableData = this.initData
+  mounted() {
+    this.initdata()
   },
   methods: {
     add() {
       this.$refs.dialog.handleOpen()
+    },
+    filterData() {
+      switch (this.activeName) {
+        case 'launched':
+          return this.tableData.filter(function(item, index, array) {
+            return item.status === '上架中'
+          })
+        case 'notLaunch':
+          return this.tableData.filter(function(item, index, array) {
+            return item.status === '未上架'
+          })
+        case 'removed':
+          return this.tableData.filter(function(item, index, array) {
+            return item.status === '已下架'
+          })
+        case 'all':
+          return this.tableData
+      }
     },
     initdata() {
       let state = ''
@@ -83,7 +74,7 @@ export default {
       const formData = new FormData()
       formData.append('state', state)
       getAnnouncementBulletin(formData).then(response => {
-        this.tableData = Object.assign({}, response.data)
+        this.tableData = [...response.data]
         console.log(this.tableData)
       }).catch(error => {
         console.log(error)

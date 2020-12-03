@@ -28,7 +28,7 @@
         width="150"
       />
       <el-table-column
-        prop="type"
+        prop="category"
         label="類型"
         width="100"
       />
