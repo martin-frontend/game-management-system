@@ -12,7 +12,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.download-icon{
+.download-icon {
   width: 100%;
   text-align: right;
 }
