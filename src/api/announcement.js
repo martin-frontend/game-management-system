@@ -14,3 +14,10 @@ export function createBulletin(data) {
     data
   })
 }
+export function updateBulletin(data) {
+  return request({
+    url: 'operation_updatebulletin',
+    method: 'post',
+    data
+  })
+}

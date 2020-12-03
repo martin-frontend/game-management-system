@@ -4,7 +4,7 @@
       <el-tag>線上公告</el-tag>
       <el-button icon="el-icon-plus" type="primary" circle style="float: right" @click="add" />
       <el-tabs v-model="activeName" style="margin-top:10px;">
-        <el-tab-pane v-for="item in tabMapOptions" :key="item.key" :label="item.label" :name="item.key" @tab-click="changeTab">
+        <el-tab-pane v-for="item in tabMapOptions" :key="item.key" :label="item.label" :name="item.key">
           <Announcement :table-data="filterData(tableData)" />
         </el-tab-pane>
       </el-tabs>
@@ -79,10 +79,6 @@ export default {
       }).catch(error => {
         console.log(error)
       })
-    },
-    changeTab(tab, event) {
-      // this.initData()
-      alert()
     }
   }
 }
