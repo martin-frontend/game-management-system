@@ -15,7 +15,7 @@
             type="warning"
             size="small"
           >立即下架</el-button>
-          <el-button type="danger" size="small">刪除</el-button>
+          <el-button type="danger" size="small" @click="remove(scope.row.id)">刪除</el-button>
         </template>
       </el-table-column>
       <el-table-column prop="id" label="編號" width="100" />
@@ -49,6 +49,7 @@
   </div>
 </template>
 <script>
+import { deletebulletin } from '@/api/announcement'
 export default {
   name: 'Announcement',
   props: {
@@ -71,6 +72,17 @@ export default {
     },
     edit(title, row) {
       this.$emit('edit', { title, row })
+    },
+    remove(id) {
+      const formData = new FormData()
+      formData.append('id', id)
+      deletebulletin(formData)
+        .then((resopnse) => {
+          this.$emit('initdata')
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     }
   }
 }

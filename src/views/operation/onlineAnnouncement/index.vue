@@ -17,7 +17,7 @@
           :name="item.key"
           @tab-click="changeTab"
         >
-          <Announcement :table-data="filterData(tableData)" @edit="edit" />
+          <Announcement :table-data="filterData(tableData)" @edit="edit" @initdata="initdata" />
         </el-tab-pane>
       </el-tabs>
     </div>

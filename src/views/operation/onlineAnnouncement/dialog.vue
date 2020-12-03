@@ -51,7 +51,8 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="handleClose">取 消</el-button>
-        <el-button type="primary" @click="createBulletin">建 立</el-button>
+        <el-button v-if="title===`新增公告`" type="primary" @click="createBulletin">建 立</el-button>
+        <el-button v-if="title===`編輯公告`" type="primary" @click="update">更 新</el-button>
       </div>
     </el-dialog>
   </div>

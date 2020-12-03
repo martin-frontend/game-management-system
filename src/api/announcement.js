@@ -14,3 +14,18 @@ export function createBulletin(data) {
     data
   })
 }
+export function updatebulletin(data) {
+  return request({
+    url: 'operation_updatebulletin',
+    method: 'post',
+    data
+  })
+}
+export function deletebulletin(data) {
+  return request({
+    url: 'operation_deletebulletin',
+    method: 'post',
+    data
+  })
+}
+
