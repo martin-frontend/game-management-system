@@ -3,7 +3,11 @@
     <el-dialog title="新增公告" :visible.sync="dialogFormVisible" width="50%">
       <el-form :model="formData">
         <el-form-item label="標題" :label-width="formLabelWidth">
-          <el-input v-model="formData.title" autocomplete="off" placeholder="請輸入標題" />
+          <el-input
+            v-model="formData.title"
+            autocomplete="off"
+            placeholder="請輸入標題"
+          />
         </el-form-item>
         <el-form-item label="分類" :label-width="formLabelWidth">
           <el-select v-model="formData.category" placeholder="請選擇分類">
@@ -55,7 +59,7 @@
 <script>
 import { createBulletin } from '@/api/announcement'
 export default {
-  components: { },
+  components: {},
   data() {
     return {
       formData: {
@@ -99,11 +103,11 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.form-margin{
+.form-margin {
   margin-right: 10px;
   margin-bottom: 10px;
 }
-.icon{
+.icon {
   margin-left: 15px;
   font-size: 20px;
   vertical-align: middle;
