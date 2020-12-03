@@ -50,6 +50,7 @@ export const constantRoutes = [{
   path: '/',
   component: Layout,
   redirect: '/dashboard',
+  hidden: true,
   children: [{
     path: 'dashboard',
     component: () =>
@@ -62,6 +63,7 @@ export const constantRoutes = [{
   path: '/i18n-demo',
   component: Layout,
   redirect: '/i18n-demo',
+  hidden: true,
   children: [{
     path: 'i18n-demo',
     component: () =>
@@ -88,6 +90,7 @@ export const asyncRoutes = [
     component: Layout,
     redirect: 'noRedirect',
     name: 'ErrorPages',
+    hidden: true,
     meta: {
       title: 'errorPages',
       icon: '404'
