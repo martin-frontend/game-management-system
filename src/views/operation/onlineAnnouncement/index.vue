@@ -9,14 +9,14 @@
         </el-tab-pane>
       </el-tabs>
     </div>
-    <Dialog ref="dialog" />
+    <Dialog ref="dialog" @initdata="initdata" />
   </div>
 </template>
 
 <script>
 import Announcement from './announcement'
 import Dialog from './dialog'
-import { getAnnouncementBulletin } from '@/api/announcement'
+import { getBulletin } from '@/api/announcement'
 
 export default {
   name: 'OnlineAnnouncement',
@@ -73,7 +73,7 @@ export default {
       }
       const formData = new FormData()
       formData.append('state', state)
-      getAnnouncementBulletin(formData).then(response => {
+      getBulletin(formData).then(response => {
         this.tableData = [...response.data]
         console.log(this.tableData)
       }).catch(error => {

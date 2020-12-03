@@ -38,21 +38,21 @@
         width="100"
       />
       <el-table-column
-        prop="launchTime"
+        prop="onsaledate"
         label="上架時間"
         width="160"
       >
         <template slot-scope="scope">
-          {{ scope.row.launchTime | moment }}
+          {{ scope.row.onsaledate | moment }}
         </template>
       </el-table-column>
       <el-table-column
-        prop="removeTime"
+        prop="nosaledate"
         label="下架時間"
         width="160"
       >
         <template slot-scope="scope">
-          {{ scope.row.removeTime | moment }}
+          {{ scope.row.nosaledate | moment }}
         </template>
       </el-table-column>
       <el-table-column

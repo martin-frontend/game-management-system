@@ -1,62 +1,44 @@
 <template>
   <div>
     <el-dialog title="新增公告" :visible.sync="dialogFormVisible" width="50%">
-      <el-form :model="form">
+      <el-form :model="formData">
         <el-form-item label="標題" :label-width="formLabelWidth">
-          <el-input v-model="form.name" autocomplete="off" placeholder="請輸入標題" />
+          <el-input v-model="formData.title" autocomplete="off" placeholder="請輸入標題" />
         </el-form-item>
         <el-form-item label="分類" :label-width="formLabelWidth">
-          <el-select v-model="form.type" placeholder="請選擇分類">
-            <el-option label="重要" value="" />
-            <el-option label="活動" value="" />
-            <el-option label="維護" value="" />
-            <el-option label="補償" value="" />
-            <el-option label="其他" value="" />
+          <el-select v-model="formData.category" placeholder="請選擇分類">
+            <el-option label="重要" value="重要" />
+            <el-option label="活動" value="活動" />
+            <el-option label="維護" value="維護" />
+            <el-option label="補償" value="補償" />
+            <el-option label="其他" value="其他" />
           </el-select>
           <svg-icon icon-class="form" class="icon" />
         </el-form-item>
         <el-form-item label="日期" :label-width="formLabelWidth">
           <div>
             <el-date-picker
-              v-model="form.startDate"
-              type="date"
-              placeholder="請選擇上架日期"
+              v-model="formData.onsaledate"
+              type="datetime"
+              placeholder="請選擇上架日期時間"
+              value-format="yyyy-MM-dd HH:mm:ss"
               class="form-margin"
             />
-            <el-time-select
-              v-model="form.startTime"
-              :picker-options="{
-                start: '00:00',
-                step: '00:15',
-                end: '24:00'
-              }"
-              placeholder="請選擇上架時間"
-              class="form-margin"
-            />
-            <el-checkbox v-model="form.checked">立即上架</el-checkbox>
+            <el-checkbox v-model="formData.checked">立即上架</el-checkbox>
           </div>
           <div>
             <el-date-picker
-              v-model="form.endDate"
-              type="date"
-              placeholder="請選擇下架日期"
-              class="form-margin"
-            />
-            <el-time-select
-              v-model="form.endTime"
-              :picker-options="{
-                start: '00:00',
-                step: '00:15',
-                end: '24:00'
-              }"
-              placeholder="請選擇下架時間"
+              v-model="formData.nosaledate"
+              type="datetime"
+              placeholder="請選擇下架日期時間"
+              value-format="yyyy-MM-dd HH:mm:ss"
               class="form-margin"
             />
           </div>
         </el-form-item>
         <el-form-item label="內容" :label-width="formLabelWidth">
           <el-input
-            v-model="form.textarea"
+            v-model="formData.content"
             type="textarea"
             :rows="6"
             placeholder="請輸入公告內容"
@@ -65,17 +47,18 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false">建 立</el-button>
+        <el-button type="primary" @click="createBulletin">建 立</el-button>
       </div>
     </el-dialog>
   </div>
 </template>
 <script>
+import { createBulletin } from '@/api/announcement'
 export default {
   components: { },
   data() {
     return {
-      form: {
+      formData: {
         checked: false
       },
       dialogFormVisible: false,
@@ -86,15 +69,31 @@ export default {
     handleClose(done) {
       this.loading = false
       this.dialogFormVisible = false
-      this.$refs['form'].resetFields()
     },
     handleOpen(title, row) {
       this.dialogFormVisible = true
       this.title = title
       //   this.form = {}
       if (title === '修改') {
-        this.form = Object.assign({}, row)
+        this.formData = Object.assign({}, row)
       }
+    },
+    createBulletin() {
+      const formData = new FormData()
+      formData.append('title', this.formData.title)
+      formData.append('category', this.formData.category)
+      formData.append('onsaledate', this.formData.onsaledate)
+      formData.append('nosaledate', this.formData.nosaledate)
+      formData.append('content', this.formData.content)
+      createBulletin(formData)
+        .then((resopnse) => {
+          console.log(resopnse)
+          this.$emit('initdata')
+          this.dialogFormVisible = false
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     }
   }
 }
