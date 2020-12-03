@@ -2,10 +2,22 @@
   <div class="page-container">
     <div class="table-container">
       <el-tag>線上公告</el-tag>
-      <el-button icon="el-icon-plus" type="primary" circle style="float: right" @click="add" />
-      <el-tabs v-model="activeName" style="margin-top:10px;">
-        <el-tab-pane v-for="item in tabMapOptions" :key="item.key" :label="item.label" :name="item.key" @tab-click="changeTab">
-          <Announcement :table-data="filterData(tableData)" />
+      <el-button
+        icon="el-icon-plus"
+        type="primary"
+        circle
+        style="float: right"
+        @click="add"
+      />
+      <el-tabs v-model="activeName" style="margin-top: 10px">
+        <el-tab-pane
+          v-for="item in tabMapOptions"
+          :key="item.key"
+          :label="item.label"
+          :name="item.key"
+          @tab-click="changeTab"
+        >
+          <Announcement :table-data="filterData(tableData)" @edit="edit" @initdata="initdata" />
         </el-tab-pane>
       </el-tabs>
     </div>
@@ -38,7 +50,10 @@ export default {
   },
   methods: {
     add() {
-      this.$refs.dialog.handleOpen()
+      this.$refs.dialog.handleOpen('新增')
+    },
+    edit({ title, row }) {
+      this.$refs.dialog.handleOpen(title, row)
     },
     filterData() {
       switch (this.activeName) {
@@ -73,12 +88,14 @@ export default {
       }
       const formData = new FormData()
       formData.append('state', state)
-      getBulletin(formData).then(response => {
-        this.tableData = [...response.data]
-        console.log(this.tableData)
-      }).catch(error => {
-        console.log(error)
-      })
+      getBulletin(formData)
+        .then((response) => {
+          this.tableData = [...response.data]
+          console.log(this.tableData)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     },
     changeTab(tab, event) {
       // this.initData()

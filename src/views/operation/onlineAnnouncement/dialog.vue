@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-dialog title="新增公告" :visible.sync="dialogFormVisible" width="50%">
+    <el-dialog :title="title" :before-close="handleClose" :visible.sync="dialogFormVisible" width="50%">
       <el-form :model="formData">
         <el-form-item label="標題" :label-width="formLabelWidth">
           <el-input
@@ -50,8 +50,9 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="createBulletin">建 立</el-button>
+        <el-button @click="handleClose">取 消</el-button>
+        <el-button v-if="title===`新增公告`" type="primary" @click="createBulletin">建 立</el-button>
+        <el-button v-if="title===`編輯公告`" type="primary" @click="update">更 新</el-button>
       </div>
     </el-dialog>
   </div>
@@ -66,19 +67,21 @@ export default {
         checked: false
       },
       dialogFormVisible: false,
-      formLabelWidth: '80px'
+      formLabelWidth: '80px',
+      title: '新增公告'
     }
   },
   methods: {
     handleClose(done) {
       this.loading = false
       this.dialogFormVisible = false
+      this.formData = {}
     },
     handleOpen(title, row) {
       this.dialogFormVisible = true
-      this.title = title
+      this.title = title + '公告'
       //   this.form = {}
-      if (title === '修改') {
+      if (title === '編輯') {
         this.formData = Object.assign({}, row)
       }
     },
