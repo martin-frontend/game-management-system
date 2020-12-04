@@ -7,9 +7,9 @@
       <el-table-column
         prop="operating"
         label="功能"
-        width="240"
+        width="170"
       >
-        <el-button type="primary" size="small">瀏覽</el-button>
+        <!-- <el-button type="primary" size="small">瀏覽</el-button> -->
         <el-button type="primary" size="small">查看序號</el-button>
         <el-button type="danger" size="small">刪除</el-button>
       </el-table-column>
