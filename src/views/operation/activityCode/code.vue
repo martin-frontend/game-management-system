@@ -39,21 +39,21 @@
         width="100"
       />
       <el-table-column
-        prop="startTime"
+        prop="startdate"
         label="開始時間"
         width="160"
       >
         <template slot-scope="scope">
-          {{ scope.row.startTime | moment }}
+          {{ scope.row.startdate | moment }}
         </template>
       </el-table-column>
       <el-table-column
-        prop="endTime"
+        prop="enddate"
         label="結束時間"
         width="160"
       >
         <template slot-scope="scope">
-          {{ scope.row.endTime | moment }}
+          {{ scope.row.enddate | moment }}
         </template>
       </el-table-column>
       <el-table-column

@@ -15,37 +15,17 @@
         <el-form-item label="日期" :label-width="formLabelWidth">
           <div>
             <el-date-picker
-              v-model="form.startDate"
-              type="date"
-              placeholder="請選擇開始日期"
-              class="form-margin"
-            />
-            <el-time-select
-              v-model="form.startTime"
-              :picker-options="{
-                start: '00:00',
-                step: '00:15',
-                end: '24:00'
-              }"
-              placeholder="請選擇開始時間"
+              v-model="form.startdate"
+              type="datetime"
+              placeholder="請選擇開始日期時間"
               class="form-margin"
             />
           </div>
           <div>
             <el-date-picker
-              v-model="form.endDate"
-              type="date"
-              placeholder="請選擇結束日期"
-              class="form-margin"
-            />
-            <el-time-select
-              v-model="form.endTime"
-              :picker-options="{
-                start: '00:00',
-                step: '00:15',
-                end: '24:00'
-              }"
-              placeholder="請選擇結束時間"
+              v-model="form.enddate"
+              type="datetime"
+              placeholder="請選擇下架日期時間"
               class="form-margin"
             />
           </div>
