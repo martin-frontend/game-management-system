@@ -9,7 +9,7 @@
         </el-tab-pane>
       </el-tabs>
     </div>
-    <Dialog ref="dialog" />
+    <Dialog ref="dialog" @initdata="initdata" />
   </div>
 </template>
 

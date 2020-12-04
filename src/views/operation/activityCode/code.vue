@@ -9,9 +9,11 @@
         label="功能"
         width="170"
       >
-        <!-- <el-button type="primary" size="small">瀏覽</el-button> -->
-        <el-button type="primary" size="small">查看序號</el-button>
-        <el-button type="danger" size="small">刪除</el-button>
+        <template slot-scope="scope">
+          <!-- <el-button type="primary" size="small">瀏覽</el-button> -->
+          <el-button type="primary" size="small">查看序號</el-button>
+          <el-button type="danger" size="small" @click="remove(scope.row.id)">刪除</el-button>
+        </template>
       </el-table-column>
       <el-table-column
         prop="id"
@@ -80,6 +82,7 @@
   </div>
 </template>
 <script>
+import { deleteCode } from '@/api/code'
 export default {
   name: 'Item',
   props: {
@@ -100,6 +103,20 @@ export default {
     },
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`)
+    },
+    edit(title, row) {
+      this.$emit('edit', { title, row })
+    },
+    remove(id) {
+      const formData = new FormData()
+      formData.append('id', id)
+      deleteCode(formData)
+        .then((resopnse) => {
+          this.$emit('initdata')
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     }
   }
 }
