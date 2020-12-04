@@ -49,7 +49,7 @@
   </div>
 </template>
 <script>
-import { deletebulletin } from '@/api/announcement'
+import { deleteBulletin } from '@/api/announcement'
 export default {
   name: 'Announcement',
   props: {
@@ -76,7 +76,7 @@ export default {
     remove(id) {
       const formData = new FormData()
       formData.append('id', id)
-      deletebulletin(formData)
+      deleteBulletin(formData)
         .then((resopnse) => {
           this.$emit('initdata')
         })
