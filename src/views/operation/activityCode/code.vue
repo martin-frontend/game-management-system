@@ -59,11 +59,11 @@
       <el-table-column
         prop="creator"
         label="建立者"
+        width="100"
       />
       <el-table-column
         prop="content"
         label="內容"
-        width="240"
       />
     </el-table>
     <div class="table-pagination">
