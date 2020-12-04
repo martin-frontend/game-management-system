@@ -39,27 +39,9 @@ export default {
   },
   computed: {
   },
-  // watch: {
-  //   activeName: function(val) {
-  //     if (val === 'notSend') {
-  //       this.tableData = this.initData.filter(function(item, index, array) {
-  //         return item.status === '未發送'
-  //       })
-  //     } else if (val === 'sent') {
-  //       this.tableData = this.initData.filter(function(item, index, array) {
-  //         return item.status === '已發送'
-  //       })
-  //     } else if (val === 'all') {
-  //       this.tableData = this.initData
-  //     }
-  //   }
-  // },
   mounted() {
     this.initdata()
   },
-  // created() {
-  //   this.tableData = this.initData
-  // },
   methods: {
     add() {
       this.$refs.dialog.handleOpen()
