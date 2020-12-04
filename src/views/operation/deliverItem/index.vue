@@ -28,12 +28,6 @@ export default {
         { label: '已發送', key: 'sent' }
       ],
       activeName: 'all',
-      initData: [
-        { 'id': '0001', 'title': '事前登入禮', 'status': '未發送', 'sendTime': 1607000000000, 'creator': 'GM0001', 'content': '感謝各位玩家的是前登錄...' },
-        { 'id': '0002', 'title': '事前登入禮', 'status': '未發送', 'sendTime': 1607000000000, 'creator': 'GM0001', 'content': '感謝各位玩家的是前登錄...' },
-        { 'id': '0003', 'title': '事前登入禮', 'status': '已發送', 'sendTime': 1607000000000, 'creator': 'GM0001', 'content': '感謝各位玩家的是前登錄...' },
-        { 'id': '0004', 'title': '事前登入禮', 'status': '未發送', 'sendTime': 1607000000000, 'creator': 'GM0001', 'content': '感謝各位玩家的是前登錄...' }
-      ],
       tableData: []
     }
   },
