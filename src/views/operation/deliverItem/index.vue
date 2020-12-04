@@ -5,11 +5,11 @@
       <el-button icon="el-icon-plus" type="primary" circle style="float: right" @click="add" />
       <el-tabs v-model="activeName" style="margin-top:10px;">
         <el-tab-pane v-for="item in tabMapOptions" :key="item.key" :label="item.label" :name="item.key">
-          <Item :table-data="filterData(tableData)" />
+          <Item :table-data="filterData(tableData)" @edit="edit" @initdata="initdata" />
         </el-tab-pane>
       </el-tabs>
     </div>
-    <Dialog ref="dialog" />
+    <Dialog ref="dialog" @initdata="initdata" />
   </div>
 </template>
 
@@ -38,7 +38,10 @@ export default {
   },
   methods: {
     add() {
-      this.$refs.dialog.handleOpen()
+      this.$refs.dialog.handleOpen('新增')
+    },
+    edit({ title, row }) {
+      this.$refs.dialog.handleOpen(title, row)
     },
     filterData() {
       switch (this.activeName) {
