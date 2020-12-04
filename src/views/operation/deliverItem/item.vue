@@ -36,7 +36,7 @@
         width="160"
       >
         <template slot-scope="scope">
-          {{ scope.row.sendTime | moment }}
+          {{ scope.row.senddate | moment }}
         </template>
       </el-table-column>
       <el-table-column
