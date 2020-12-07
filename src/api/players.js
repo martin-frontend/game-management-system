@@ -7,3 +7,10 @@ export function getAccountInfo(data) {
     data
   })
 }
+export function getGameHistory(data) {
+  return request({
+    url: 'player_gamehistory',
+    method: 'post',
+    data
+  })
+}
