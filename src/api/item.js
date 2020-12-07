@@ -3,7 +3,7 @@ import request from '@/utils/request'
 export function getItem(data) {
   return request({
     url: 'operation_getsenditem',
-    method: 'post',
+    method: 'get',
     data
   })
 }

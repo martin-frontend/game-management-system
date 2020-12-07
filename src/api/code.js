@@ -3,7 +3,7 @@ import request from '@/utils/request'
 export function getCode(data) {
   return request({
     url: 'operation_getactivitycode',
-    method: 'post',
+    method: 'get',
     data
   })
 }

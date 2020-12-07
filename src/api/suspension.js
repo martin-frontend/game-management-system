@@ -3,7 +3,7 @@ import request from '@/utils/request'
 export function getSuspension(data) {
   return request({
     url: 'operation_getsuspension',
-    method: 'post',
+    method: 'get',
     data
   })
 }
