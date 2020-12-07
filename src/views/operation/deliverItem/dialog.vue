@@ -74,9 +74,8 @@ export default {
       formData.append('content', this.formData.content)
       createItem(formData)
         .then((resopnse) => {
-          console.log(resopnse)
           this.$emit('initdata')
-          this.dialogFormVisible = false
+          this.handleClose()
         })
         .catch((err) => {
           console.log(err)
@@ -91,7 +90,6 @@ export default {
       formData.append('id', this.formData.id)
       updateItem(formData)
         .then((resopnse) => {
-          console.log(resopnse)
           this.$emit('initdata')
           this.dialogFormVisible = false
         })

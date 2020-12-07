@@ -86,9 +86,8 @@ export default {
       formData.append('content', this.formData.content)
       createCode(formData)
         .then((resopnse) => {
-          console.log(resopnse)
           this.$emit('initdata')
-          this.dialogFormVisible = false
+          this.handleClose()
         })
         .catch((err) => {
           console.log(err)
