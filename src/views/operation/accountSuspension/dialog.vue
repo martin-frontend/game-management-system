@@ -14,13 +14,17 @@
           <i v-if="index == 0" class="el-icon-upload2 icon"></i>
           <el-button v-if="index != 0" @click.prevent="removeAccount(account)">删除</el-button>
         </el-form-item>
-        <el-form-item label="時間" :label-width="formLabelWidth">
+        <el-form-item label="停權天數" :label-width="formLabelWidth">
+          <el-input v-model="formData.days" class="form-width form-margin" />
+        </el-form-item>
+        <el-form-item label="結束時間" :label-width="formLabelWidth">
           <el-date-picker
             v-model="formData.recoverytime"
             type="datetime"
             placeholder="請選擇停權結束日期時間"
             value-format="yyyy-MM-dd HH:mm:ss"
             class="form-margin"
+            disabled
           />
           <el-checkbox v-model="formData.checked">永久停權</el-checkbox>
         </el-form-item>
@@ -41,6 +45,7 @@
   </div>
 </template>
 <script>
+import moment from 'moment'
 import { createSuspension } from '@/api/suspension'
 export default {
   data() {
@@ -55,6 +60,22 @@ export default {
       dialogFormVisible: false,
       formLabelWidth: '80px',
       title: '停權'
+    }
+  },
+  computed: {
+    days() {
+      return this.formData.days
+    }
+  },
+  watch: {
+    days(val) {
+      if (val !== '') {
+        this.formData.recoverytime = moment().add(val, 'day').endOf('day').format(
+          'yyyy-MM-DD HH:mm:ss'
+        )
+      } else if (val === '') {
+        this.formData.recoverytime = ''
+      }
     }
   },
   methods: {
@@ -81,9 +102,8 @@ export default {
       formData.append('reason', this.formData.reason)
       createSuspension(formData)
         .then((resopnse) => {
-          console.log(resopnse)
           this.$emit('initdata')
-          this.dialogFormVisible = false
+          this.handleClose()
         })
         .catch((err) => {
           console.log(err)
