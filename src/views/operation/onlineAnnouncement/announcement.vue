@@ -107,7 +107,6 @@ export default {
       updateBulletin(formData)
         .then((resopnse) => {
           this.$emit('initdata')
-          this.dialogFormVisible = false
         })
         .catch((err) => {
           console.log(err)
