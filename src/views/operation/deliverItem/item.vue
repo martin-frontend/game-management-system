@@ -12,7 +12,7 @@
         <template slot-scope="scope">
           <!-- <el-button type="primary" size="small">瀏覽</el-button> -->
           <el-button type="primary" size="small" @click="edit('編輯',scope.row)">編輯</el-button>
-          <el-button v-if="scope.row.status==='未發送'" type="success" size="small">立即發送</el-button>
+          <el-button v-if="scope.row.status==='未發送'" type="success" size="small" @click="send(scope.row)">立即發送</el-button>
           <el-button type="danger" size="small" @click="remove(scope.row.id)">刪除</el-button>
         </template>
       </el-table-column>
@@ -63,7 +63,8 @@
   </div>
 </template>
 <script>
-import { deleteItem } from '@/api/item'
+import moment from 'moment'
+import { deleteItem, updateItem } from '@/api/item'
 export default {
   name: 'Item',
   props: {
@@ -92,6 +93,23 @@ export default {
       const formData = new FormData()
       formData.append('id', id)
       deleteItem(formData)
+        .then((resopnse) => {
+          this.$emit('initdata')
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    send(row) {
+      const formData = new FormData()
+      formData.append('title', row.title)
+      formData.append('senddate', moment(Date.now()).format(
+        'yyyy-MM-DD HH:mm:ss'
+      ))
+      formData.append('status', row.status)
+      formData.append('content', row.content)
+      formData.append('id', row.id)
+      updateItem(formData)
         .then((resopnse) => {
           this.$emit('initdata')
         })
