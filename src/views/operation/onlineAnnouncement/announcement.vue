@@ -9,11 +9,13 @@
             v-if="scope.row.status === '未上架'"
             type="success"
             size="small"
+            @click="lanuch('on',scope.row)"
           >立即上架</el-button>
           <el-button
             v-if="scope.row.status === '上架中'"
             type="warning"
             size="small"
+            @click="lanuch('off',scope.row)"
           >立即下架</el-button>
           <el-button type="danger" size="small" @click="remove(scope.row.id)">刪除</el-button>
         </template>
@@ -49,7 +51,8 @@
   </div>
 </template>
 <script>
-import { deleteBulletin } from '@/api/announcement'
+import moment from 'moment'
+import { deleteBulletin, updateBulletin } from '@/api/announcement'
 export default {
   name: 'Announcement',
   props: {
@@ -79,6 +82,32 @@ export default {
       deleteBulletin(formData)
         .then((resopnse) => {
           this.$emit('initdata')
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    lanuch(type, row) {
+      const formData = new FormData()
+      formData.append('title', row.title)
+      formData.append('category', row.category)
+      if (type === 'on') {
+        formData.append('onsaledate', moment(Date.now()).format(
+          'yyyy-MM-DD HH:mm:ss'
+        ))
+        formData.append('nosaledate', row.nosaledate)
+      } else {
+        formData.append('onsaledate', row.onsaledate)
+        formData.append('nosaledate', moment(Date.now()).format(
+          'yyyy-MM-DD HH:mm:ss'
+        ))
+      }
+      formData.append('content', row.content)
+      formData.append('id', row.id)
+      updateBulletin(formData)
+        .then((resopnse) => {
+          this.$emit('initdata')
+          this.dialogFormVisible = false
         })
         .catch((err) => {
           console.log(err)
