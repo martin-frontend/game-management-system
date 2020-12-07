@@ -5,28 +5,18 @@
       <el-button icon="el-icon-plus" type="primary" circle style="float: right" @click="add" />
       <el-tabs v-model="activeName" style="margin-top:10px;">
         <el-tab-pane v-for="item in tabMapOptions" :key="item.key" :label="item.label" :name="item.key">
-          <template v-if="activeName === 'all'">
-            <Code :table-data="tableData" />
-          </template>
-          <template v-if="activeName === 'inProgress'">
-            <Code :table-data="tableData" />
-          </template>
-          <template v-if="activeName === 'notStart'">
-            <Code :table-data="tableData" />
-          </template>
-          <template v-if="activeName === 'finished'">
-            <Code :table-data="tableData" />
-          </template>
+          <Code :table-data="filterData(tableData)" @edit="edit" @initdata="initdata" />
         </el-tab-pane>
       </el-tabs>
     </div>
-    <Dialog ref="dialog" />
+    <Dialog ref="dialog" @initdata="initdata" />
   </div>
 </template>
 
 <script>
 import Code from './code'
 import Dialog from './dialog'
+import { getCode } from '@/api/code'
 export default {
   name: 'ActivityCode',
   components: { Dialog, Code },
@@ -39,46 +29,65 @@ export default {
         { label: '已結束', key: 'finished' }
       ],
       activeName: 'all',
-      initData: [
-        { 'id': '0001', 'title': '事前登入序號', 'type': '活動獎品型', 'amount': 10000, 'status': '未進行',
-          'startTime': '2020/12/1 00:00', 'endTime': '2020/12/31 23:59', 'creator': 'GM0001', 'content': '感謝各位玩家的是前登錄...' },
-        { 'id': '0002', 'title': '事前登入序號', 'type': '活動獎品型', 'amount': 100, 'status': '未進行',
-          'startTime': '2020/12/1 00:00', 'endTime': '2020/12/31 23:59', 'creator': 'GM0001', 'content': '感謝各位玩家的是前登錄...' },
-        { 'id': '0003', 'title': '事前登入序號', 'type': '活動獎品型', 'amount': 400, 'status': '進行中',
-          'startTime': '2020/12/1 00:00', 'endTime': '2020/12/31 23:59', 'creator': 'GM0001', 'content': '感謝各位玩家的是前登錄...' },
-        { 'id': '0004', 'title': '事前登入序號', 'type': '活動獎品型', 'amount': 500, 'status': '已結束',
-          'startTime': '2020/12/1 00:00', 'endTime': '2020/12/31 23:59', 'creator': 'GM0001', 'content': '感謝各位玩家的是前登錄...' }
-      ],
       tableData: []
     }
   },
   computed: {
   },
-  watch: {
-    activeName: function(val) {
-      if (val === 'inProgress') {
-        this.tableData = this.initData.filter(function(item, index, array) {
-          return item.status === '進行中'
-        })
-      } else if (val === 'notStart') {
-        this.tableData = this.initData.filter(function(item, index, array) {
-          return item.status === '未進行'
-        })
-      } else if (val === 'finished') {
-        this.tableData = this.initData.filter(function(item, index, array) {
-          return item.status === '已結束'
-        })
-      } else if (val === 'all') {
-        this.tableData = this.initData
-      }
-    }
-  },
   created() {
     this.tableData = this.initData
   },
+  mounted() {
+    this.initdata()
+  },
   methods: {
     add() {
-      this.$refs.dialog.handleOpen()
+      this.$refs.dialog.handleOpen('新增')
+    },
+    edit({ title, row }) {
+      this.$refs.dialog.handleOpen(title, row)
+    },
+    filterData() {
+      switch (this.activeName) {
+        case 'inProgress':
+          return this.tableData.filter(function(item, index, array) {
+            return item.status === '上架中'
+          })
+        case 'notStart':
+          return this.tableData.filter(function(item, index, array) {
+            return item.status === '未上架'
+          })
+        case 'finished':
+          return this.tableData.filter(function(item, index, array) {
+            return item.status === '已下架'
+          })
+        case 'all':
+          return this.tableData
+      }
+    },
+    initdata() {
+      let state = ''
+      switch (this.activeName) {
+        case 'launched':
+          state = '0'
+          break
+        case 'notLaunch':
+          state = '1'
+          break
+        case 'removed':
+          state = '2'
+          break
+      }
+      const formData = new FormData()
+      formData.append('state', state)
+      getCode(formData)
+        .then((response) => {
+          this.tableData = [...response.data]
+          console.log(this.tableData)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     }
   }
 }

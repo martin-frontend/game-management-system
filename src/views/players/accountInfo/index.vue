@@ -3,11 +3,22 @@
     <searchPanel @onSearch="onSearch" />
     <div class="table-container">
       <el-tag>帳號資訊</el-tag>
-      <p v-if="activeName === 'stored'" style="margin-top:15px">累計儲值金額：3000NTD</p>
-      <el-tabs v-model="activeName" style="margin-top:10px;">
-        <el-tab-pane v-for="item in tabMapOptions" :key="item.key" :label="item.label" :name="item.key">
+      <p v-if="activeName === 'stored'" style="margin-top: 15px">
+        累計儲值金額：3000NTD
+      </p>
+      <el-tabs v-model="activeName" style="margin-top: 10px">
+        <el-tab-pane
+          v-for="item in tabMapOptions"
+          :key="item.key"
+          :label="item.label"
+          :name="item.key"
+        >
           <template v-if="activeName === 'account'">
-            <el-form label-position="left" label-width="180px" class="table-form">
+            <el-form
+              label-position="left"
+              label-width="180px"
+              class="table-form"
+            >
               <el-form-item label="角色ID">
                 <span>{{ accountdata.user_id }}</span>
               </el-form-item>
@@ -50,35 +61,19 @@
             </el-form>
           </template>
           <template v-if="activeName === 'stored'">
-            <el-table
-              :data="storedata"
-              style="width: 100%"
-              border
-            >
-              <el-table-column
-                prop="name"
-                label="訂單編號"
-                width="180"
-              >
-                <template slot-scope="scope">{{ scope.row.order_number }}</template>
+            <el-table :data="storedata" style="width: 100%" border>
+              <el-table-column prop="name" label="訂單編號" width="180">
+                <template slot-scope="scope">{{
+                  scope.row.order_number
+                }}</template>
               </el-table-column>
-              <el-table-column
-                prop="money"
-                label="金額"
-                width="180"
-              >
+              <el-table-column prop="money" label="金額" width="180">
                 <template slot-scope="scope">{{ scope.row.amount }}</template>
               </el-table-column>
-              <el-table-column
-                prop="address"
-                label="平台"
-              >
+              <el-table-column prop="address" label="平台">
                 <template slot-scope="scope">{{ scope.row.platform }}</template>
               </el-table-column>
-              <el-table-column
-                prop="date"
-                label="時間"
-              >
+              <el-table-column prop="date" label="時間">
                 <template slot-scope="scope">{{ scope.row.datetime }}</template>
               </el-table-column>
             </el-table>
@@ -95,7 +90,11 @@
             </div>
           </template>
           <template v-if="activeName === 'store'">
-            <el-form label-position="left" label-width="180px" class="table-form">
+            <el-form
+              label-position="left"
+              label-width="180px"
+              class="table-form"
+            >
               <el-form-item label="商店資訊">
                 <span>{{ store.a1 }}</span>
               </el-form-item>
@@ -238,11 +237,8 @@ export default {
       }
     }
   },
-  computed: {
-  },
-  created() {
-
-  },
+  computed: {},
+  created() {},
   methods: {
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`)

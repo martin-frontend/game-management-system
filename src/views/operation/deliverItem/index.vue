@@ -5,25 +5,18 @@
       <el-button icon="el-icon-plus" type="primary" circle style="float: right" @click="add" />
       <el-tabs v-model="activeName" style="margin-top:10px;">
         <el-tab-pane v-for="item in tabMapOptions" :key="item.key" :label="item.label" :name="item.key">
-          <template v-if="activeName === 'all'">
-            <Item :table-data="tableData" />
-          </template>
-          <template v-if="activeName === 'notSend'">
-            <Item :table-data="tableData" />
-          </template>
-          <template v-if="activeName === 'sent'">
-            <Item :table-data="tableData" />
-          </template>
+          <Item :table-data="filterData(tableData)" @edit="edit" @initdata="initdata" />
         </el-tab-pane>
       </el-tabs>
     </div>
-    <Dialog ref="dialog" />
+    <Dialog ref="dialog" @initdata="initdata" />
   </div>
 </template>
 
 <script>
 import Item from './item'
 import Dialog from './dialog'
+import { getItem } from '@/api/item'
 export default {
   name: 'DeliverItem',
   components: { Dialog, Item },
@@ -35,38 +28,55 @@ export default {
         { label: '已發送', key: 'sent' }
       ],
       activeName: 'all',
-      initData: [
-        { 'id': '0001', 'title': '事前登入禮', 'status': '未發送', 'sendTime': 1607000000000, 'creator': 'GM0001', 'content': '感謝各位玩家的是前登錄...' },
-        { 'id': '0002', 'title': '事前登入禮', 'status': '未發送', 'sendTime': 1607000000000, 'creator': 'GM0001', 'content': '感謝各位玩家的是前登錄...' },
-        { 'id': '0003', 'title': '事前登入禮', 'status': '已發送', 'sendTime': 1607000000000, 'creator': 'GM0001', 'content': '感謝各位玩家的是前登錄...' },
-        { 'id': '0004', 'title': '事前登入禮', 'status': '未發送', 'sendTime': 1607000000000, 'creator': 'GM0001', 'content': '感謝各位玩家的是前登錄...' }
-      ],
       tableData: []
     }
   },
   computed: {
   },
-  watch: {
-    activeName: function(val) {
-      if (val === 'notSend') {
-        this.tableData = this.initData.filter(function(item, index, array) {
-          return item.status === '未發送'
-        })
-      } else if (val === 'sent') {
-        this.tableData = this.initData.filter(function(item, index, array) {
-          return item.status === '已發送'
-        })
-      } else if (val === 'all') {
-        this.tableData = this.initData
-      }
-    }
-  },
-  created() {
-    this.tableData = this.initData
+  mounted() {
+    this.initdata()
   },
   methods: {
     add() {
-      this.$refs.dialog.handleOpen()
+      this.$refs.dialog.handleOpen('新增')
+    },
+    edit({ title, row }) {
+      this.$refs.dialog.handleOpen(title, row)
+    },
+    filterData() {
+      switch (this.activeName) {
+        case 'notSend':
+          return this.tableData.filter(function(item, index, array) {
+            return item.status === '未發送'
+          })
+        case 'sent':
+          return this.tableData.filter(function(item, index, array) {
+            return item.status === '已發送'
+          })
+        case 'all':
+          return this.tableData
+      }
+    },
+    initdata() {
+      let state = ''
+      switch (this.activeName) {
+        case 'notSend':
+          state = '0'
+          break
+        case 'sent':
+          state = '1'
+          break
+      }
+      const formData = new FormData()
+      formData.append('state', state)
+      getItem(formData)
+        .then((response) => {
+          this.tableData = [...response.data]
+          console.log(this.tableData)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     }
   }
 }

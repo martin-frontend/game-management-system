@@ -38,16 +38,18 @@ export default {
     }
   },
   watch: {
-    'chartData': {
+    chartData: {
       deep: true,
       handler(val) {
         this.setOptions(val)
       }
     },
-    'type': {
+    type: {
       deep: true,
       handler(val) {
-        if (val) { this.setOptions(this.group.chartData) }
+        if (val) {
+          this.setOptions(this.group.tableData)
+        }
       }
     }
   },
@@ -65,28 +67,32 @@ export default {
   },
   methods: {
     initChart() {
-      this.chart = echarts.init(this.$el, 'macarons')
-      this.setOptions(this.group.chartData)
+      this.chart = echarts.init(this.$el)
+      this.setOptions(this.group.tableData)
     },
     setOptions(chartData) {
-      let data = []
+      const data = []
       if (this.type) {
+        let activeData = []
         const { dau, wau, mau } = chartData
-        data = this.type === 'dau' ? dau : this.type === 'wau' ? wau : mau
+        activeData = this.type === 'dau' ? dau : this.type === 'wau' ? wau : mau
+        Object.keys(activeData[0]).forEach(key => {
+          data.push({
+            name: key,
+            data: activeData.map(item => item[key])
+          })
+        })
       } else {
-        data = chartData.allData
+        Object.keys(chartData[0]).forEach(key => {
+          data.push({
+            name: key,
+            data: chartData.map(item => item[key])
+          })
+        })
       }
       this.chart.setOption({
         xAxis: {
-          data: [
-            '03/01',
-            '03/02',
-            '03/03',
-            '03/04',
-            '03/05',
-            '03/06',
-            '03/07'
-          ],
+          data: data[0].data,
           boundaryGap: false,
           axisTick: {
             show: false
@@ -162,7 +168,7 @@ export default {
             },
             smooth: true,
             type: 'line',
-            data: data,
+            data: data[1].data,
             animationDuration: 2800,
             animationEasing: 'cubicInOut'
           }

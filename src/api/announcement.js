@@ -20,3 +20,11 @@ export function updateBulletin(data) {
     data
   })
 }
+export function deleteBulletin(data) {
+  return request({
+    url: 'operation_deletebulletin',
+    method: 'post',
+    data
+  })
+}
+

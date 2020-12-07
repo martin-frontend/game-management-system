@@ -1,10 +1,16 @@
 <template>
   <div class="search-panel">
     <el-form ref="form" :inline="true" :model="formData">
-      <p style="margin-bottom:10px;">請輸入查詢條件</p>
+      <el-tag>請輸入查詢條件</el-tag>
+      <div style="padding: 5px 0px"></div>
       <el-form-item>
         <el-select v-model="formData.type" placeholder="请选择">
-          <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
         </el-select>
       </el-form-item>
       <el-form-item>
@@ -35,15 +41,16 @@ export default {
       const formData = new FormData()
       formData.append('type', this.formData.type)
       formData.append('text', this.formData.text)
-      getAccountInfo(formData).then(response => {
-        this.$emit('onSearch', response.data)
-      }).catch(error => {
-        console.log(error)
-      })
+      getAccountInfo(formData)
+        .then((response) => {
+          this.$emit('onSearch', response.data)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     }
   }
 }
 </script>
 <style scoped lang="scss">
-
 </style>
