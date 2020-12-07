@@ -17,7 +17,7 @@
         width="180"
       />
       <el-table-column
-        prop="playerId"
+        prop="suspendid"
         label="角色ID"
         width="180"
       />
@@ -36,9 +36,13 @@
         label="復權時間"
       >
         <template slot-scope="scope">
-          {{ scope.row.restorationTime | moment }}
+          {{ scope.row.recoverytime | moment }}
         </template>
       </el-table-column>
+      <el-table-column
+        prop="reason"
+        label="原因"
+      />
     </el-table>
     <div class="table-pagination">
       <el-pagination
