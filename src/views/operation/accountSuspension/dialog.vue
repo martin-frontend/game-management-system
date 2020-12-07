@@ -21,7 +21,6 @@
           <el-date-picker
             v-model="formData.recoverytime"
             type="datetime"
-            placeholder="請選擇停權結束日期時間"
             value-format="yyyy-MM-dd HH:mm:ss"
             class="form-margin"
             disabled

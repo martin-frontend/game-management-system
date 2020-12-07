@@ -9,7 +9,9 @@
         label="功能"
         width="80"
       >
-        <el-button type="primary" size="small">復權</el-button>
+        <template slot-scope="scope">
+          <el-button type="primary" size="small" @click="recovery(scope.row)">復權</el-button>
+        </template>
       </el-table-column>
       <el-table-column
         prop="id"
@@ -58,6 +60,7 @@
   </div>
 </template>
 <script>
+import { createSuspension } from '@/api/suspension'
 export default {
   name: 'Item',
   props: {
@@ -78,6 +81,20 @@ export default {
     },
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`)
+    },
+    recovery(row) {
+      const formData = new FormData()
+      formData.append('suspendid', row.id)
+      formData.append('recoverytime', row.recoverytime)
+      formData.append('suspendstate', 0)
+      formData.append('reason', row.reason)
+      createSuspension(formData)
+        .then((resopnse) => {
+          this.$emit('initdata')
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     }
   }
 }
