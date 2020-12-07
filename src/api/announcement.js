@@ -1,10 +1,9 @@
 import request from '@/utils/request'
 
-export function getBulletin(data) {
+export function getBulletin() {
   return request({
     url: 'operation_getbulletin',
-    method: 'post',
-    data
+    method: 'get'
   })
 }
 export function createBulletin(data) {

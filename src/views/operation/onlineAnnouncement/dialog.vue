@@ -94,7 +94,6 @@ export default {
       formData.append('content', this.formData.content)
       createBulletin(formData)
         .then((resopnse) => {
-          console.log(resopnse)
           this.$emit('initdata')
           this.dialogFormVisible = false
         })
