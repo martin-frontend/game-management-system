@@ -59,23 +59,8 @@ export default {
       }
     },
     initdata() {
-      let state = ''
-      switch (this.activeName) {
-        case 'launched':
-          state = '0'
-          break
-        case 'notLaunch':
-          state = '1'
-          break
-        case 'removed':
-          state = '2'
-          break
-      }
-      const formData = new FormData()
-      formData.append('state', state)
-      getBulletin(formData).then(response => {
+      getBulletin().then(response => {
         this.tableData = [...response.data]
-        console.log(this.tableData)
       }).catch(error => {
         console.log(error)
       })
