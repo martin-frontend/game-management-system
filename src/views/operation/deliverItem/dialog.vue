@@ -9,7 +9,7 @@
           <el-date-picker
             v-model="formData.senddate"
             type="datetime"
-            placeholder="請選擇下架日期時間"
+            placeholder="請選擇發送日期時間"
             value-format="yyyy-MM-dd HH:mm:ss"
             class="form-margin"
           />
@@ -32,13 +32,14 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="handleClose">取 消</el-button>
-        <el-button type="primary" @click="createItem">建 立</el-button>
+        <el-button v-if="title===`新增物品`" type="primary" @click="createItem">建 立</el-button>
+        <el-button v-if="title===`編輯物品`" type="primary" @click="updateItem">更 新</el-button>
       </div>
     </el-dialog>
   </div>
 </template>
 <script>
-import { createItem } from '@/api/item'
+import { createItem, updateItem } from '@/api/item'
 export default {
   data() {
     return {
@@ -72,6 +73,23 @@ export default {
       formData.append('status', this.formData.status)
       formData.append('content', this.formData.content)
       createItem(formData)
+        .then((resopnse) => {
+          console.log(resopnse)
+          this.$emit('initdata')
+          this.dialogFormVisible = false
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    updateItem() {
+      const formData = new FormData()
+      formData.append('title', this.formData.title)
+      formData.append('senddate', this.formData.senddate)
+      formData.append('status', this.formData.status)
+      formData.append('content', this.formData.content)
+      formData.append('id', this.formData.id)
+      updateItem(formData)
         .then((resopnse) => {
           console.log(resopnse)
           this.$emit('initdata')
