@@ -7,8 +7,8 @@
         </el-form-item>
         <el-form-item label="類型" :label-width="formLabelWidth">
           <el-select v-model="formData.type" placeholder="請選擇類型" class="form-margin form-width">
-            <el-option label="活動獎品型（單次單人使用）" value="single" />
-            <el-option label="社群媒體型（單次多人使用）" value="multi" />
+            <el-option label="活動獎品型（單次單人使用）" value="活動獎品型" />
+            <el-option label="社群媒體型（單次多人使用）" value="社群媒體型" />
           </el-select>
           <el-input v-model="formData.amount" class="form-width" autocomplete="off" placeholder="請輸入序號數量" />
         </el-form-item>
