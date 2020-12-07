@@ -52,13 +52,13 @@
       <div slot="footer" class="dialog-footer">
         <el-button @click="handleClose">取 消</el-button>
         <el-button v-if="title===`新增公告`" type="primary" @click="createBulletin">建 立</el-button>
-        <el-button v-if="title===`編輯公告`" type="primary" @click="update">更 新</el-button>
+        <el-button v-if="title===`編輯公告`" type="primary" @click="updateBulletin">更 新</el-button>
       </div>
     </el-dialog>
   </div>
 </template>
 <script>
-import { createBulletin } from '@/api/announcement'
+import { createBulletin, updateBulletin } from '@/api/announcement'
 export default {
   components: {},
   data() {
@@ -93,6 +93,24 @@ export default {
       formData.append('nosaledate', this.formData.nosaledate)
       formData.append('content', this.formData.content)
       createBulletin(formData)
+        .then((resopnse) => {
+          console.log(resopnse)
+          this.$emit('initdata')
+          this.dialogFormVisible = false
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    updateBulletin() {
+      const formData = new FormData()
+      formData.append('title', this.formData.title)
+      formData.append('category', this.formData.category)
+      formData.append('onsaledate', this.formData.onsaledate)
+      formData.append('nosaledate', this.formData.nosaledate)
+      formData.append('content', this.formData.content)
+      formData.append('id', this.formData.id)
+      updateBulletin(formData)
         .then((resopnse) => {
           console.log(resopnse)
           this.$emit('initdata')
