@@ -1,5 +1,5 @@
 <template>
-  <div class="page-container">
+  <div v-loading="loading" class="page-container">
     <search-panel />
     <div class="table-container">
       <el-tag>新增帳戶</el-tag>
@@ -12,28 +12,39 @@
 import searchPanel from './searchPanel'
 import chart from './chart'
 import tableData from './tableData'
+import { getAddAccount } from '@/api/statistics'
+
 export default {
   name: 'Index',
   components: { searchPanel, chart, tableData },
   data() {
     return {
+      loading: false,
       chartData: {
         allData: [53, 422, 337, 276, 2678, 17072, 333]
       },
-      tableData: [
-        { date: '03/01', amount: 53 },
-        { date: '03/02', amount: 422 },
-        { date: '03/03', amount: 337 },
-        { date: '03/04', amount: 276 },
-        { date: '03/05', amount: 2678 },
-        { date: '03/06', amount: 17072 },
-        { date: '03/07', amount: 333 }
-      ]
+      tableData: []
     }
   },
   provide() {
     return {
       group: this
+    }
+  },
+  created() {
+    this.initData()
+  },
+  methods: {
+    initData() {
+      this.loading = true
+      getAddAccount()
+        .then((response) => {
+          this.tableData = [...response.data]
+          this.loading = false
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     }
   }
 }
