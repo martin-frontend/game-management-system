@@ -21,9 +21,10 @@ export function getAddAccount(data) {
     data
   })
 }
-export function getActiveAccount() {
+export function getActiveAccount(data) {
   return request({
     url: 'statistics_getactiveaccount',
-    method: 'get'
+    method: 'post',
+    data
   })
 }

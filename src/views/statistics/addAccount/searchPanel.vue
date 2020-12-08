@@ -6,6 +6,7 @@
       <el-form-item prop="startDate">
         <el-date-picker
           v-model="formData.startDate"
+          value-format="yyyy-MM-dd"
           type="date"
           placeholder="選擇開始日期"
         />
@@ -13,6 +14,7 @@
       <el-form-item prop="endDate">
         <el-date-picker
           v-model="formData.endDate"
+          value-format="yyyy-MM-dd"
           type="date"
           placeholder="選擇結束日期"
         />
@@ -27,6 +29,8 @@
   </div>
 </template>
 <script>
+import { getAddAccount } from '@/api/statistics'
+
 export default {
   name: 'SearchPanel',
   data() {
@@ -34,16 +38,16 @@ export default {
       formData: {},
       rules: {
         startDate: [
-          { type: 'date', required: true, message: '日期錯誤', trigger: 'change' }
+          { required: true, message: '日期錯誤', trigger: 'change' }
         ],
         endDate: [
-          { type: 'date', required: true, message: '日期錯誤', trigger: 'change' }
+          { required: true, message: '日期錯誤', trigger: 'change' }
         ]
       },
       options: [
         { value: 'all', label: 'ALL' },
-        { value: 'android', label: 'Android' },
-        { value: 'ios', label: 'iOS' }
+        { value: 'ANDROID', label: 'Android' },
+        { value: 'IOS', label: 'iOS' }
       ]
     }
   },
@@ -51,7 +55,20 @@ export default {
     handleSearch() {
       this.$refs['form'].validate((valid, err) => {
         if (valid) {
-          alert('submit!')
+          const formData = new FormData()
+          formData.append('startdate', this.formData.startDate)
+          formData.append('enddate', this.formData.endDate)
+          console.log(this.formData.type)
+          if (this.formData.type !== '' && this.formData.type !== 'all') { formData.append('type', this.formData.type) }
+          getAddAccount(formData)
+            .then((response) => {
+              console.log(response)
+              // this.tableData = [...response.data]
+              // this.loading = false
+            })
+            .catch((error) => {
+              console.log(error)
+            })
         } else {
           console.log('error submit!!')
           return false
