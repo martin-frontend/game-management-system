@@ -32,17 +32,18 @@ export default {
         value: [],
         percent: []
       }
-      console.log(data)
-      // data.forEach(element => {
-      //   this.tableData.value.push({
-      //     date: element.date,
-      //     amount: element.newaccount
-      //   })
-      //   this.tableData.percent.push({
-      //     date: element.date,
-      //     amount: element.percentage
-      //   })
-      // })
+      if (data) {
+        data.forEach(element => {
+          this.tableData.value.push({
+            date: element.date,
+            amount: element.newaccount
+          })
+          this.tableData.percent.push({
+            date: element.date,
+            amount: element.percentage
+          })
+        })
+      }
     }
   }
 }
