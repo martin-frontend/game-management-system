@@ -28,12 +28,11 @@
         label="角色名稱"
         width="180"
       />
-      <el-table-column
+      <!-- <el-table-column
         prop="suspensionDays"
         label="停權天數"
         width="180"
-      />
-      Suspension
+      /> -->
       <el-table-column
         label="復權時間"
       >
@@ -60,7 +59,7 @@
   </div>
 </template>
 <script>
-import { createSuspension } from '@/api/suspension'
+import { updateSuspension } from '@/api/suspension'
 export default {
   name: 'Item',
   props: {
@@ -85,10 +84,10 @@ export default {
     recovery(row) {
       const formData = new FormData()
       formData.append('suspendid', row.id)
-      formData.append('recoverytime', row.recoverytime)
+      formData.append('recoverytime', '')
       formData.append('suspendstate', 0)
-      formData.append('reason', row.reason)
-      createSuspension(formData)
+      formData.append('reason', '')
+      updateSuspension(formData)
         .then((resopnse) => {
           this.$emit('initdata')
         })
