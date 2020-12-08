@@ -27,6 +27,7 @@
               placeholder="請選擇上架日期時間"
               value-format="yyyy-MM-dd HH:mm:ss"
               class="form-margin"
+              @change="start"
             />
             <el-checkbox v-model="formData.checked">立即上架</el-checkbox>
           </div>
@@ -37,6 +38,7 @@
               placeholder="請選擇下架日期時間"
               value-format="yyyy-MM-dd HH:mm:ss"
               class="form-margin"
+              @change="end"
             />
           </div>
         </el-form-item>
@@ -58,13 +60,16 @@
   </div>
 </template>
 <script>
+import moment from 'moment'
 import { createBulletin, updateBulletin } from '@/api/announcement'
 export default {
   components: {},
   data() {
     return {
       formData: {
-        checked: false
+        checked: false,
+        onsaledate: '',
+        nosaledate: ''
       },
       dialogFormVisible: false,
       formLabelWidth: '80px',
@@ -75,7 +80,11 @@ export default {
     handleClose(done) {
       this.loading = false
       this.dialogFormVisible = false
-      this.formData = {}
+      this.formData = {
+        checked: false,
+        onsaledate: '',
+        nosaledate: ''
+      }
     },
     handleOpen(title, row) {
       this.dialogFormVisible = true
@@ -117,6 +126,23 @@ export default {
         .catch((err) => {
           console.log(err)
         })
+    },
+    open(warning) {
+      this.$message({
+        message: warning,
+        type: 'warning' })
+    },
+    start() {
+      if (this.formData.nosaledate !== '' && Number(moment(this.formData.onsaledate)) >= Number(moment(this.formData.nosaledate))) {
+        this.open('上架時間必須在下架時間之前')
+        this.formData.onsaledate = ''
+      }
+    },
+    end() {
+      if (this.formData.onsaledate !== '' && Number(moment(this.formData.onsaledate)) >= Number(moment(this.formData.nosaledate))) {
+        this.open('下架時間必須在上架時間之後')
+        this.formData.nosaledate = ''
+      }
     }
   }
 }
