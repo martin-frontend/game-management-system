@@ -1,7 +1,7 @@
 <template>
   <div>
     <i class="download-icon el-icon-download"></i>
-    <el-tabs v-model="statistic" @tab-click="handleClick">
+    <el-tabs v-model="statistic">
       <el-tab-pane
         v-for="item in statisticOptions"
         :key="item.value"

@@ -44,8 +44,7 @@ export default {
       this.$refs.dialog.handleOpen()
     },
     initdata() {
-      const formData = new FormData()
-      getSuspension(formData)
+      getSuspension()
         .then((response) => {
           this.tableData = [...response.data]
           console.log(this.tableData)

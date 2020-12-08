@@ -83,7 +83,7 @@ export default {
     },
     recovery(row) {
       const formData = new FormData()
-      formData.append('suspendid', row.id)
+      formData.append('id', row.id)
       formData.append('recoverytime', '')
       formData.append('suspendstate', 0)
       formData.append('reason', '')
