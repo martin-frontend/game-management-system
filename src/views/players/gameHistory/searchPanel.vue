@@ -4,9 +4,9 @@
     <div style="padding: 5px 0"></div>
     <el-form ref="form" :inline="true" :model="formData">
       <el-form-item>
-        <el-select v-model="formData.role" clearable placeholder="請選擇">
+        <el-select v-model="formData.type" clearable placeholder="請選擇">
           <el-option
-            v-for="item in roleOptions"
+            v-for="item in typeOptions"
             :key="item.value"
             :label="item.label"
             :value="item.value"
@@ -15,50 +15,53 @@
       </el-form-item>
       <el-form-item>
         <el-input
-          v-model="formData.content"
+          v-model="formData.text"
           clearable
-          :placeholder="formData.role ? '請輸入角色名稱' : '請輸入角色ID'"
+          :placeholder="'請輸入角色ID'"
         />
       </el-form-item>
       <el-form-item>
         <el-date-picker
-          v-model="formData.startDate"
-          type="date"
+          v-model="formData.startdate"
+          value-format="yyyy-MM-dd HH:mm:ss"
+          type="datetime"
           placeholder="選擇開始日期"
         />
       </el-form-item>
       <el-form-item>
         <el-date-picker
-          v-model="formData.endDate"
-          type="date"
-          placeholder="請選擇查詢項目"
+          v-model="formData.enddate"
+          value-format="yyyy-MM-dd HH:mm:ss"
+          type="datetime"
+          placeholder="選擇結束日期"
         />
       </el-form-item>
       <el-form-item>
-        <el-select v-model="formData.history" clearable placeholder="請選擇">
+        <el-select v-model="formData.category" clearable placeholder="請選擇">
           <el-option
-            v-for="item in historyOptions"
+            v-for="item in categoryOptions"
             :key="item.value"
             :label="item.label"
             :value="item.value"
           />
         </el-select>
       </el-form-item>
-      <el-button type="primary">查詢</el-button>
+      <el-button type="primary" @click="searchClick">查詢</el-button>
     </el-form>
   </div>
 </template>
 <script>
+import { getGameHistory } from '@/api/players'
 export default {
   name: 'SearchPanel',
   data() {
     return {
       formData: {},
-      roleOptions: [
-        { value: 0, label: '角色ID' },
-        { value: 1, label: '角色名稱' }
+      typeOptions: [
+        { value: 'user_id', label: '角色ID' },
+        { value: 'user_name', label: '角色名稱' }
       ],
-      historyOptions: [
+      categoryOptions: [
         { value: 0, label: '登入LOG' },
         { value: 1, label: '商店資訊' },
         { value: 2, label: '遊戲資源' },
@@ -81,14 +84,32 @@ export default {
         { value: 19, label: '經營任務' },
         { value: 20, label: '緊急訂單' },
         { value: 21, label: '好友清單' }
-      ],
-      roleOptions2: [
-        { value: 'EV8EQ7N7HNB6U11TTNSW', label: '超級管理者' },
-        { value: 'LIOXNUACV7JTYO9OHVIJ', label: '客服人員' },
-        { value: 'PYY7BE1Z4Q5OAP1TTOP5', label: 'william' },
-        { value: 'SOYUPH4KXRMA8KAD5K5D', label: '測試專員' },
-        { value: 'N2QHS8VAQDUM9IHSWCTD', label: '次級管理者' }
       ]
+    }
+  },
+  methods: {
+    searchClick() {
+      const formData = new FormData()
+      if (this.formData.type && this.formData.text) {
+        formData.append('type', this.formData.type)
+        formData.append('text', this.formData.text)
+      }
+      if (this.formData.startdate) {
+        formData.append('startdate', this.formData.startdate)
+      }
+      if (this.formData.enddate) {
+        formData.append('enddate', this.formData.enddate)
+      }
+      if (this.formData.category) {
+        formData.append('category', this.formData.category)
+      }
+      getGameHistory(formData)
+        .then((response) => {
+          this.$emit('onSearch', response.data)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     }
   }
 }

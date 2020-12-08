@@ -96,73 +96,73 @@
               class="table-form"
             >
               <el-form-item label="商店資訊">
-                <span>{{ store.a1 }}</span>
+                <span>{{ store.store_info }}</span>
               </el-form-item>
               <el-form-item label="風格資訊">
-                <span>{{ store.a2 }}</span>
+                <span>{{ store.style_info }}</span>
               </el-form-item>
               <el-form-item label="現有資源">
-                <span>{{ store.a3 }}</span>
+                <span>{{ store.resource }}</span>
               </el-form-item>
               <el-form-item label="客人清單">
-                <span>{{ store.a4 }}</span>
+                <span>{{ store.client_list }}</span>
               </el-form-item>
               <el-form-item label="貨倉容量">
-                <span>{{ store.a5 }}</span>
+                <span>{{ store.warehouse_capacity }}</span>
               </el-form-item>
               <el-form-item label="車庫容量">
-                <span>{{ store.a6 }}</span>
+                <span>{{ store.garage_capacity }}</span>
               </el-form-item>
               <el-form-item label="停車格">
-                <span>{{ store.a7 }}</span>
+                <span>{{ store.parking_compartment }}</span>
               </el-form-item>
               <el-form-item label="進貨商品">
-                <span>{{ store.a8 }}</span>
+                <span>{{ store.purchased_goods }}</span>
               </el-form-item>
               <el-form-item label="持有店員">
-                <span>{{ store.a9 }}</span>
+                <span>{{ store.holding_clerk }}</span>
               </el-form-item>
               <el-form-item label="持有店員服裝">
-                <span>{{ store.a10 }}</span>
+                <span>{{ store.holding_cloth }}</span>
               </el-form-item>
               <el-form-item label="持有吉祥物">
-                <span>{{ store.a11 }}</span>
+                <span>{{ store.holding_mascot }}</span>
               </el-form-item>
               <el-form-item label="持有素材">
-                <span>{{ store.a12 }}</span>
+                <span>{{ store.holding_material }}</span>
               </el-form-item>
               <el-form-item label="持有商品">
-                <span>{{ store.a13 }}</span>
+                <span>{{ store.holding_goods }}</span>
               </el-form-item>
               <el-form-item label="持有裝飾品">
-                <span>{{ store.a14 }}</span>
+                <span>{{ store.holding_decoration }}</span>
               </el-form-item>
               <el-form-item label="持有貨架">
-                <span>{{ store.a15 }}</span>
+                <span>{{ store.holding_shelf }}</span>
               </el-form-item>
               <el-form-item label="持有車輛">
-                <span>{{ store.a16 }}</span>
+                <span>{{ store.holding_vehicle }}</span>
               </el-form-item>
               <el-form-item label="攬客區域等級">
-                <span>{{ store.a17 }}</span>
+                <span>{{ store.attracting_area_level }}</span>
               </el-form-item>
               <el-form-item label="客人等級">
-                <span>{{ store.a18 }}</span>
+                <span>{{ store.guest_level }}</span>
               </el-form-item>
               <el-form-item label="擴建等級">
-                <span>{{ store.a19 }}</span>
+                <span>{{ store.expansion_level }}</span>
               </el-form-item>
               <el-form-item label="劇情任務">
-                <span>{{ store.a20 }}</span>
+                <span>{{ store.story_mission }}</span>
               </el-form-item>
               <el-form-item label="經營任務">
-                <span>{{ store.a21 }}</span>
+                <span>{{ store.business_task }}</span>
               </el-form-item>
               <el-form-item label="緊急訂單">
-                <span>{{ store.a22 }}</span>
+                <span>{{ store.urgent_order }}</span>
               </el-form-item>
               <el-form-item label="好友清單">
-                <span>{{ store.a23 }}</span>
+                <span>{{ store.friend_list }}</span>
               </el-form-item>
             </el-form>
           </template>
@@ -211,29 +211,29 @@ export default {
         server: ''
       },
       store: {
-        a1: '商店資訊',
-        a2: '風格資訊',
-        a3: '現有資源',
-        a4: '客人清單',
-        a5: '貨倉容量',
-        a6: '車庫容量',
-        a7: '停車格',
-        a8: '進貨商品',
-        a9: '持有店員',
-        a10: '持有店員服裝',
-        a11: '持有吉祥物',
-        a12: '持有素材',
-        a13: '持有商品',
-        a14: '持有裝飾品',
-        a15: '持有貨架',
-        a16: '持有車輛',
-        a17: '攬客區域等級',
-        a18: '客人等級',
-        a19: '擴建等級',
-        a20: '劇情任務',
-        a21: '經營任務',
-        a22: '緊急訂單',
-        a23: '好友清單'
+        store_info: '',
+        style_info: '',
+        resource: '',
+        client_list: '',
+        warehouse_capacity: '',
+        garage_capacity: '',
+        parking_compartment: '',
+        purchased_goods: '',
+        holding_clerk: '',
+        holding_cloth: '',
+        holding_mascot: '',
+        holding_material: '',
+        holding_goods: '',
+        holding_decoration: '',
+        holding_shelf: '',
+        holding_vehicle: '',
+        attracting_area_level: '',
+        guest_level: '',
+        expansion_level: '',
+        story_mission: '',
+        business_task: '',
+        urgent_order: '',
+        friend_list: ''
       }
     }
   },
@@ -248,8 +248,9 @@ export default {
     },
     onSearch(data) {
       if (data !== '') {
-        this.accountdata = Object.assign({}, data)
+        this.accountdata = Object.assign({}, data.account_info)
         this.storedata = [...data.deposit_list]
+        this.store = Object.assign({}, data.store_info)
       } else {
         alert('查無資料')
       }

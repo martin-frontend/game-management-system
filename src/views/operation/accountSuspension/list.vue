@@ -9,7 +9,9 @@
         label="功能"
         width="80"
       >
-        <el-button type="primary" size="small">復權</el-button>
+        <template slot-scope="scope">
+          <el-button type="primary" size="small" @click="recovery(scope.row)">復權</el-button>
+        </template>
       </el-table-column>
       <el-table-column
         prop="id"
@@ -17,7 +19,7 @@
         width="180"
       />
       <el-table-column
-        prop="playerId"
+        prop="suspendid"
         label="角色ID"
         width="180"
       />
@@ -26,19 +28,22 @@
         label="角色名稱"
         width="180"
       />
-      <el-table-column
+      <!-- <el-table-column
         prop="suspensionDays"
         label="停權天數"
         width="180"
-      />
-      Suspension
+      /> -->
       <el-table-column
         label="復權時間"
       >
         <template slot-scope="scope">
-          {{ scope.row.restorationTime | moment }}
+          {{ scope.row.recoverytime | moment }}
         </template>
       </el-table-column>
+      <el-table-column
+        prop="reason"
+        label="原因"
+      />
     </el-table>
     <div class="table-pagination">
       <el-pagination
@@ -54,6 +59,7 @@
   </div>
 </template>
 <script>
+import { updateSuspension } from '@/api/suspension'
 export default {
   name: 'Item',
   props: {
@@ -74,6 +80,20 @@ export default {
     },
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`)
+    },
+    recovery(row) {
+      const formData = new FormData()
+      formData.append('id', row.id)
+      formData.append('recoverytime', '')
+      formData.append('suspendstate', 0)
+      formData.append('reason', '')
+      updateSuspension(formData)
+        .then((resopnse) => {
+          this.$emit('initdata')
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     }
   }
 }

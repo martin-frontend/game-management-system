@@ -1,16 +1,29 @@
 import request from '@/utils/request'
 
-// active account
+export function getremain(data) {
+  return request({
+    url: '/statistics_getremain',
+    method: 'post',
+    data
+  })
+}
+export function getrevenue(data) {
+  return request({
+    url: '/statistics_getrevenue',
+    method: 'post',
+    data
+  })
+}
+export function getAddAccount(data) {
+  return request({
+    url: '/statistics_getaddaccount',
+    method: 'post',
+    data
+  })
+}
 export function getActiveAccount() {
   return request({
     url: 'statistics_getactiveaccount',
-    method: 'get'
-  })
-}
-// add account
-export function getAddAccount() {
-  return request({
-    url: 'statistics_getaddaccount',
     method: 'get'
   })
 }

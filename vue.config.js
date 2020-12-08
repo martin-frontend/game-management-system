@@ -40,9 +40,9 @@ module.exports = {
       '/': {
         target: 'http://pengbill.com/',
         changeOrigin: true,
-        pathRewrite : {
-          '^/': '',
-        },
+        pathRewrite: {
+          '^/': ''
+        }
       }
     },
     before: require('./mock/mock-server.js')

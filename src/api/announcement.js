@@ -1,10 +1,9 @@
 import request from '@/utils/request'
 
-export function getBulletin(data) {
+export function getBulletin() {
   return request({
     url: 'operation_getbulletin',
-    method: 'post',
-    data
+    method: 'get'
   })
 }
 export function createBulletin(data) {
@@ -14,14 +13,14 @@ export function createBulletin(data) {
     data
   })
 }
-export function updatebulletin(data) {
+export function updateBulletin(data) {
   return request({
     url: 'operation_updatebulletin',
     method: 'post',
     data
   })
 }
-export function deletebulletin(data) {
+export function deleteBulletin(data) {
   return request({
     url: 'operation_deletebulletin',
     method: 'post',

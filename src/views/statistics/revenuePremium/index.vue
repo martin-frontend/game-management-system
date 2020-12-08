@@ -1,6 +1,6 @@
 <template>
   <div class="page-container">
-    <search-panel @onType="handleType" />
+    <search-panel @onSearch="onSearch" />
     <div class="table-container">
       <el-tag>營收付費</el-tag>
       <tablePanel />
@@ -19,8 +19,8 @@ export default {
     }
   },
   methods: {
-    handleType(val) {
-      this.type = val
+    onSearch(data) {
+      console.log(data)
     }
   }
 }

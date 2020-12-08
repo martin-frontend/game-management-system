@@ -6,18 +6,19 @@
       <el-tabs v-model="activeName" style="margin-top:10px;">
         <el-tab-pane v-for="item in tabMapOptions" :key="item.key" :label="item.label" :name="item.key">
           <template v-if="activeName === 'all'">
-            <List :table-data="tableData" />
+            <List :table-data="tableData" @initdata="initdata" />
           </template>
         </el-tab-pane>
       </el-tabs>
     </div>
-    <Dialog ref="dialog" />
+    <Dialog ref="dialog" @initdata="initdata" />
   </div>
 </template>
 
 <script>
 import List from './list'
 import Dialog from './dialog'
+import { getSuspension } from '@/api/suspension'
 export default {
   name: 'AccountSuspension',
   components: { Dialog, List },
@@ -27,14 +28,13 @@ export default {
         { label: '停權名單', key: 'all' }
       ],
       activeName: 'all',
-      initData: [
-        { 'id': 'AB0001', 'playerId': '10012345', 'playerName': '王子麵', 'suspensionDays': '永久', 'restorationTime': '無' },
-        { 'id': 'AB0002', 'playerId': '10056789', 'playerName': '大亨堡', 'suspensionDays': 7, 'restorationTime': '2020/12/31 23:59' }
-      ],
       tableData: []
     }
   },
   computed: {
+  },
+  mounted() {
+    this.initdata()
   },
   created() {
     this.tableData = this.initData
@@ -42,6 +42,16 @@ export default {
   methods: {
     add() {
       this.$refs.dialog.handleOpen()
+    },
+    initdata() {
+      getSuspension()
+        .then((response) => {
+          this.tableData = [...response.data]
+          console.log(this.tableData)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     }
   }
 }

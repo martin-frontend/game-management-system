@@ -16,7 +16,7 @@
       <el-form-item>
         <el-input v-model="formData.text" />
       </el-form-item>
-      <el-button type="primary" @click="searchClick">查詢</el-button>
+      <el-button type="primary" @click="handleSearch">查詢</el-button>
     </el-form>
   </div>
 </template>
@@ -37,7 +37,7 @@ export default {
     }
   },
   methods: {
-    searchClick() {
+    handleSearch() {
       const formData = new FormData()
       formData.append('type', this.formData.type)
       formData.append('text', this.formData.text)

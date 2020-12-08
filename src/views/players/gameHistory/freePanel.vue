@@ -5,7 +5,7 @@
       border
     >
       <el-table-column
-        prop="category"
+        prop="type"
         label="類別"
         width="180"
       />
@@ -19,7 +19,7 @@
         label="數量"
       />
       <el-table-column
-        prop="time"
+        prop="datetime"
         label="時間"
         sortable
       />
@@ -40,15 +40,14 @@
 <script>
 export default {
   name: 'FreePanel',
+  props: {
+    tableData: {
+      type: Array,
+      default: () => []
+    }
+  },
   data() {
     return {
-      tableData: [
-        { 'category': '收入', 'system': '完成任務', 'amount': '1000', 'time': '2020/05/28 01:50' },
-        { 'category': '收入', 'system': '攬客', 'amount': '1000', 'time': '2020/03/18 05:20' },
-        { 'category': '收入', 'system': '販賣商品', 'amount': '50', 'time': '2020/07/20 06:40' },
-        { 'category': '收入', 'system': '販賣商品2', 'amount': '50', 'time': '2020/07/20 06:40' },
-        { 'category': '支出', 'system': '進貨', 'amount': '4000', 'time': '2020/01/01 11:35' }
-      ]
     }
   },
   methods: {

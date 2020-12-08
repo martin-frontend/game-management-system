@@ -3,16 +3,18 @@
     <el-tag>請輸入查詢條件</el-tag>
     <div style="padding: 5px 0"></div>
     <el-form ref="form" :inline="true" :model="formData" :rules="rules">
-      <el-form-item prop="startDate">
+      <el-form-item prop="startdate">
         <el-date-picker
-          v-model="formData.startDate"
+          v-model="formData.startdate"
+          value-format="yyyy-MM-dd"
           type="date"
           placeholder="選擇開始日期"
         />
       </el-form-item>
-      <el-form-item prop="endDate">
+      <el-form-item prop="enddate">
         <el-date-picker
-          v-model="formData.endDate"
+          v-model="formData.enddate"
+          value-format="yyyy-MM-dd"
           type="date"
           placeholder="選擇結束日期"
         />
@@ -22,39 +24,41 @@
   </div>
 </template>
 <script>
+import { getrevenue } from '@/api/statistics'
 export default {
   name: 'SearchPanel',
   data() {
     return {
       formData: {},
       rules: {
-        startDate: [
-          { type: 'date', required: true, message: '日期錯誤', trigger: 'change' }
+        startdate: [
+          { required: true, message: '日期錯誤', trigger: 'change' }
         ],
-        endDate: [
-          { type: 'date', required: true, message: '日期錯誤', trigger: 'change' }
+        enddate: [
+          { required: true, message: '日期錯誤', trigger: 'change' }
         ]
-      },
-      options: [
-        { value: 'all', label: 'ALL' },
-        { value: 'android', label: 'Android' },
-        { value: 'ios', label: 'iOS' }
-      ]
+      }
     }
   },
   methods: {
     handleSearch() {
       this.$refs['form'].validate((valid, err) => {
         if (valid) {
-          alert('submit!')
+          const formData = new FormData()
+          formData.append('startdate', this.formData.startdate)
+          formData.append('enddate', this.formData.enddate)
+          getrevenue(formData)
+            .then((response) => {
+              this.$emit('onSearch', response.data)
+            })
+            .catch((error) => {
+              console.log(error)
+            })
         } else {
           console.log('error submit!!')
           return false
         }
       })
-    },
-    handleChange(val) {
-      this.$emit('onType', val)
     },
     checkDate(rule, value, callback) {
       console.log(rule, value)
