@@ -24,16 +24,8 @@
       <el-table-column prop="title" label="標題" width="150" />
       <el-table-column prop="category" label="類型" width="100" />
       <el-table-column prop="status" label="狀態" width="100" />
-      <el-table-column prop="onsaledate" label="上架時間" width="160">
-        <template slot-scope="scope">
-          {{ scope.row.onsaledate | moment }}
-        </template>
-      </el-table-column>
-      <el-table-column prop="nosaledate" label="下架時間" width="160">
-        <template slot-scope="scope">
-          {{ scope.row.nosaledate | moment }}
-        </template>
-      </el-table-column>
+      <el-table-column prop="onsaledate" label="上架時間" width="160" />
+      <el-table-column prop="nosaledate" label="下架時間" width="160" />
       <el-table-column prop="creator" label="建立者" width="100" />
       <el-table-column prop="content" label="內容" />
     </el-table>

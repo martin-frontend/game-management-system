@@ -92,14 +92,16 @@ export default {
       //   this.form = {}
       if (title === '編輯') {
         this.formData = Object.assign({}, row)
+        this.formData.onsaledate = new Date(this.formData.onsaledate)
+        this.formData.nosaledate = new Date(this.formData.nosaledate)
       }
     },
     createBulletin() {
       const formData = new FormData()
       formData.append('title', this.formData.title)
       formData.append('category', this.formData.category)
-      formData.append('onsaledate', this.formData.onsaledate)
-      formData.append('nosaledate', this.formData.nosaledate)
+      formData.append('onsaledate', this.getdatetime(this.formData.onsaledate))
+      formData.append('nosaledate', this.getdatetime(this.formData.nosaledate))
       formData.append('content', this.formData.content)
       createBulletin(formData)
         .then((resopnse) => {
@@ -114,8 +116,8 @@ export default {
       const formData = new FormData()
       formData.append('title', this.formData.title)
       formData.append('category', this.formData.category)
-      formData.append('onsaledate', this.formData.onsaledate)
-      formData.append('nosaledate', this.formData.nosaledate)
+      formData.append('onsaledate', this.getdatetime(this.formData.onsaledate))
+      formData.append('nosaledate', this.getdatetime(this.formData.nosaledate))
       formData.append('content', this.formData.content)
       formData.append('id', this.formData.id)
       updateBulletin(formData)
@@ -143,6 +145,9 @@ export default {
         this.open('下架時間必須在上架時間之後')
         this.formData.nosaledate = ''
       }
+    },
+    getdatetime(datetime) {
+      return moment(datetime).format('YYYY-MM-DD HH:mm:ss')
     }
   }
 }

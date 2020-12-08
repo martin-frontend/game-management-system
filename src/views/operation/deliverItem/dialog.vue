@@ -39,6 +39,7 @@
   </div>
 </template>
 <script>
+import moment from 'moment'
 import { createItem, updateItem } from '@/api/item'
 export default {
   data() {
@@ -64,12 +65,13 @@ export default {
       //   this.form = {}
       if (title === '編輯') {
         this.formData = Object.assign({}, row)
+        this.formData.senddate = new Date(this.formData.senddate)
       }
     },
     createItem() {
       const formData = new FormData()
       formData.append('title', this.formData.title)
-      formData.append('senddate', this.formData.senddate)
+      formData.append('senddate', this.getdatetime(this.formData.senddate))
       formData.append('status', this.formData.status)
       formData.append('content', this.formData.content)
       createItem(formData)
@@ -84,7 +86,7 @@ export default {
     updateItem() {
       const formData = new FormData()
       formData.append('title', this.formData.title)
-      formData.append('senddate', this.formData.senddate)
+      formData.append('senddate', this.getdatetime(this.formData.senddate))
       formData.append('status', this.formData.status)
       formData.append('content', this.formData.content)
       formData.append('id', this.formData.id)
@@ -96,6 +98,9 @@ export default {
         .catch((err) => {
           console.log(err)
         })
+    },
+    getdatetime(datetime) {
+      return moment(datetime).format('YYYY-MM-DD HH:mm:ss')
     }
   }
 }
