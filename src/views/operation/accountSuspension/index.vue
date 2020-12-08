@@ -6,7 +6,7 @@
       <el-tabs v-model="activeName" style="margin-top:10px;">
         <el-tab-pane v-for="item in tabMapOptions" :key="item.key" :label="item.label" :name="item.key">
           <template v-if="activeName === 'all'">
-            <List :table-data="tableData" />
+            <List :table-data="tableData" @initdata="initdata" />
           </template>
         </el-tab-pane>
       </el-tabs>
