@@ -7,3 +7,10 @@ export function getremain(data) {
     data
   })
 }
+export function getrevenue(data) {
+  return request({
+    url: '/statistics_revenue',
+    method: 'post',
+    data
+  })
+}
