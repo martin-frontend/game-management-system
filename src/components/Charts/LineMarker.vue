@@ -34,7 +34,9 @@ export default {
   inject: ['group'],
   data() {
     return {
-      chart: null
+      chart: null,
+      dateList: [],
+      yAxisList: []
     }
   },
   watch: {
@@ -51,12 +53,15 @@ export default {
           this.setOptions(this.group.tableData)
         }
       }
+    },
+    'group.tableData': {
+      deep: true,
+      handler(val) {
+        if (val) {
+          this.initChart()
+        }
+      }
     }
-  },
-  mounted() {
-    this.$nextTick(() => {
-      this.initChart()
-    })
   },
   beforeDestroy() {
     if (!this.chart) {
@@ -71,28 +76,32 @@ export default {
       this.setOptions(this.group.tableData)
     },
     setOptions(chartData) {
-      const data = []
-      if (this.type) {
-        let activeData = []
-        const { dau, wau, mau } = chartData
-        activeData = this.type === 'dau' ? dau : this.type === 'wau' ? wau : mau
-        Object.keys(activeData[0]).forEach(key => {
-          data.push({
-            name: key,
-            data: activeData.map(item => item[key])
-          })
-        })
-      } else {
-        Object.keys(chartData[0]).forEach(key => {
-          data.push({
-            name: key,
-            data: chartData.map(item => item[key])
-          })
-        })
-      }
+      console.log(chartData)
+      chartData.forEach(element => {
+        this.dateList.push(element.date)
+        this.yAxisList.push(element.amount)
+      })
+      // if (this.type) {
+      //   let activeData = []
+      //   const { dau, wau, mau } = chartData
+      //   activeData = this.type === 'dau' ? dau : this.type === 'wau' ? wau : mau
+      //   Object.keys(activeData[0]).forEach(key => {
+      //     data.push({
+      //       name: key,
+      //       data: activeData.map(item => item[key])
+      //     })
+      //   })
+      // } else {
+      //   Object.keys(chartData[0]).forEach(key => {
+      //     data.push({
+      //       name: key,
+      //       data: chartData.map(item => item[key])
+      //     })
+      //   })
+      // }
       this.chart.setOption({
         xAxis: {
-          data: data[0].data,
+          data: this.dateList,
           boundaryGap: false,
           axisTick: {
             show: false
@@ -168,7 +177,7 @@ export default {
             },
             smooth: true,
             type: 'line',
-            data: data[1].data,
+            data: this.yAxisList,
             animationDuration: 2800,
             animationEasing: 'cubicInOut'
           }

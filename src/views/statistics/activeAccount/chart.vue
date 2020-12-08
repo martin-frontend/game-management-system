@@ -28,11 +28,6 @@ export default {
         { value: 'mau', label: 'MAU' }
       ]
     }
-  },
-  methods: {
-    handleClick(tab, event) {
-      // this.tabKey = tab.$vnode.key
-    }
   }
 }
 </script>
