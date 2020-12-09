@@ -1,6 +1,6 @@
 <template>
   <div v-loading="loading" class="page-container">
-    <search-panel />
+    <search-panel @updatedTableData="updatedTableData" />
     <div class="table-container">
       <el-tag>活躍帳戶</el-tag>
     </div>
@@ -26,19 +26,21 @@ export default {
       group: this
     }
   },
-  created() {
-    this.initData()
-  },
   methods: {
-    initData() {
-      this.loading = true
-      getActiveAccount()
+    updatedTableData(formData, loading) {
+      this.loading = loading
+      getActiveAccount(formData)
         .then((response) => {
-          this.tableData = [...response.data]
+          if (response.data === 'no data') {
+            this.tableData = []
+          } else {
+            this.tableData = [...response.data]
+          }
           this.loading = false
         })
         .catch((error) => {
           console.log(error)
+          this.loading = false
         })
     }
   }

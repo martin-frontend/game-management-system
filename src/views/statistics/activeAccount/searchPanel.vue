@@ -2,23 +2,25 @@
   <div class="search-panel">
     <el-tag>請輸入查詢條件</el-tag>
     <div style="padding: 5px 0"></div>
-    <el-form ref="form" :inline="true" :model="formData" :rules="rules">
+    <el-form ref="form" :inline="true" :model="searchform" :rules="rules">
       <el-form-item prop="startDate">
         <el-date-picker
-          v-model="formData.startDate"
+          v-model="searchform.startDate"
+          value-format="yyyy-MM-dd"
           type="date"
           placeholder="選擇開始日期"
         />
       </el-form-item>
       <el-form-item prop="endDate">
         <el-date-picker
-          v-model="formData.endDate"
+          v-model="searchform.endDate"
+          value-format="yyyy-MM-dd"
           type="date"
           placeholder="選擇結束日期"
         />
       </el-form-item>
       <el-form-item>
-        <el-select v-model="formData.type" placeholder="請選擇">
+        <el-select v-model="searchform.type" placeholder="請選擇">
           <el-option v-for="item in typeOptions" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
       </el-form-item>
@@ -27,17 +29,23 @@
   </div>
 </template>
 <script>
+import moment from 'moment'
+
 export default {
   name: 'SearchPanel',
   data() {
     return {
-      formData: {},
+      loading: false,
+      searchform: {
+        startDate: moment().format('YYYY-MM-DD'),
+        endDate: moment().format('YYYY-MM-DD')
+      },
       rules: {
         startDate: [
-          { type: 'date', required: true, message: '日期錯誤', trigger: 'change' }
+          { required: true, message: '日期錯誤', trigger: 'change' }
         ],
         endDate: [
-          { type: 'date', required: true, message: '日期錯誤', trigger: 'change' }
+          { required: true, message: '日期錯誤', trigger: 'change' }
         ]
       },
       typeOptions: [
@@ -47,19 +55,24 @@ export default {
       ]
     }
   },
+  mounted() {
+    this.handleSearch()
+  },
   methods: {
     handleSearch() {
+      this.loading = true
       this.$refs['form'].validate((valid, err) => {
         if (valid) {
-          alert('submit!')
+          const formData = new FormData()
+          formData.append('startdate', this.searchform.startDate)
+          formData.append('enddate', this.searchform.endDate)
+          if (this.searchform.typeOptions && this.searchform.typeOptions !== 'all') { formData.append('type', this.searchform.typeOptions) }
+          this.$emit('updatedTableData', formData, this.loading)
         } else {
           console.log('error submit!!')
           return false
         }
       })
-    },
-    checkDate(rule, value, callback) {
-      console.log(rule, value)
     }
   }
 }

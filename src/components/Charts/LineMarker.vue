@@ -76,26 +76,12 @@ export default {
         this.dateList.push(element.date)
         this.yAxisList.push(element.amount)
       })
-      // if (this.type) {
-      //   let activeData = []
-      //   const { dau, wau, mau } = chartData
-      //   activeData = this.type === 'dau' ? dau : this.type === 'wau' ? wau : mau
-      //   Object.keys(activeData[0]).forEach(key => {
-      //     data.push({
-      //       name: key,
-      //       data: activeData.map(item => item[key])
-      //     })
-      //   })
-      // } else {
-      //   Object.keys(chartData[0]).forEach(key => {
-      //     data.push({
-      //       name: key,
-      //       data: chartData.map(item => item[key])
-      //     })
-      //   })
-      // }
       this.chart.setOption({
+        title: {
+          text: !chartData.length ? '無資料' : ''
+        },
         xAxis: {
+          show: chartData.length,
           data: this.dateList,
           boundaryGap: false,
           axisTick: {
@@ -130,6 +116,7 @@ export default {
           padding: [5, 10]
         },
         yAxis: {
+          show: chartData.length,
           axisTick: {
             show: false
           },
