@@ -33,7 +33,11 @@ export default {
       this.loading = loading
       getAddAccount(formData)
         .then((response) => {
-          this.tableData = [...response.data]
+          if (response.data === 'no data') {
+            this.tableData = []
+          } else {
+            this.tableData = [...response.data]
+          }
           this.loading = false
         })
         .catch((error) => {

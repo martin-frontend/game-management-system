@@ -64,8 +64,8 @@ export default {
       this.$refs['form'].validate((valid, err) => {
         if (valid) {
           const formData = new FormData()
-          formData.append('startDate', this.searchform.startDate)
-          formData.append('endDate', this.searchform.endDate)
+          formData.append('startdate', this.searchform.startDate)
+          formData.append('enddate', this.searchform.endDate)
           if (this.searchform.type && this.searchform.type !== 'all') { formData.append('type', this.searchform.type) }
           this.$emit('updatedTableData', formData, this.loading)
         } else {
