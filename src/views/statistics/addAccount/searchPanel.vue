@@ -37,8 +37,9 @@ export default {
     return {
       loading: false,
       searchform: {
-        startDate: moment().format('YYYY-MM-DD'),
-        endDate: moment().format('YYYY-MM-DD')
+        startDate: this.getmonthstart(),
+        endDate: this.getmonthend(),
+        type: 'ALL'
       },
       rules: {
         startDate: [
@@ -49,7 +50,7 @@ export default {
         ]
       },
       options: [
-        { value: 'all', label: 'ALL' },
+        { value: 'ALL', label: 'ALL' },
         { value: 'ANDROID', label: 'Android' },
         { value: 'IOS', label: 'iOS' }
       ]
@@ -66,13 +67,19 @@ export default {
           const formData = new FormData()
           formData.append('startdate', this.searchform.startDate)
           formData.append('enddate', this.searchform.endDate)
-          if (this.searchform.type && this.searchform.type !== 'all') { formData.append('type', this.searchform.type) }
+          if (this.searchform.type !== 'ALL') { formData.append('type', this.searchform.type) }
           this.$emit('updatedTableData', formData, this.loading)
         } else {
           console.log('error submit!!')
           return false
         }
       })
+    },
+    getmonthstart() {
+      return moment().startOf('month').format('YYYY-MM-DD')
+    },
+    getmonthend() {
+      return moment().endOf('month').format('YYYY-MM-DD')
     }
   }
 }

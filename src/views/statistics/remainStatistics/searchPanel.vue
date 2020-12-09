@@ -30,11 +30,12 @@
 </template>
 <script>
 import { getremain } from '@/api/statistics'
+import moment from 'moment'
 export default {
   name: 'SearchPanel',
   data() {
     return {
-      formData: {},
+      formData: { startdate: '', enddate: '' },
       // type:'date'會將其初始化成string类型，使得value-format="yyyy-MM-dd"會報錯
       rules: {
         startdate: [
@@ -45,20 +46,29 @@ export default {
         ]
       },
       options: [
-        { value: '', label: 'ALL' },
+        { value: 'ALL', label: 'ALL' },
         { value: 'Android', label: 'Android' },
         { value: 'IOS', label: 'IOS' }
       ]
     }
   },
+  mounted() {
+    this.initData()
+    this.handleSearch()
+  },
   methods: {
+    initData() {
+      this.formData.startdate = this.getmonthstart()
+      this.formData.enddate = this.getmonthend()
+      this.formData.type = 'ALL'
+    },
     handleSearch() {
       this.$refs['form'].validate((valid, err) => {
         if (valid) {
           const formData = new FormData()
           formData.append('startdate', this.formData.startdate)
           formData.append('enddate', this.formData.enddate)
-          if (this.formData.type !== '') { formData.append('type', this.formData.type) }
+          if (this.formData.type !== 'ALL') { formData.append('type', this.formData.type) }
           getremain(formData)
             .then((response) => {
               this.$emit('onSearch', response.data)
@@ -72,8 +82,11 @@ export default {
         }
       })
     },
-    checkDate(rule, value, callback) {
-      console.log(rule, value)
+    getmonthstart() {
+      return moment().startOf('month').format('YYYY-MM-DD')
+    },
+    getmonthend() {
+      return moment().endOf('month').format('YYYY-MM-DD')
     }
   }
 }

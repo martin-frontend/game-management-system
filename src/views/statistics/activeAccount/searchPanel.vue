@@ -37,8 +37,9 @@ export default {
     return {
       loading: false,
       searchform: {
-        startDate: moment().format('YYYY-MM-DD'),
-        endDate: moment().format('YYYY-MM-DD')
+        startDate: this.getmonthstart(),
+        endDate: this.getmonthend(),
+        type: 'ALL'
       },
       rules: {
         startDate: [
@@ -73,6 +74,12 @@ export default {
           return false
         }
       })
+    },
+    getmonthstart() {
+      return moment().startOf('month').format('YYYY-MM-DD')
+    },
+    getmonthend() {
+      return moment().endOf('month').format('YYYY-MM-DD')
     }
   }
 }
