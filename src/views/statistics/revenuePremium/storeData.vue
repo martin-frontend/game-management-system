@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <el-table :data="tableData">
+  <div v-loading="group.loading">
+    <el-table :data="handleData()">
       <el-table-column label="商店">
         <template slot-scope="scope">
           {{ scope.row.store }}
@@ -8,37 +8,37 @@
       </el-table-column>
       <el-table-column label="道具編號">
         <template slot-scope="scope">
-          {{ scope.row.number }}
+          {{ scope.row.itemnumber }}
         </template>
       </el-table-column>
       <el-table-column label="道具名">
         <template slot-scope="scope">
-          {{ scope.row.name }}
+          {{ scope.row.itemname }}
         </template>
       </el-table-column>
       <el-table-column label="銷售數量">
         <template slot-scope="scope">
-          {{ scope.row.amount }}
+          {{ scope.row.saleamount }}
         </template>
       </el-table-column>
       <el-table-column label="單價">
         <template slot-scope="scope">
-          {{ scope.row.unitPrice }}
+          {{ scope.row.price }}
         </template>
       </el-table-column>
       <el-table-column label="貨幣種類">
         <template slot-scope="scope">
-          {{ scope.row.species }}
+          {{ scope.row.cointype }}
         </template>
       </el-table-column>
       <el-table-column label="總金額">
         <template slot-scope="scope">
-          {{ scope.row.totalPrice }}
+          {{ scope.row.total }}
         </template>
       </el-table-column>
       <el-table-column label="銷售佔比">
         <template slot-scope="scope">
-          {{ scope.row.percentage }}
+          {{ scope.row.saleratio }}
         </template>
       </el-table-column>
     </el-table>
@@ -54,59 +54,13 @@ export default {
     }
   },
   inject: ['group'],
-  data() {
-    return {
-      tableData: [
-        {
-          store: '大平台',
-          number: 33321,
-          name: '大平台',
-          amount: 44443,
-          unitPrice: 123456,
-          species: 55,
-          totalPrice: 31321,
-          percentage: '55%'
-        },
-        {
-          store: '大坪林',
-          number: 33321,
-          name: '大平台',
-          amount: 44443,
-          unitPrice: 123456,
-          species: 12,
-          totalPrice: 31321,
-          percentage: '33%'
-        },
-        {
-          store: '滿滿的大平台',
-          number: 33321,
-          name: '滿滿的大平台',
-          amount: 44443,
-          unitPrice: 123456,
-          species: 59,
-          totalPrice: 31321,
-          percentage: '22%'
-        }
-      ],
-      revenueData: {
-        name: 'ALL',
-        revenue: 33321,
-        splitBill: 2233,
-        income: 44443,
-        payRate: '22%',
-        paidNumbers: 31321,
-        activeNumbers: 443213,
-        totalNumbers: 321,
-        arppu: '',
-        arpu: ''
-      }
-    }
-  },
   methods: {
     handleData() {
-      return this.statistic === 'value'
-        ? this.group.tableData.value
-        : this.group.tableData.percent
+      if (this.group.tableData.length) {
+        return this.group.tableData[0].gamestore
+      } else {
+        return []
+      }
     }
   }
 }
