@@ -56,7 +56,9 @@ export default {
   name: 'SearchPanel',
   data() {
     return {
-      formData: {},
+      formData: {
+        type: 'user_id'
+      },
       typeOptions: [
         { value: 'user_id', label: '角色ID' },
         { value: 'user_name', label: '角色名稱' }
