@@ -34,7 +34,22 @@ export default {
           if (response.data === 'no data') {
             this.tableData = []
           } else {
-            this.tableData = [...response.data]
+            const reduced = response.data.reduce(function(allDates, item) {
+              if (allDates.some(function(e) {
+                return e.date === item.date
+              })) {
+                allDates.filter(function(e) {
+                  return e.date === item.date
+                })[0].amount += +item.amount
+              } else {
+                allDates.push({
+                  date: item.date,
+                  amount: +item.amount
+                })
+              }
+              return allDates
+            }, [])
+            this.tableData = [...reduced]
           }
           this.loading = false
         })
