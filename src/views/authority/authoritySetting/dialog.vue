@@ -3,7 +3,7 @@
     <el-dialog
       :title="title + '權限'"
       :visible.sync="dialogFormVisible"
-      width="30%"
+      width="60%"
     >
       <el-form :model="formData">
         <el-form-item label="權限名稱" :label-width="formLabelWidth">
@@ -15,13 +15,17 @@
           />
         </el-form-item>
         <el-form-item label="權限" :label-width="formLabelWidth">
-          <el-checkbox-group v-model="formData.roles">
-            <el-checkbox
-              v-for="(item, index) in roleList"
-              :key="index"
-              :label="item"
-            />
-          </el-checkbox-group>
+          <el-tabs v-model="activeName">
+            <el-tab-pane v-for="item in roleList" :key="item.name" :label="item.name" :name="item.name">
+              <el-checkbox-group v-model="formData.roles">
+                <el-checkbox
+                  v-for="subitem in item.role"
+                  :key="subitem"
+                  :label="subitem"
+                />
+              </el-checkbox-group>
+            </el-tab-pane>
+          </el-tabs>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -38,6 +42,7 @@
 </template>
 <script>
 import { createRole, updateRole } from '@/api/authority'
+import { getRoles } from '@/utils/roles'
 export default {
   data() {
     return {
@@ -47,14 +52,8 @@ export default {
       dialogFormVisible: false,
       formLabelWidth: '80px',
       title: '',
-      roleList: [
-        '查詢玩家帳號資訊',
-        '查詢玩家儲值紀錄',
-        '查詢玩家商店資訊',
-        '修改玩家帳號資訊',
-        '修改玩家儲值紀錄',
-        '修改玩家商店資訊'
-      ]
+      roleList: getRoles(),
+      activeName: '玩家資料'
     }
   },
   methods: {
