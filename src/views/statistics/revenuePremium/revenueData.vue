@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div v-loading="group.loading">
     <el-row type="flex">
-      <div class="multiple-tables" style="display: flex">
+      <div v-if="group.tableData.length" class="multiple-tables">
         <div class="first-table">
           <table width="100%" rules="all" cellpadding="5">
             <tr>
@@ -58,7 +58,7 @@
         </div>
         <div class="second-table">
           <div
-            v-for="(item, index) in tableData"
+            v-for="(item, index) in group.tableData[0].revenue"
             :key="index"
             class="second-part-table"
           >
@@ -78,7 +78,7 @@
               <tr>
                 <td>
                   <div class="td_content">
-                    <div>{{ item.splitBill }}</div>
+                    <div>{{ item.debit_ratio }}</div>
                   </div>
                 </td>
               </tr>
@@ -92,28 +92,28 @@
               <tr>
                 <td>
                   <div class="td_content">
-                    <div>{{ item.payRate }}</div>
+                    <div>{{ item.payrate }}</div>
                   </div>
                 </td>
               </tr>
               <tr>
                 <td>
                   <div class="td_content">
-                    <div>{{ item.paidNumbers }}</div>
+                    <div>{{ item.payamount }}</div>
                   </div>
                 </td>
               </tr>
               <tr>
                 <td>
                   <div class="td_content">
-                    <div>{{ item.activeNumbers }}</div>
+                    <div>{{ item.activeuser }}</div>
                   </div>
                 </td>
               </tr>
               <tr>
                 <td>
                   <div class="td_content">
-                    <div>{{ item.totalNumbers }}</div>
+                    <div>{{ item.totaluser }}</div>
                   </div>
                 </td>
               </tr>
@@ -135,66 +135,16 @@
           </div>
         </div>
       </div>
+      <div v-else>
+        暫無數據
+      </div>
     </el-row>
   </div>
 </template>
 <script>
 export default {
   name: 'RevenueData',
-  data() {
-    return {
-      tableData: [
-        {
-          name: 'ALL',
-          revenue: 33321,
-          splitBill: 2233,
-          income: 44443,
-          payRate: '22%',
-          paidNumbers: 31321,
-          activeNumbers: 443213,
-          totalNumbers: 321,
-          arppu: 'arppu',
-          arpu: 'arpu'
-        },
-        {
-          name: 'Android',
-          revenue: 33321,
-          splitBill: 2233,
-          income: 44443,
-          payRate: '22%',
-          paidNumbers: 31321,
-          activeNumbers: 443213,
-          totalNumbers: 321,
-          arppu: 'arppu',
-          arpu: 'arpu'
-        },
-        {
-          name: 'iOS',
-          revenue: 33321,
-          splitBill: 2233,
-          income: 44443,
-          payRate: '22%',
-          paidNumbers: 31321,
-          activeNumbers: 443213,
-          totalNumbers: 321,
-          arppu: 'arppu',
-          arpu: 'arpu'
-        }
-      ],
-      revenueData: {
-        name: 'ALL',
-        revenue: 33321,
-        splitBill: 2233,
-        income: 44443,
-        payRate: '22%',
-        paidNumbers: 31321,
-        activeNumbers: 443213,
-        totalNumbers: 321,
-        arppu: '',
-        arpu: ''
-      }
-    }
-  }
+  inject: ['group']
 }
 </script>
 <style lang="scss" scoped>
