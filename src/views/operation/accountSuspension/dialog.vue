@@ -3,16 +3,16 @@
     <el-dialog :title="title" :before-close="handleClose" :visible.sync="dialogFormVisible" width="50%">
       <el-form :model="formData">
         <el-form-item
-          v-for="(account, index) in formData.accounts"
-          :key="account.key"
+          :key="formData.accounts[0].key"
           :label="'帳號ID'"
-          :prop="'accounts.' + index + '.value'"
+          :prop="'accounts.0.value'"
           :label-width="formLabelWidth"
         >
-          <el-input v-model="account.id" class="form-width form-margin" />
-          <el-button v-if="index == 0" @click="addAccount">新增帳號ID</el-button>
-          <i v-if="index == 0" class="el-icon-upload2 icon"></i>
-          <el-button v-if="index != 0" @click.prevent="removeAccount(account)">删除</el-button>
+          <el-input v-if="numberOfAccounts==1" v-model="formData.accounts[0].id" class="form-width form-margin" />
+          <el-input v-if="numberOfAccounts>1" v-model="multiAccounts" disabled class="form-width form-margin" />
+          <el-button @click="addAccounts">新增多筆帳號ID</el-button>
+          <!-- <i v-if="index == 0" class="el-icon-upload2 icon"></i> -->
+          <!-- <el-button v-if="index != 0" @click.prevent="removeAccount(account)">删除</el-button> -->
         </el-form-item>
         <el-form-item label="停權天數" :label-width="formLabelWidth">
           <el-input v-model="formData.days" class="form-width form-margin" />
@@ -41,12 +41,15 @@
         <el-button type="primary" @click="createSuspension">建 立</el-button>
       </div>
     </el-dialog>
+    <AddAcounts ref="addAcounts" :form-data="formData" />
   </div>
 </template>
 <script>
+import AddAcounts from './addAcounts'
 import moment from 'moment'
 import { createSuspension } from '@/api/suspension'
 export default {
+  components: { AddAcounts },
   data() {
     return {
       formData: {
@@ -64,6 +67,12 @@ export default {
   computed: {
     days() {
       return this.formData.days
+    },
+    numberOfAccounts() {
+      return this.formData.accounts.length
+    },
+    multiAccounts() {
+      return this.formData.accounts[0].id + ',...'
     }
   },
   watch: {
@@ -119,6 +128,9 @@ export default {
         id: '',
         key: Date.now()
       })
+    },
+    addAccounts() {
+      this.$refs.addAcounts.handleOpen()
     }
   }
 }
