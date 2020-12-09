@@ -58,7 +58,7 @@ export default {
       },
       dialogFormVisible: false,
       formLabelWidth: '80px',
-      title: '停權'
+      title: '新增停權帳號'
     }
   },
   computed: {
@@ -90,7 +90,7 @@ export default {
     },
     handleOpen(title, row) {
       this.dialogFormVisible = true
-      this.title = title
+      // this.title = title
       //   this.form = {}
     },
     createSuspension() {
