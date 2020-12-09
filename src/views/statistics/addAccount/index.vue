@@ -1,6 +1,6 @@
 <template>
   <div v-loading="loading" class="page-container">
-    <search-panel />
+    <search-panel @updatedTableData="updatedTableData" />
     <div class="table-container">
       <el-tag>新增帳戶</el-tag>
       <chart class="account-chart" />
@@ -20,9 +20,6 @@ export default {
   data() {
     return {
       loading: false,
-      chartData: {
-        allData: [53, 422, 337, 276, 2678, 17072, 333]
-      },
       tableData: []
     }
   },
@@ -31,19 +28,17 @@ export default {
       group: this
     }
   },
-  created() {
-    this.initData()
-  },
   methods: {
-    initData() {
-      this.loading = true
-      getAddAccount()
+    updatedTableData(formData, loading) {
+      this.loading = loading
+      getAddAccount(formData)
         .then((response) => {
           this.tableData = [...response.data]
           this.loading = false
         })
         .catch((error) => {
           console.log(error)
+          this.loading = false
         })
     }
   }

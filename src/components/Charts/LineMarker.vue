@@ -40,12 +40,6 @@ export default {
     }
   },
   watch: {
-    chartData: {
-      deep: true,
-      handler(val) {
-        this.setOptions(val)
-      }
-    },
     type: {
       deep: true,
       handler(val) {
@@ -76,7 +70,8 @@ export default {
       this.setOptions(this.group.tableData)
     },
     setOptions(chartData) {
-      console.log(chartData)
+      this.dateList = []
+      this.yAxisList = []
       chartData.forEach(element => {
         this.dateList.push(element.date)
         this.yAxisList.push(element.amount)
