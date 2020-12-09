@@ -130,6 +130,7 @@ export default {
           }
         },
         legend: {
+          show: chartData.length,
           y: 'bottom',
           icon: 'circle',
           itemWidth: 9,
