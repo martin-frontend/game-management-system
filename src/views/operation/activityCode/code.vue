@@ -5,6 +5,7 @@
       border
     >
       <el-table-column
+        v-if="checkPermission(['修改活動序號'])"
         prop="operating"
         label="功能"
         width="170"
@@ -83,6 +84,8 @@
 </template>
 <script>
 import { deleteCode } from '@/api/code'
+import checkPermission from '@/utils/permission'
+
 export default {
   name: 'Item',
   props: {
@@ -98,6 +101,7 @@ export default {
     }
   },
   methods: {
+    checkPermission,
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`)
     },

@@ -3,6 +3,7 @@
     <div class="table-container">
       <el-tag>線上公告</el-tag>
       <el-button
+        v-if="checkPermission(['修改線上公告'])"
         icon="el-icon-plus"
         type="primary"
         circle
@@ -29,6 +30,7 @@
 import Announcement from './announcement'
 import Dialog from './dialog'
 import { getBulletin } from '@/api/announcement'
+import checkPermission from '@/utils/permission'
 
 export default {
   name: 'OnlineAnnouncement',
@@ -49,6 +51,7 @@ export default {
     this.initdata()
   },
   methods: {
+    checkPermission,
     add() {
       this.$refs.dialog.handleOpen('新增')
     },

@@ -5,6 +5,7 @@
       border
     >
       <el-table-column
+        v-if="checkPermission(['修改帳號停權'])"
         prop="operating"
         label="功能"
         width="80"
@@ -59,6 +60,7 @@
   </div>
 </template>
 <script>
+import checkPermission from '@/utils/permission'
 import { updateSuspension } from '@/api/suspension'
 export default {
   name: 'Item',
@@ -75,6 +77,7 @@ export default {
     }
   },
   methods: {
+    checkPermission,
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`)
     },

@@ -6,9 +6,10 @@ function checkPermission(el, binding) {
 
   if (value && value instanceof Array) {
     if (value.length > 0) {
+      const roles_arr = roles[0].split(',')
       const permissionRoles = value
 
-      const hasPermission = roles.some(role => {
+      const hasPermission = roles_arr.some(role => {
         return permissionRoles.includes(role)
       })
 

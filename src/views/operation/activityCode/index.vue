@@ -2,7 +2,7 @@
   <div class="page-container">
     <div class="table-container">
       <el-tag>活動序號</el-tag>
-      <el-button icon="el-icon-plus" type="primary" circle style="float: right" @click="add" />
+      <el-button v-if="checkPermission(['修改活動序號'])" icon="el-icon-plus" type="primary" circle style="float: right" @click="add" />
       <el-tabs v-model="activeName" style="margin-top:10px;">
         <el-tab-pane v-for="item in tabMapOptions" :key="item.key" :label="item.label" :name="item.key">
           <Code :table-data="filterData(tableData)" @edit="edit" @initdata="initdata" />
@@ -17,6 +17,8 @@
 import Code from './code'
 import Dialog from './dialog'
 import { getCode } from '@/api/code'
+import checkPermission from '@/utils/permission'
+
 export default {
   name: 'ActivityCode',
   components: { Dialog, Code },
@@ -41,6 +43,7 @@ export default {
     this.initdata()
   },
   methods: {
+    checkPermission,
     add() {
       this.$refs.dialog.handleOpen('新增')
     },
