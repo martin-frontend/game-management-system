@@ -20,7 +20,13 @@
           <el-button type="danger" size="small" @click="remove(scope.row.id)">刪除</el-button>
         </template>
       </el-table-column>
-      <el-table-column prop="id" label="編號" width="100" />
+      <el-table-column
+        prop="id"
+        label="編號"
+        width="100"
+        sortable
+        :sort-method="handleSortId"
+      />
       <el-table-column prop="title" label="標題" width="150" />
       <el-table-column prop="category" label="類型" width="100" />
       <el-table-column prop="status" label="狀態" width="100" />
@@ -64,6 +70,9 @@ export default {
     },
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`)
+    },
+    handleSortId(a, b) {
+      return a.id - b.id
     },
     edit(title, row) {
       this.$emit('edit', { title, row })

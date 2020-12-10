@@ -77,7 +77,7 @@
               <el-table-column prop="address" label="平台">
                 <template slot-scope="scope">{{ scope.row.platform }}</template>
               </el-table-column>
-              <el-table-column prop="date" label="時間">
+              <el-table-column prop="date" label="時間" sortable>
                 <template slot-scope="scope">{{ scope.row.datetime }}</template>
               </el-table-column>
             </el-table>

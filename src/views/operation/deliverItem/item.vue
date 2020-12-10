@@ -2,6 +2,7 @@
   <div>
     <el-table
       :data="tableData"
+      row-key="id"
       border
     >
       <el-table-column
@@ -20,6 +21,8 @@
         prop="id"
         label="編號"
         width="100"
+        sortable
+        :sort-method="handleSortId"
       />
       <el-table-column
         prop="title"
@@ -33,7 +36,9 @@
       />
       <el-table-column
         label="發送時間"
+        prop="senddate"
         width="160"
+        sortable
       >
         <template slot-scope="scope">
           {{ scope.row.senddate | moment }}
@@ -85,6 +90,9 @@ export default {
     },
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`)
+    },
+    handleSortId(a, b) {
+      return a.id - b.id
     },
     edit(title, row) {
       this.$emit('edit', { title, row })
