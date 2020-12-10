@@ -17,6 +17,7 @@
           value-format="yyyy-MM-dd"
           type="date"
           placeholder="選擇結束日期"
+          :picker-options="pickerOptions"
         />
       </el-form-item>
       <el-button type="primary" @click="handleSearch">查詢</el-button>
@@ -33,6 +34,16 @@ export default {
       formData: {
         startDate: moment().format('YYYY-MM-DD'),
         endDate: moment().format('YYYY-MM-DD')
+      }
+    }
+  },
+  computed: {
+    pickerOptions() {
+      const vm = this
+      return {
+        disabledDate(time) {
+          return moment(time) < moment(vm.formData.startDate)
+        }
       }
     }
   },

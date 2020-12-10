@@ -22,18 +22,21 @@
       </el-form-item>
       <el-form-item>
         <el-date-picker
+          ref="startdate"
           v-model="formData.startdate"
-          value-format="yyyy-MM-dd HH:mm:ss"
-          type="datetime"
+          value-format="yyyy-MM-dd"
+          type="date"
           placeholder="選擇開始日期"
         />
       </el-form-item>
       <el-form-item>
         <el-date-picker
+          ref="enddate"
           v-model="formData.enddate"
-          value-format="yyyy-MM-dd HH:mm:ss"
-          type="datetime"
+          value-format="yyyy-MM-dd"
+          type="date"
           placeholder="選擇結束日期"
+          :picker-options="pickerOptions"
         />
       </el-form-item>
       <el-form-item>
@@ -52,6 +55,8 @@
 </template>
 <script>
 import { getGameHistory } from '@/api/players'
+import moment from 'moment'
+
 export default {
   name: 'SearchPanel',
   data() {
@@ -94,6 +99,16 @@ export default {
         text: [
           { required: true, message: '請填寫內容', trigger: 'change' }
         ]
+      }
+    }
+  },
+  computed: {
+    pickerOptions() {
+      const vm = this
+      return {
+        disabledDate(time) {
+          return moment(time) < moment(vm.formData.startdate)
+        }
       }
     }
   },

@@ -17,6 +17,7 @@
           value-format="yyyy-MM-dd"
           type="date"
           placeholder="選擇結束日期"
+          :picker-options="pickerOptions"
         />
       </el-form-item>
       <el-form-item>
@@ -54,6 +55,16 @@ export default {
         { value: 'android', label: 'Android' },
         { value: 'ios', label: 'iOS' }
       ]
+    }
+  },
+  computed: {
+    pickerOptions() {
+      const vm = this
+      return {
+        disabledDate(time) {
+          return moment(time) < moment(vm.searchform.startDate)
+        }
+      }
     }
   },
   mounted() {
