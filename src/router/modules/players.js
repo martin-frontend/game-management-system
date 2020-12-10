@@ -15,13 +15,13 @@ const playersRouter = {
       path: 'account-info',
       component: () => import('@/views/players/accountInfo'),
       name: 'accountInfo',
-      meta: { title: 'accountInfo', noCache: true }
+      meta: { title: 'accountInfo', roles: '查詢帳號資訊', noCache: true }
     },
     {
       path: 'game-history',
       component: () => import('@/views/players/gameHistory'),
       name: 'gameHistory',
-      meta: { title: 'gameHistory', noCache: true }
+      meta: { title: 'gameHistory', roles: '查詢發送物品', noCache: true }
     }
   ]
 }
