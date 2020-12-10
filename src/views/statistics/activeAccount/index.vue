@@ -31,10 +31,9 @@ export default {
       this.loading = loading
       getActiveAccount(formData)
         .then((response) => {
-          if (response.data === 'no data') {
-            this.tableData = []
-          } else {
-            const reduced = response.data.reduce(function(allDates, item) {
+          const { data } = response
+          if (data.success) {
+            const reduced = data.content.reduce(function(allDates, item) {
               if (allDates.some(function(e) {
                 return e.date === item.date
               })) {
@@ -50,6 +49,9 @@ export default {
               return allDates
             }, [])
             this.tableData = [...reduced]
+          } else {
+            this.tableData = []
+            this.$message.warning(data.msg)
           }
           this.loading = false
         })

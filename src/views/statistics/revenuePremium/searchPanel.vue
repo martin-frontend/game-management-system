@@ -32,8 +32,8 @@ export default {
   data() {
     return {
       formData: {
-        startDate: moment().format('YYYY-MM-DD'),
-        endDate: moment().format('YYYY-MM-DD')
+        startDate: this.getmonthstart(),
+        endDate: this.getmonthend()
       }
     }
   },
@@ -63,6 +63,12 @@ export default {
           return false
         }
       })
+    },
+    getmonthstart() {
+      return moment().startOf('month').format('YYYY-MM-DD')
+    },
+    getmonthend() {
+      return moment().endOf('month').format('YYYY-MM-DD')
     }
   }
 }

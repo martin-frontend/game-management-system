@@ -52,7 +52,6 @@ const actions = {
     return new Promise((resolve, reject) => {
       getInfo().then(response => {
         const { data } = response
-        console.log(data)
         if (data.success) {
           const { content } = data
           const roles = [content.roles]

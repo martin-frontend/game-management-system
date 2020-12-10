@@ -82,7 +82,13 @@ export default {
           if (this.formData.type !== 'ALL') { formData.append('type', this.formData.type) }
           getremain(formData)
             .then((response) => {
-              this.$emit('onSearch', response.data)
+              const { data } = response
+              if (data.success) {
+                this.$emit('onSearch', data.content)
+              } else {
+                this.$emit('onSearch', [])
+                this.$message.warning(data.msg)
+              }
             })
             .catch((error) => {
               console.log(error)

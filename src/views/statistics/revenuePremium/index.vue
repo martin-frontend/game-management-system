@@ -11,6 +11,7 @@
 import { getrevenue } from '@/api/statistics'
 import searchPanel from './searchPanel'
 import tablePanel from './tablePanel'
+
 export default {
   name: 'Index',
   components: { searchPanel, tablePanel },
@@ -30,10 +31,12 @@ export default {
       this.loading = true
       getrevenue(formData)
         .then((response) => {
-          if (response.data === 'no data') {
-            this.tableData = []
+          const { data } = response
+          if (data.success) {
+            this.tableData = [...data.content]
           } else {
-            this.tableData = [...response.data]
+            this.tableData = []
+            this.$message.warning(data.msg)
           }
           this.loading = false
         })

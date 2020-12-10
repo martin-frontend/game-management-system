@@ -132,7 +132,13 @@ export default {
           }
           getGameHistory(formData)
             .then((response) => {
-              this.$emit('onSearch', response.data)
+              const { data } = response
+              if (data.success) {
+                this.$emit('onSearch', data.content)
+                this.$message.success(data.msg)
+              } else {
+                this.$message.warning(data.msg)
+              }
             })
             .catch((error) => {
               console.log(error)
