@@ -3,8 +3,8 @@
     <searchPanel @onSearch="onSearch" />
     <div class="table-container">
       <el-tag>帳號資訊</el-tag>
-      <p v-if="activeName === 'stored'" style="margin-top: 15px">
-        累計儲值金額：3000NTD
+      <p v-if="activeName === 'stored' && totalAmount" style="margin-top: 15px">
+        累計儲值金額：{{ totalAmount }}NTD
       </p>
       <el-tabs v-model="activeName" style="margin-top: 10px">
         <el-tab-pane
@@ -15,6 +15,7 @@
         >
           <template v-if="activeName === 'account'">
             <el-form
+              v-if="Object.keys(accountdata).length"
               label-position="left"
               label-width="180px"
               class="table-form"
@@ -59,6 +60,9 @@
                 <span>{{ accountdata.server }}</span>
               </el-form-item>
             </el-form>
+            <div v-else>
+              暫無資料
+            </div>
           </template>
           <template v-if="activeName === 'stored'">
             <el-table :data="storedata" style="width: 100%" border>
@@ -73,7 +77,7 @@
               <el-table-column prop="address" label="平台">
                 <template slot-scope="scope">{{ scope.row.platform }}</template>
               </el-table-column>
-              <el-table-column prop="date" label="時間">
+              <el-table-column prop="date" label="時間" sortable>
                 <template slot-scope="scope">{{ scope.row.datetime }}</template>
               </el-table-column>
             </el-table>
@@ -83,7 +87,7 @@
                 :page-sizes="[100, 200, 300, 400]"
                 :page-size="100"
                 layout="total, sizes, prev, pager, next, jumper"
-                :total="400"
+                :total="storedata.length"
                 @size-change="handleSizeChange"
                 @current-change="handleCurrentChange"
               />
@@ -91,6 +95,7 @@
           </template>
           <template v-if="activeName === 'store'">
             <el-form
+              v-if="Object.keys(store).length"
               label-position="left"
               label-width="180px"
               class="table-form"
@@ -165,6 +170,9 @@
                 <span>{{ store.friend_list }}</span>
               </el-form-item>
             </el-form>
+            <div v-else>
+              暫無資料
+            </div>
           </template>
         </el-tab-pane>
       </el-tabs>
@@ -187,54 +195,10 @@ export default {
       ],
       activeName: 'account',
       createdTimes: 0,
-      storedata: [
-        {
-          order_number: '',
-          amount: '',
-          platform: '',
-          datetime: ''
-        }
-      ],
-      accountdata: {
-        user_id: '',
-        user_name: '',
-        status: '',
-        fb_account: '',
-        google_account: '',
-        beanfun_account: '',
-        apple_id: '',
-        last_create_at: '',
-        last_login_at: '',
-        last_login_ip: '',
-        used_device: '',
-        game_version: '',
-        server: ''
-      },
-      store: {
-        store_info: '',
-        style_info: '',
-        resource: '',
-        client_list: '',
-        warehouse_capacity: '',
-        garage_capacity: '',
-        parking_compartment: '',
-        purchased_goods: '',
-        holding_clerk: '',
-        holding_cloth: '',
-        holding_mascot: '',
-        holding_material: '',
-        holding_goods: '',
-        holding_decoration: '',
-        holding_shelf: '',
-        holding_vehicle: '',
-        attracting_area_level: '',
-        guest_level: '',
-        expansion_level: '',
-        story_mission: '',
-        business_task: '',
-        urgent_order: '',
-        friend_list: ''
-      }
+      totalAmount: 0,
+      storedata: [],
+      accountdata: {},
+      store: {}
     }
   },
   computed: {},
@@ -249,10 +213,17 @@ export default {
     onSearch(data) {
       if (data !== '') {
         this.accountdata = Object.assign({}, data.account_info)
+        data.deposit_list.map(a => {
+          this.totalAmount += Number(a.amount)
+          return this.totalAmount
+        })
         this.storedata = [...data.deposit_list]
         this.store = Object.assign({}, data.store_info)
       } else {
-        alert('查無資料')
+        this.accountdata = {}
+        this.storedata = []
+        this.store = {}
+        console.log('查無資料')
       }
     }
   }
