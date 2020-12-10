@@ -36,7 +36,6 @@
             value-format="yyyy-MM-dd HH:mm:ss"
             class="form-margin"
             :disabled="checked"
-            @change="start"
           />
           <el-checkbox v-model="checked" @change="doCheck">立即上架</el-checkbox>
         </el-form-item>
@@ -48,7 +47,6 @@
             value-format="yyyy-MM-dd HH:mm:ss"
             class="form-margin"
             :picker-options="pickerOptions"
-            @change="end"
           />
         </el-form-item>
         <el-form-item prop="content" label="內容" :label-width="formLabelWidth">
@@ -189,18 +187,6 @@ export default {
       this.$message({
         message: warning,
         type: 'warning' })
-    },
-    start() {
-      if (this.formData.nosaledate && this.formData.onsaledate && (Number(moment(this.formData.onsaledate)) >= Number(moment(this.formData.nosaledate)))) {
-        this.open('上架時間必須在下架時間之前')
-        this.formData.onsaledate = ''
-      }
-    },
-    end() {
-      if (this.formData.nosaledate && this.formData.onsaledate && (Number(moment(this.formData.onsaledate)) >= Number(moment(this.formData.nosaledate)))) {
-        this.open('下架時間必須在上架時間之後')
-        this.formData.nosaledate = ''
-      }
     },
     getdatetime(datetime) {
       return moment(datetime).format('YYYY-MM-DD HH:mm:ss')
