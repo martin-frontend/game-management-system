@@ -47,7 +47,6 @@ const actions = {
     return new Promise((resolve, reject) => {
       getInfo().then(response => {
         const { data } = response
-        console.log(data)
         if (data === 'no role') {
           removeToken()
         } else {

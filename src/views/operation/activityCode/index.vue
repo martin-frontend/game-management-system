@@ -83,7 +83,6 @@ export default {
       getCode(formData)
         .then((response) => {
           this.tableData = [...response.data]
-          console.log(this.tableData)
         })
         .catch((error) => {
           console.log(error)

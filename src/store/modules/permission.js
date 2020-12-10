@@ -8,7 +8,6 @@ import { asyncRoutes, constantRoutes } from '@/router'
 function hasPermission(roles, route) {
   if (route.meta && route.meta.roles) {
     const role_arr = roles[0].split(',')
-    console.log(role_arr.some(role => route.meta.roles.includes(role)))
     return role_arr.some(role => route.meta.roles.includes(role))
   } else {
     return true
