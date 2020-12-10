@@ -27,7 +27,7 @@ const mutations = {
 
 const actions = {
   // user login
-  login({ commit }, userInfo) {
+  login({ commit }, [userInfo, message]) {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
       const formData = new FormData()
@@ -35,7 +35,12 @@ const actions = {
       formData.append('password', password)
       login(formData).then(response => {
         // setToken(token)
-        resolve()
+        if (response.data.success) {
+          resolve()
+        } else {
+          message.error(response.data.msg)
+          reject()
+        }
       }).catch(error => {
         reject(error)
       })
@@ -47,11 +52,10 @@ const actions = {
     return new Promise((resolve, reject) => {
       getInfo().then(response => {
         const { data } = response
-        if (data === 'no role') {
-          removeToken()
-        } else {
-          const { name } = data
-          const roles = [data.roles]
+        console.log(data)
+        if (data.success) {
+          const { content } = data
+          const roles = [content.roles]
           const avatar = 'https://stickershop.line-scdn.net/stickershop/v1/product/10691644/LINEStorePC/main.png;compress=true'
           const introduction = 'I am a super administrator'
           // roles must be a non-empty array
@@ -59,8 +63,8 @@ const actions = {
             reject('getInfo: roles must be a non-null array!')
           }
 
-          commit('SET_ROLES', roles)
-          commit('SET_NAME', name)
+          commit('SET_ROLES', content.roles)
+          commit('SET_NAME', content.role)
           commit('SET_AVATAR', avatar)
           commit('SET_INTRODUCTION', introduction)
           const newData = {
@@ -70,6 +74,8 @@ const actions = {
             introduction
           }
           resolve(newData)
+        } else {
+          removeToken()
         }
       }).catch(error => {
         reject(error)

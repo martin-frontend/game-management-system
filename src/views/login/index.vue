@@ -72,9 +72,9 @@
 
     <el-dialog :title="$t('login.thirdparty')" :visible.sync="showDialog">
       {{ $t('login.thirdpartyTips') }}
-      <br>
-      <br>
-      <br>
+      <br />
+      <br />
+      <br />
       <social-sign />
     </el-dialog>
   </div>
@@ -164,7 +164,7 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
-          this.$store.dispatch('user/login', this.loginForm)
+          this.$store.dispatch('user/login', [this.loginForm, this.$message])
             .then(() => {
               this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
               this.loading = false
