@@ -22,7 +22,7 @@
             class="form-width"
           />
         </el-form-item>
-        <el-form-item label="確認密碼" :label-width="formLabelWidth">
+        <el-form-item v-if="title !== '修改'" label="確認密碼" :label-width="formLabelWidth">
           <el-input
             v-model="formData.c_password"
             autocomplete="off"
@@ -86,6 +86,8 @@ export default {
       this.title = title
       if (title === '修改') {
         this.formData = Object.assign({}, data)
+        console.log(data)
+        // this.formData.role_id = this.formData.id
       }
     },
     initRoleSelect() {

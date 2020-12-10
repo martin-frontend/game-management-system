@@ -20,8 +20,8 @@
 
       <el-table-column label="功能" width="180">
         <template slot-scope="scope">
-          <el-button @click="deleteRole(scope.row.id)">刪除</el-button>
-          <el-button @click="modifyRole(scope.row)">修改</el-button>
+          <el-button type="primary" @click="modifyRole(scope.row)">修改</el-button>
+          <el-button type="danger" @click="deleteRole(scope.row.id)">刪除</el-button>
         </template>
       </el-table-column>
     </el-table>
