@@ -22,7 +22,7 @@
       <el-table-column label="權限" width="180">
         <template slot-scope="scope">{{ scope.row.role }}</template>
       </el-table-column>
-      <el-table-column width="180" label="建立時間">
+      <el-table-column prop="create_at" width="180" label="建立時間" sortable>
         <template slot-scope="scope">{{ scope.row.create_at }}</template>
       </el-table-column>
       <el-table-column label="功能">

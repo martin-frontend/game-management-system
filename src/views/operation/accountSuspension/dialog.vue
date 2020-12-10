@@ -41,7 +41,7 @@
         <el-button type="primary" @click="createSuspension">建 立</el-button>
       </div>
     </el-dialog>
-    <AddAcounts ref="addAcounts" :form-data="formData" />
+    <AddAcounts ref="addAcounts" :form-data="formData" @setInit="setInit" />
   </div>
 </template>
 <script>
@@ -56,8 +56,9 @@ export default {
         accounts: [{
           id: ''
         }],
+        recoverytime: '',
         checked: false,
-        radio: ''
+        reason: ''
       },
       dialogFormVisible: false,
       formLabelWidth: '80px',
@@ -77,12 +78,13 @@ export default {
   },
   watch: {
     days(val) {
-      if (val !== '') {
+      console.log(val)
+      if (val === '' || val === undefined) {
+        this.formData.recoverytime = ''
+      } else if (val !== '') {
         this.formData.recoverytime = moment().add(val, 'day').endOf('day').format(
           'yyyy-MM-DD HH:mm:ss'
         )
-      } else if (val === '') {
-        this.formData.recoverytime = ''
       }
     }
   },
@@ -91,9 +93,11 @@ export default {
       this.loading = false
       this.dialogFormVisible = false
       this.formData = {
+        recoverytime: '',
         accounts: [{
           id: ''
-        }]
+        }],
+        checked: false
       }
       // this.$refs['formData'].resetFields()
     },
@@ -131,6 +135,10 @@ export default {
     },
     addAccounts() {
       this.$refs.addAcounts.handleOpen()
+      this.$refs.addAcounts.createInit()
+    },
+    setInit(formData) {
+      this.formData = formData
     }
   }
 }

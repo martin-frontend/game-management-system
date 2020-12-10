@@ -2,8 +2,8 @@
   <div class="search-panel">
     <el-tag>請輸入查詢條件</el-tag>
     <div style="padding: 5px 0"></div>
-    <el-form ref="form" :inline="true" :model="formData">
-      <el-form-item>
+    <el-form ref="form" :inline="true" :model="formData" :rules="rules">
+      <el-form-item prop="type">
         <el-select v-model="formData.type" clearable placeholder="請選擇">
           <el-option
             v-for="item in typeOptions"
@@ -13,27 +13,30 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item>
+      <el-form-item prop="text">
         <el-input
           v-model="formData.text"
           clearable
-          :placeholder="'請輸入角色ID'"
+          :placeholder="handlePlaceholder()"
         />
       </el-form-item>
       <el-form-item>
         <el-date-picker
+          ref="startdate"
           v-model="formData.startdate"
-          value-format="yyyy-MM-dd HH:mm:ss"
-          type="datetime"
+          value-format="yyyy-MM-dd"
+          type="date"
           placeholder="選擇開始日期"
         />
       </el-form-item>
       <el-form-item>
         <el-date-picker
+          ref="enddate"
           v-model="formData.enddate"
-          value-format="yyyy-MM-dd HH:mm:ss"
-          type="datetime"
+          value-format="yyyy-MM-dd"
+          type="date"
           placeholder="選擇結束日期"
+          :picker-options="pickerOptions"
         />
       </el-form-item>
       <el-form-item>
@@ -46,17 +49,21 @@
           />
         </el-select>
       </el-form-item>
-      <el-button type="primary" @click="searchClick">查詢</el-button>
+      <el-button type="primary" @click="handleSearch()">查詢</el-button>
     </el-form>
   </div>
 </template>
 <script>
 import { getGameHistory } from '@/api/players'
+import moment from 'moment'
+
 export default {
   name: 'SearchPanel',
   data() {
     return {
-      formData: {},
+      formData: {
+        type: 'user_id'
+      },
       typeOptions: [
         { value: 'user_id', label: '角色ID' },
         { value: 'user_name', label: '角色名稱' }
@@ -84,32 +91,58 @@ export default {
         { value: 19, label: '經營任務' },
         { value: 20, label: '緊急訂單' },
         { value: 21, label: '好友清單' }
-      ]
+      ],
+      rules: {
+        type: [
+          { required: true, message: '請選擇角色', trigger: 'change' }
+        ],
+        text: [
+          { required: true, message: '請填寫內容', trigger: 'change' }
+        ]
+      }
+    }
+  },
+  computed: {
+    pickerOptions() {
+      const vm = this
+      return {
+        disabledDate(time) {
+          return moment(time) < moment(vm.formData.startdate)
+        }
+      }
     }
   },
   methods: {
-    searchClick() {
-      const formData = new FormData()
-      if (this.formData.type && this.formData.text) {
-        formData.append('type', this.formData.type)
-        formData.append('text', this.formData.text)
-      }
-      if (this.formData.startdate) {
-        formData.append('startdate', this.formData.startdate)
-      }
-      if (this.formData.enddate) {
-        formData.append('enddate', this.formData.enddate)
-      }
-      if (this.formData.category) {
-        formData.append('category', this.formData.category)
-      }
-      getGameHistory(formData)
-        .then((response) => {
-          this.$emit('onSearch', response.data)
-        })
-        .catch((error) => {
-          console.log(error)
-        })
+    handleSearch() {
+      this.$refs['form'].validate((valid, err) => {
+        if (valid) {
+          const formData = new FormData()
+          if (this.formData.type && this.formData.text) {
+            formData.append('type', this.formData.type)
+            formData.append('text', this.formData.text)
+          }
+          if (this.formData.startdate) {
+            formData.append('startdate', this.formData.startdate)
+          }
+          if (this.formData.enddate) {
+            formData.append('enddate', this.formData.enddate)
+          }
+          if (this.formData.category !== undefined) {
+            formData.append('category', this.formData.category)
+          }
+          getGameHistory(formData)
+            .then((response) => {
+              this.$emit('onSearch', response.data)
+            })
+            .catch((error) => {
+              console.log(error)
+            })
+        }
+      })
+    },
+    handlePlaceholder() {
+      if (!this.formData.type) return ''
+      return this.formData.type === 'user_id' ? '請輸入角色ID' : '請輸入角色名稱'
     }
   }
 }
