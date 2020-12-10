@@ -78,7 +78,6 @@ export default {
   },
   watch: {
     days(val) {
-      console.log(val)
       if (val === '' || val === undefined) {
         this.formData.recoverytime = ''
       } else if (val !== '') {
@@ -108,7 +107,14 @@ export default {
     },
     createSuspension() {
       const formData = new FormData()
-      formData.append('suspendid', this.formData.accounts[0].id)
+      if (this.formData.accounts.length === 1) {
+        formData.append('suspendid', this.formData.accounts[0].id)
+      } else {
+        const id = this.formData.accounts.map(function(item, index, array) {
+          return item.id
+        })
+        formData.append('suspendid', id.join())
+      }
       formData.append('recoverytime', this.formData.recoverytime)
       formData.append('suspendstate', 1)
       formData.append('reason', this.formData.reason)
