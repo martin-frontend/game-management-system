@@ -47,6 +47,7 @@
             placeholder="請選擇下架日期時間"
             value-format="yyyy-MM-dd HH:mm:ss"
             class="form-margin"
+            :picker-options="pickerOptions"
             @change="end"
           />
         </el-form-item>
@@ -102,6 +103,16 @@ export default {
         content: [
           { required: true, message: '請輸入內容', trigger: 'change' }
         ]
+      }
+    }
+  },
+  computed: {
+    pickerOptions() {
+      const vm = this
+      return {
+        disabledDate(time) {
+          return moment(time) < moment(vm.formData.onsaledate)
+        }
       }
     }
   },

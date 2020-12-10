@@ -29,6 +29,7 @@
               placeholder="請選擇下架日期時間"
               value-format="yyyy-MM-dd HH:mm:ss"
               class="form-margin"
+              :picker-options="pickerOptions"
             />
           </div>
         </el-form-item>
@@ -50,6 +51,8 @@
 </template>
 <script>
 import { createCode } from '@/api/code'
+import moment from 'moment'
+
 export default {
   data() {
     return {
@@ -59,6 +62,16 @@ export default {
       dialogFormVisible: false,
       formLabelWidth: '80px',
       title: '新增序號'
+    }
+  },
+  computed: {
+    pickerOptions() {
+      const vm = this
+      return {
+        disabledDate(time) {
+          return moment(time) < moment(vm.formData.startdate)
+        }
+      }
     }
   },
   methods: {
