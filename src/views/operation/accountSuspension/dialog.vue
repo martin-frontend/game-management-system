@@ -15,7 +15,7 @@
           <!-- <el-button v-if="index != 0" @click.prevent="removeAccount(account)">删除</el-button> -->
         </el-form-item>
         <el-form-item label="停權天數" :label-width="formLabelWidth">
-          <el-input v-model="formData.days" class="form-width form-margin" />
+          <el-input v-model="formData.days" class="form-width form-margin" :disabled="formData.checked" />
         </el-form-item>
         <el-form-item label="結束時間" :label-width="formLabelWidth">
           <el-date-picker
@@ -78,7 +78,6 @@ export default {
   },
   watch: {
     days(val) {
-      console.log(val)
       if (val === '' || val === undefined) {
         this.formData.recoverytime = ''
       } else if (val !== '') {
@@ -108,7 +107,14 @@ export default {
     },
     createSuspension() {
       const formData = new FormData()
-      formData.append('suspendid', this.formData.accounts[0].id)
+      if (this.formData.accounts.length === 1) {
+        formData.append('suspendid', this.formData.accounts[0].id)
+      } else {
+        const id = this.formData.accounts.map(function(item, index, array) {
+          return item.id
+        })
+        formData.append('suspendid', id.join())
+      }
       formData.append('recoverytime', this.formData.recoverytime)
       formData.append('suspendstate', 1)
       formData.append('reason', this.formData.reason)
