@@ -11,6 +11,12 @@
       />
     </div>
     <el-table style="width: 100%" :data="tabledata" border>
+      <el-table-column label="功能" width="180">
+        <template slot-scope="scope">
+          <el-button type="primary" @click="modifyUser(scope.row)">修改</el-button>
+          <el-button type="danger" @click="deleteUser(scope.row.id)">刪除</el-button>
+        </template>
+      </el-table-column>
       <el-table-column label="帳號ID" width="180">
         <template slot-scope="scope">{{ scope.row.account }}</template>
       </el-table-column>
@@ -22,14 +28,8 @@
       <el-table-column label="權限" width="180">
         <template slot-scope="scope">{{ scope.row.role }}</template>
       </el-table-column>
-      <el-table-column prop="create_at" width="180" label="建立時間" sortable>
+      <el-table-column prop="create_at" label="建立時間" sortable>
         <template slot-scope="scope">{{ scope.row.create_at }}</template>
-      </el-table-column>
-      <el-table-column label="功能">
-        <template slot-scope="scope">
-          <el-button type="primary" @click="modifyUser(scope.row)">修改</el-button>
-          <el-button type="danger" @click="deleteUser(scope.row.id)">刪除</el-button>
-        </template>
       </el-table-column>
     </el-table>
     <Dialog ref="dialog" @initData="initData" />

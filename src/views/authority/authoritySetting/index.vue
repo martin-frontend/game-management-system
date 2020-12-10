@@ -11,18 +11,17 @@
       />
     </div>
     <el-table style="width: 100%" :data="tabledata" border>
-      <el-table-column label="權限名稱" width="180">
-        <template slot-scope="scope">{{ scope.row.name }}</template>
-      </el-table-column>
-      <el-table-column label="權限">
-        <template slot-scope="scope">{{ scope.row.roles }}</template>
-      </el-table-column>
-
       <el-table-column label="功能" width="180">
         <template slot-scope="scope">
           <el-button type="primary" @click="modifyRole(scope.row)">修改</el-button>
           <el-button type="danger" @click="deleteRole(scope.row.id)">刪除</el-button>
         </template>
+      </el-table-column>
+      <el-table-column label="權限名稱" width="180">
+        <template slot-scope="scope">{{ scope.row.name }}</template>
+      </el-table-column>
+      <el-table-column label="權限">
+        <template slot-scope="scope">{{ scope.row.roles }}</template>
       </el-table-column>
     </el-table>
     <Dialog ref="dialog" @initData="initData" />
