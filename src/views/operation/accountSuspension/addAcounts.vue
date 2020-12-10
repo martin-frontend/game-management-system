@@ -23,6 +23,7 @@
   </div>
 </template>
 <script>
+const cloneDeep = require('lodash.clonedeep')
 export default {
   props: {
     formData: {
@@ -36,13 +37,15 @@ export default {
     return {
       dialogFormVisible: false,
       formLabelWidth: '80px',
-      title: '新增多筆帳號ID'
+      title: '新增多筆帳號ID',
+      initData: {}
     }
   },
   methods: {
     handleClose(done) {
       this.loading = false
       this.dialogFormVisible = false
+      this.setInit()
       // this.$refs['formData'].resetFields()
     },
     handleOpen(title, row) {
@@ -72,6 +75,16 @@ export default {
         }]
       }
       this.dialogFormVisible = false
+    },
+    // 複製原始資料
+    createInit() {
+      const initData = cloneDeep(this.formData)
+      this.initData = initData
+    },
+    // 取消後還原原始資料
+    setInit() {
+      const formData = cloneDeep(this.initData)
+      this.$emit('setInit', formData)
     }
   }
 }
