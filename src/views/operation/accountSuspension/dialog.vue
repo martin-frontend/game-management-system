@@ -15,7 +15,7 @@
           <!-- <el-button v-if="index != 0" @click.prevent="removeAccount(account)">删除</el-button> -->
         </el-form-item>
         <el-form-item label="停權天數" :label-width="formLabelWidth">
-          <el-input v-model="formData.days" class="form-width form-margin" />
+          <el-input v-model="formData.days" class="form-width form-margin" :disabled="formData.checked" />
         </el-form-item>
         <el-form-item label="結束時間" :label-width="formLabelWidth">
           <el-date-picker
