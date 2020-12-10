@@ -8,10 +8,10 @@
         v-if="checkPermission(['修改活動序號'])"
         prop="operating"
         label="功能"
-        width="170"
+        width="250"
       >
         <template slot-scope="scope">
-          <!-- <el-button type="primary" size="small">瀏覽</el-button> -->
+          <el-button type="primary" size="small" @click="edit('編輯',scope.row)">瀏覽</el-button>
           <el-button type="primary" size="small">查看序號</el-button>
           <el-button type="danger" size="small" @click="remove(scope.row.id)">刪除</el-button>
         </template>
