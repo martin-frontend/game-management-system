@@ -2,7 +2,7 @@
   <div class="page-container">
     <div class="table-container">
       <el-tag>發送物品</el-tag>
-      <el-button icon="el-icon-plus" type="primary" circle style="float: right" @click="add" />
+      <el-button v-if="checkPermission(['修改發送物品'])" icon="el-icon-plus" type="primary" circle style="float: right" @click="add" />
       <el-tabs v-model="activeName" style="margin-top:10px;">
         <el-tab-pane v-for="item in tabMapOptions" :key="item.key" :label="item.label" :name="item.key">
           <Item :table-data="filterData(tableData)" @edit="edit" @initdata="initdata" />
@@ -17,6 +17,7 @@
 import Item from './item'
 import Dialog from './dialog'
 import { getItem } from '@/api/item'
+import checkPermission from '@/utils/permission'
 export default {
   name: 'DeliverItem',
   components: { Dialog, Item },
@@ -37,6 +38,7 @@ export default {
     this.initdata()
   },
   methods: {
+    checkPermission,
     add() {
       this.$refs.dialog.handleOpen('新增')
     },
@@ -72,7 +74,6 @@ export default {
       getItem(formData)
         .then((response) => {
           this.tableData = [...response.data]
-          console.log(this.tableData)
         })
         .catch((error) => {
           console.log(error)

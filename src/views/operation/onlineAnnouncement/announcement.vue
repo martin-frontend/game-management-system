@@ -1,25 +1,32 @@
 <template>
   <div>
     <el-table :data="tableData" border>
-      <el-table-column prop="operating" label="功能" width="240">
-        <template slot-scope="scope">
-          <!-- <el-button type="primary" size="small">瀏覽</el-button> -->
-          <el-button type="primary" size="small" @click="edit('編輯',scope.row)">編輯</el-button>
-          <el-button
-            v-if="scope.row.status === '未上架'"
-            type="success"
-            size="small"
-            @click="lanuch('on',scope.row)"
-          >立即上架</el-button>
-          <el-button
-            v-if="scope.row.status === '上架中'"
-            type="warning"
-            size="small"
-            @click="lanuch('off',scope.row)"
-          >立即下架</el-button>
-          <el-button type="danger" size="small" @click="remove(scope.row.id)">刪除</el-button>
-        </template>
-      </el-table-column>
+      <div v-if="checkPermission(['修改線上公告'])">
+        <el-table-column
+          prop="
+        operating"
+          label="功能"
+          width="240"
+        >
+          <template slot-scope="scope">
+            <!-- <el-button type="primary" size="small">瀏覽</el-button> -->
+            <el-button type="primary" size="small" @click="edit('編輯',scope.row)">編輯</el-button>
+            <el-button
+              v-if="scope.row.status === '未上架'"
+              type="success"
+              size="small"
+              @click="lanuch('on',scope.row)"
+            >立即上架</el-button>
+            <el-button
+              v-if="scope.row.status === '上架中'"
+              type="warning"
+              size="small"
+              @click="lanuch('off',scope.row)"
+            >立即下架</el-button>
+            <el-button type="danger" size="small" @click="remove(scope.row.id)">刪除</el-button>
+          </template>
+        </el-table-column>
+      </div>
       <el-table-column
         prop="id"
         label="編號"
@@ -53,10 +60,13 @@
   </div>
 </template>
 <script>
+import checkPermission from '@/utils/permission'
 import moment from 'moment'
 import { deleteBulletin, updateBulletin } from '@/api/announcement'
+import permission from '@/directive/permission'
 export default {
   name: 'Announcement',
+  directives: { permission },
   props: {
     tableData: {
       type: Array,
@@ -65,10 +75,12 @@ export default {
       }
     }
   },
+
   data() {
     return {}
   },
   methods: {
+    checkPermission,
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`)
     },

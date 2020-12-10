@@ -2,7 +2,7 @@
   <div class="page-container">
     <div class="table-container">
       <el-tag>帳號停權</el-tag>
-      <el-button icon="el-icon-plus" type="primary" circle style="float: right" @click="add" />
+      <el-button v-if="checkPermission(['修改帳號停權'])" icon="el-icon-plus" type="primary" circle style="float: right" @click="add" />
       <el-tabs v-model="activeName" style="margin-top:10px;">
         <el-tab-pane v-for="item in tabMapOptions" :key="item.key" :label="item.label" :name="item.key">
           <template v-if="activeName === 'all'">
@@ -19,6 +19,7 @@
 import List from './list'
 import Dialog from './dialog'
 import { getSuspension } from '@/api/suspension'
+import checkPermission from '@/utils/permission'
 export default {
   name: 'AccountSuspension',
   components: { Dialog, List },
@@ -40,6 +41,7 @@ export default {
     this.tableData = this.initData
   },
   methods: {
+    checkPermission,
     add() {
       this.$refs.dialog.handleOpen()
     },
@@ -47,7 +49,6 @@ export default {
       getSuspension()
         .then((response) => {
           this.tableData = [...response.data]
-          console.log(this.tableData)
         })
         .catch((error) => {
           console.log(error)

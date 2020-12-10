@@ -6,6 +6,7 @@
       border
     >
       <el-table-column
+        v-if="checkPermission(['修改發送物品'])"
         prop="operating"
         label="功能"
         width="240"
@@ -70,6 +71,7 @@
 <script>
 import moment from 'moment'
 import { deleteItem, updateItem } from '@/api/item'
+import checkPermission from '@/utils/permission'
 export default {
   name: 'Item',
   props: {
@@ -85,6 +87,7 @@ export default {
     }
   },
   methods: {
+    checkPermission,
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`)
     },
