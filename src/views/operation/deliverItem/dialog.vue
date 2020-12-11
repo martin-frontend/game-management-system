@@ -166,8 +166,14 @@ export default {
           formData.append('status', this.formData.status)
           formData.append('content', this.formData.content)
           createItem(formData)
-            .then((resopnse) => {
-              this.$emit('initdata')
+            .then((response) => {
+              const { data } = response
+              if (data.success) {
+                this.$emit('initdata')
+                this.$message.success(data.msg)
+              } else {
+                this.$message.warning(data.msg)
+              }
               this.handleClose()
             })
             .catch((err) => {

@@ -97,8 +97,14 @@ export default {
       const formData = new FormData()
       formData.append('id', id)
       deleteBulletin(formData)
-        .then((resopnse) => {
-          this.$emit('initdata')
+        .then((response) => {
+          const { data } = response
+          if (data.success) {
+            this.$emit('initdata')
+            this.$message.success(data.msg)
+          } else {
+            this.$message.warning(data.msg)
+          }
         })
         .catch((err) => {
           console.log(err)
@@ -122,8 +128,14 @@ export default {
       formData.append('content', row.content)
       formData.append('id', row.id)
       updateBulletin(formData)
-        .then((resopnse) => {
-          this.$emit('initdata')
+        .then((response) => {
+          const { data } = response
+          if (data.success) {
+            this.$emit('initdata')
+            this.$message.success(data.msg)
+          } else {
+            this.$message.warning(data.msg)
+          }
         })
         .catch((err) => {
           console.log(err)
