@@ -150,18 +150,9 @@ export default {
       this.dialogFormVisible = false
       this.resetFormData()
       this.$nextTick(() => {
-        this.$refs['ruleForm'].resetFields()
+        this.$refs['ruleForm'].clearValidate(Object.keys(this.formData))
       })
     },
-    // filterTableData() {
-    //   this.tableData.forEach((item, index) => {
-    //     if (item.propValue && (item.quantity > 0)) {
-    //       delete item.index
-    //       delete item.props
-    //       this.property.push(item)
-    //     }
-    //   })
-    // },
     handleOpen(title, row) {
       this.dialogFormVisible = true
       this.title = title + '序號'
@@ -182,8 +173,14 @@ export default {
           formData.append('enddate', this.formData.enddate)
           formData.append('content', this.formData.content)
           createCode(formData)
-            .then((resopnse) => {
-              this.$emit('initdata')
+            .then((response) => {
+              const { data } = response
+              if (data.success) {
+                this.$emit('initdata')
+                this.$message.success(data.msg)
+              } else {
+                this.$message.warning(data.msg)
+              }
               this.handleClose()
             })
             .catch((err) => {

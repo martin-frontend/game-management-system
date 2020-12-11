@@ -92,7 +92,13 @@ export default {
       formData.append('reason', '')
       updateSuspension(formData)
         .then((resopnse) => {
-          this.$emit('initdata')
+          const { data } = resopnse
+          if (data.success) {
+            this.$emit('initdata')
+            this.$message.success(data.msg)
+          } else {
+            this.$message.warning(data.msg)
+          }
         })
         .catch((err) => {
           console.log(err)

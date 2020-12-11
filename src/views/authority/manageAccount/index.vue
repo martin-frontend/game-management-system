@@ -67,7 +67,12 @@ export default {
     initData() {
       getUser()
         .then((response) => {
-          this.tabledata = [...response.data]
+          if (response.data.success) {
+            this.tabledata = [...response.data.content]
+          } else {
+            this.tabledata = []
+            this.$message.warning(response.data.msg)
+          }
         })
         .catch((error) => {
           console.log(error)
@@ -77,8 +82,13 @@ export default {
       const formData = new FormData()
       formData.append('id', id)
       deleteUser(formData)
-        .then((resopnse) => {
-          this.initData()
+        .then((response) => {
+          if (response.data.success) {
+            this.initData()
+            this.$message.success(response.data.msg)
+          } else {
+            this.$message.warning(response.data.msg)
+          }
         })
         .catch((err) => {
           console.log(err)

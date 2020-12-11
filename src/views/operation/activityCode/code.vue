@@ -115,8 +115,14 @@ export default {
       const formData = new FormData()
       formData.append('id', id)
       deleteCode(formData)
-        .then((resopnse) => {
-          this.$emit('initdata')
+        .then((response) => {
+          const { data } = response
+          if (data.success) {
+            this.$emit('initdata')
+            this.$message.success(data.msg)
+          } else {
+            this.$message.warning(data.msg)
+          }
         })
         .catch((err) => {
           console.log(err)
