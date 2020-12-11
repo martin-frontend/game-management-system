@@ -173,8 +173,14 @@ export default {
           formData.append('content', this.formData.content)
           formData.append('id', this.formData.id)
           updateBulletin(formData)
-            .then((resopnse) => {
-              this.$emit('initdata')
+            .then((response) => {
+              const { data } = response
+              if (data.success) {
+                this.$emit('initdata')
+                this.$message.success(data.msg)
+              } else {
+                this.$message.warning(data.msg)
+              }
               this.dialogFormVisible = false
             })
             .catch((err) => {

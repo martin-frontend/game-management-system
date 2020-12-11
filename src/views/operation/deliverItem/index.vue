@@ -73,7 +73,13 @@ export default {
       formData.append('state', state)
       getItem(formData)
         .then((response) => {
-          this.tableData = [...response.data]
+          const { data } = response
+          if (data.success) {
+            this.tableData = [...data.content]
+          } else {
+            this.tableData = []
+            this.$message.warning(data.msg)
+          }
         })
         .catch((error) => {
           console.log(error)

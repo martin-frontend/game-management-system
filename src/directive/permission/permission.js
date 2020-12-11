@@ -6,7 +6,7 @@ function checkPermission(el, binding) {
 
   if (value && value instanceof Array) {
     if (value.length > 0) {
-      const roles_arr = roles[0].split(',')
+      const roles_arr = roles.split(',')
       const permissionRoles = value
 
       const hasPermission = roles_arr.some(role => {
