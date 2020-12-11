@@ -74,6 +74,9 @@ export default {
     },
     multiAccounts() {
       return this.formData.accounts[0].id + ',...'
+    },
+    checked() {
+      return this.formData.checked
     }
   },
   watch: {
@@ -84,6 +87,12 @@ export default {
         this.formData.recoverytime = moment().add(val, 'day').endOf('day').format(
           'yyyy-MM-DD HH:mm:ss'
         )
+      }
+    },
+    checked(val) {
+      if (val === true) {
+        this.formData.recoverytime = ''
+        this.formData.days = ''
       }
     }
   },
