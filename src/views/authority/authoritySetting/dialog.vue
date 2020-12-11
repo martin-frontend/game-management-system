@@ -91,7 +91,6 @@ export default {
     updateRole() {
       const formData = new FormData()
       formData.append('name', this.formData.name)
-      console.log(this.formData.roles)
       formData.append('roles', this.formData.roles.join())
       formData.append('id', this.formData.id)
       updateRole(formData)
