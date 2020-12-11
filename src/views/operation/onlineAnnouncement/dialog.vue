@@ -130,7 +130,7 @@ export default {
       this.checked = false
       this.resetFormData()
       this.$nextTick(() => {
-        this.$refs['ruleForm'].resetFields()
+        this.$refs['ruleForm'].clearValidate(Object.keys(this.formData))
       })
     },
     handleOpen(title, row) {
