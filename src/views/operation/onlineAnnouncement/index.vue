@@ -18,7 +18,7 @@
           :name="item.key"
           @tab-click="changeTab"
         >
-          <Announcement :table-data="filterData(tableData)" @edit="edit" @initdata="initdata" />
+          <Announcement v-loading="loading" :table-data="filterData(tableData)" @edit="edit" @initdata="initdata" />
         </el-tab-pane>
       </el-tabs>
     </div>
@@ -37,6 +37,7 @@ export default {
   components: { Dialog, Announcement },
   data() {
     return {
+      loading: false,
       tabMapOptions: [
         { label: '公告欄', key: 'all' },
         { label: '上架中', key: 'launched' },
@@ -77,6 +78,7 @@ export default {
       }
     },
     initdata() {
+      this.loading = true
       let state = ''
       switch (this.activeName) {
         case 'launched':
@@ -96,10 +98,15 @@ export default {
           const { data } = response
           if (data.success) {
             this.tableData = [...data.content]
+            this.tableData = this.tableData.map((item) => ({
+              ...item,
+              id: Number(item.id)
+            }))
           } else {
             this.tableData = []
             this.$message.warning(data.msg)
           }
+          this.loading = false
         })
         .catch((error) => {
           console.log(error)

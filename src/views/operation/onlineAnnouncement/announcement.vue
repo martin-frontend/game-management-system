@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-table :data="tableData" border>
+    <el-table :data="tableData" border row-key="id">
       <div v-if="checkPermission(['修改線上公告'])">
         <el-table-column
           prop="
@@ -32,7 +32,6 @@
         label="編號"
         width="100"
         sortable
-        :sort-method="handleSortId"
       />
       <el-table-column prop="title" label="標題" width="150" />
       <el-table-column prop="category" label="類型" width="100" />
@@ -86,9 +85,6 @@ export default {
     },
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`)
-    },
-    handleSortId(a, b) {
-      return a.id - b.id
     },
     edit(title, row) {
       this.$emit('edit', { title, row })
