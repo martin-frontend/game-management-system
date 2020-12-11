@@ -96,6 +96,10 @@ export default {
           const { data } = response
           if (data.success) {
             this.tableData = [...data.content]
+            this.tableData = this.tableData.map((item) => ({
+              ...item,
+              id: Number(item.id)
+            }))
           } else {
             this.tableData = []
             this.$message.warning(data.msg)
