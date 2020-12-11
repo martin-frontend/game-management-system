@@ -75,8 +75,13 @@ export default {
       formData.append('name', this.formData.name)
       formData.append('roles', this.formData.roles.join())
       createRole(formData)
-        .then((resopnse) => {
-          this.$emit('initData')
+        .then((response) => {
+          if (response.data.success) {
+            this.$emit('initData')
+            this.$message.success(response.data.msg)
+          } else {
+            this.$message.warning(response.data.msg)
+          }
           this.dialogFormVisible = false
         })
         .catch((err) => {
@@ -90,8 +95,13 @@ export default {
       formData.append('roles', this.formData.roles.join())
       formData.append('id', this.formData.id)
       updateRole(formData)
-        .then((resopnse) => {
-          this.$emit('initData')
+        .then((response) => {
+          if (response.data.success) {
+            this.$emit('initData')
+            this.$message.success(response.data.msg)
+          } else {
+            this.$message.warning(response.data.msg)
+          }
           this.dialogFormVisible = false
         })
         .catch((err) => {

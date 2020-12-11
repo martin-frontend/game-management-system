@@ -86,14 +86,17 @@ export default {
       this.title = title
       if (title === '修改') {
         this.formData = Object.assign({}, data)
-        console.log(data)
         // this.formData.role_id = this.formData.id
       }
     },
     initRoleSelect() {
       getRole()
         .then((response) => {
-          this.roleSelectList = [...response.data]
+          if (response.data.success) {
+            this.roleSelectList = [...response.data.content]
+          } else {
+            this.roleSelectList = []
+          }
         })
         .catch((error) => {
           console.log(error)
@@ -106,8 +109,13 @@ export default {
       formData.append('role_id', this.formData.role_id)
       formData.append('status', this.formData.status)
       createUser(formData)
-        .then((resopnse) => {
-          this.$emit('initData')
+        .then((response) => {
+          if (response.data.success) {
+            this.$emit('initData')
+            this.$message.success(response.data.msg)
+          } else {
+            this.$message.warning(response.data.msg)
+          }
           this.dialogFormVisible = false
         })
         .catch((err) => {
@@ -123,8 +131,13 @@ export default {
       formData.append('id', this.formData.id)
       console.log(this.formData.role_id)
       updateUser(formData)
-        .then((resopnse) => {
-          this.$emit('initData')
+        .then((response) => {
+          if (response.data.success) {
+            this.$emit('initData')
+            this.$message.success(response.data.msg)
+          } else {
+            this.$message.warning(response.data.msg)
+          }
           this.dialogFormVisible = false
         })
         .catch((err) => {
