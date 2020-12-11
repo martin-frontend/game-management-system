@@ -6,7 +6,7 @@
       <el-tabs v-model="activeName" style="margin-top:10px;">
         <el-tab-pane v-for="item in tabMapOptions" :key="item.key" :label="item.label" :name="item.key">
           <template v-if="activeName === 'all'">
-            <List :table-data="tableData" @initdata="initdata" />
+            <List v-loading="loading" :table-data="tableData" @initdata="initdata" />
           </template>
         </el-tab-pane>
       </el-tabs>
@@ -25,6 +25,7 @@ export default {
   components: { Dialog, List },
   data() {
     return {
+      loading: false,
       tabMapOptions: [
         { label: '停權名單', key: 'all' }
       ],
@@ -46,6 +47,7 @@ export default {
       this.$refs.dialog.handleOpen()
     },
     initdata() {
+      this.loading = true
       getSuspension()
         .then((response) => {
           const { data } = response
@@ -55,6 +57,7 @@ export default {
             this.tableData = []
             this.$message.warning(data.msg)
           }
+          this.loading = false
         })
         .catch((error) => {
           console.log(error)
