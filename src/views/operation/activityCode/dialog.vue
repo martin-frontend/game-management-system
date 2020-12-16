@@ -93,6 +93,7 @@ export default {
         content: ''
       },
       dialogFormVisible: false,
+      isStartDateError: false,
       formLabelWidth: '80px',
       title: '新增序號',
       index: 1,
@@ -114,10 +115,10 @@ export default {
           { required: true, message: '請選擇類型', trigger: 'change' }
         ],
         startdate: [
-          { required: true, message: '請選擇開始日期時間', trigger: 'change' }
+          { required: true, trigger: 'change', validator: this.handleStartDate }
         ],
         enddate: [
-          { required: true, message: '請選擇下架日期時間', trigger: 'change' }
+          { required: true, trigger: 'change', validator: this.handleEndDate }
         ],
         content: [
           { required: true, message: '請輸入內容', trigger: 'change' }
@@ -130,6 +131,9 @@ export default {
       const vm = this
       return {
         disabledDate(time) {
+          if (vm.isStartDateError) {
+            return false
+          }
           return moment(time) < moment(vm.formData.startdate)
         }
       }
@@ -156,9 +160,34 @@ export default {
     handleOpen(title, row) {
       this.dialogFormVisible = true
       this.title = title + '序號'
-      //   this.form = {}
       if (title === '編輯') {
         this.formData = Object.assign({}, row)
+        this.formData.startdate = new Date(this.formData.startdate)
+        this.formData.enddate = new Date(this.formData.enddate)
+      }
+    },
+    handleStartDate(rule, value, callback) {
+      if (value && moment(value) > moment(this.formData.enddate)) {
+        this.isStartDateError = true
+        callback(new Error('請選擇正確的開始日期時間'))
+      } else if (!value) {
+        callback(new Error('開始日期時間不得為空'))
+      } else {
+        this.isStartDateError = false
+        callback()
+      }
+    },
+    handleEndDate(rule, value, callback) {
+      if (value && moment(value) < moment(this.formData.startdate)) {
+        return callback(new Error('請選擇正確的結束日期時間'))
+      } else if (!value) {
+        callback(new Error('結束日期時間不得為空'))
+      } else {
+        if (this.formData.startdate) {
+          this.$refs['ruleForm'].validateField(['startdate'])
+        }
+        this.isStartDateError = false
+        callback()
       }
     },
     createCode() {

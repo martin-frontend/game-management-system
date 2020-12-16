@@ -82,9 +82,10 @@ export default {
       },
       checked: false,
       dialogFormVisible: false,
+      isOnSaleDateError: false,
+      isSelect: true,
       formLabelWidth: '80px',
       title: '新增公告',
-      isSelect: true,
       rules: {
         title: [
           { required: true, message: '請輸入標題', trigger: 'change' }
@@ -93,10 +94,10 @@ export default {
           { required: true, message: '請輸入類型名稱', trigger: 'change' }
         ],
         onsaledate: [
-          { required: true, message: '請選擇上架日期時間', trigger: 'change' }
+          { required: true, trigger: 'change', validator: this.handleOnSaleDate }
         ],
         nosaledate: [
-          { required: true, message: '請選擇下架日期時間', trigger: 'change' }
+          { required: true, trigger: 'change', validator: this.handleNoSaleDate }
         ],
         content: [
           { required: true, message: '請輸入內容', trigger: 'change' }
@@ -109,6 +110,9 @@ export default {
       const vm = this
       return {
         disabledDate(time) {
+          if (vm.isOnSaleDateError) {
+            return false
+          }
           return moment(time) < moment(vm.formData.onsaledate)
         }
       }
@@ -141,6 +145,30 @@ export default {
         this.formData = Object.assign({}, row)
         this.formData.onsaledate = new Date(this.formData.onsaledate)
         this.formData.nosaledate = new Date(this.formData.nosaledate)
+      }
+    },
+    handleOnSaleDate(rule, value, callback) {
+      if (value && moment(value) > moment(this.formData.nosaledate)) {
+        this.isOnSaleDateError = true
+        callback(new Error('請選擇正確的上架日期'))
+      } else if (!value) {
+        callback(new Error('上架日期不得為空'))
+      } else {
+        this.isOnSaleDateError = false
+        callback()
+      }
+    },
+    handleNoSaleDate(rule, value, callback) {
+      if (value && moment(value) < moment(this.formData.onsaledate)) {
+        return callback(new Error('請選擇正確的下架日期'))
+      } else if (!value) {
+        callback(new Error('下架日期不得為空'))
+      } else {
+        if (this.formData.onsaledate) {
+          this.$refs['ruleForm'].validateField(['onsaledate'])
+        }
+        this.isOnSaleDateError = false
+        callback()
       }
     },
     createBulletin() {

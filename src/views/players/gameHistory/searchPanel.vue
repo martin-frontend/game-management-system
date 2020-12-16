@@ -20,18 +20,16 @@
           :placeholder="handlePlaceholder()"
         />
       </el-form-item>
-      <el-form-item>
+      <el-form-item prop="startdate">
         <el-date-picker
-          ref="startdate"
           v-model="formData.startdate"
           value-format="yyyy-MM-dd"
           type="date"
           placeholder="選擇開始日期"
         />
       </el-form-item>
-      <el-form-item>
+      <el-form-item prop="enddate">
         <el-date-picker
-          ref="enddate"
           v-model="formData.enddate"
           value-format="yyyy-MM-dd"
           type="date"
@@ -61,8 +59,11 @@ export default {
   name: 'SearchPanel',
   data() {
     return {
+      isStartDateError: false,
       formData: {
-        type: 'user_id'
+        type: 'user_id',
+        startdate: '',
+        enddate: ''
       },
       typeOptions: [
         { value: 'user_id', label: '角色ID' },
@@ -98,6 +99,12 @@ export default {
         ],
         text: [
           { required: true, message: '請填寫內容', trigger: 'change' }
+        ],
+        startdate: [
+          { required: true, trigger: 'change', validator: this.handleStartDate }
+        ],
+        enddate: [
+          { required: true, trigger: 'change', validator: this.handleEndDate }
         ]
       }
     }
@@ -107,6 +114,9 @@ export default {
       const vm = this
       return {
         disabledDate(time) {
+          if (vm.isStartDateError) {
+            return false
+          }
           return moment(time) < moment(vm.formData.startdate)
         }
       }
@@ -149,9 +159,27 @@ export default {
     handlePlaceholder() {
       if (!this.formData.type) return ''
       return this.formData.type === 'user_id' ? '請輸入角色ID' : '請輸入角色名稱'
+    },
+    handleStartDate(rule, value, callback) {
+      if (value && moment(value) > moment(this.formData.enddate)) {
+        this.isStartDateError = true
+        callback(new Error('請選擇正確的開始日期'))
+      } else {
+        this.isStartDateError = false
+        callback()
+      }
+    },
+    handleEndDate(rule, value, callback) {
+      if (value && moment(value) < moment(this.formData.startdate)) {
+        return callback(new Error('請選擇正確的結束日期'))
+      } else {
+        if (this.formData.startdate) {
+          this.$refs['form'].validateField(['startdate'])
+        }
+        this.isStartDateError = false
+        callback()
+      }
     }
   }
 }
 </script>
-<style scoped lang="scss">
-</style>
