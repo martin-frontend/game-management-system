@@ -31,9 +31,18 @@ export default {
   name: 'SearchPanel',
   data() {
     return {
+      isStartDateError: false,
       formData: {
         startDate: this.getmonthstart(),
         endDate: this.getmonthend()
+      },
+      rules: {
+        startDate: [
+          { required: true, trigger: 'change', validator: this.handleStartDate }
+        ],
+        endDate: [
+          { required: true, trigger: 'change', validator: this.handleEndDate }
+        ]
       }
     }
   },
@@ -42,6 +51,9 @@ export default {
       const vm = this
       return {
         disabledDate(time) {
+          if (vm.isStartDateError) {
+            return false
+          }
           return moment(time) < moment(vm.formData.startDate)
         }
       }
@@ -63,6 +75,30 @@ export default {
           return false
         }
       })
+    },
+    handleStartDate(rule, value, callback) {
+      if (value && moment(value) > moment(this.formData.endDate)) {
+        this.isStartDateError = true
+        callback(new Error('請選擇正確的開始日期'))
+      } else if (!value) {
+        callback(new Error('開始日期不得為空'))
+      } else {
+        this.isStartDateError = false
+        callback()
+      }
+    },
+    handleEndDate(rule, value, callback) {
+      if (value && moment(value) < moment(this.formData.startDate)) {
+        return callback(new Error('請選擇正確的結束日期'))
+      } else if (!value) {
+        callback(new Error('結束日期不得為空'))
+      } else {
+        if (this.formData.startDate) {
+          this.$refs['form'].validateField(['startDate'])
+        }
+        this.isStartDateError = false
+        callback()
+      }
     },
     getmonthstart() {
       return moment().startOf('month').format('YYYY-MM-DD')
