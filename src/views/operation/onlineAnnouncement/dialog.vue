@@ -123,6 +123,7 @@ export default {
         nosaledate: '',
         content: ''
       }
+      this.isSelect = true
     },
     handleClose(done) {
       this.loading = false
