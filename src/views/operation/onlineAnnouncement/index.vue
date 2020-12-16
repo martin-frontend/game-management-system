@@ -97,7 +97,7 @@ export default {
         .then((response) => {
           const { data } = response
           if (data.success) {
-            this.tableData = [...data.content]
+            this.tableData = [...data.content.data]
             this.tableData = this.tableData.map((item) => ({
               ...item,
               id: Number(item.id)

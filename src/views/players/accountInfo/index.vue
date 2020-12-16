@@ -1,6 +1,6 @@
 <template>
   <div class="page-container">
-    <searchPanel @onSearch="onSearch" />
+    <searchPanel :page-data="pageData" @onSearch="onSearch" />
     <div class="table-container">
       <el-tag>帳號資訊</el-tag>
       <p v-if="activeName === 'stored' && totalAmount" style="margin-top: 15px">
@@ -84,10 +84,10 @@
             <div class="table-pagination">
               <el-pagination
                 :current-page="1"
-                :page-sizes="[100, 200, 300, 400]"
-                :page-size="100"
+                :page-sizes="[5, 10, 15, 20]"
+                :page-size="5"
                 layout="total, sizes, prev, pager, next, jumper"
-                :total="storedata.length"
+                :total="storeListTotal"
                 @size-change="handleSizeChange"
                 @current-change="handleCurrentChange"
               />
@@ -194,36 +194,37 @@ export default {
         { label: '商店資訊', key: 'store' }
       ],
       activeName: 'account',
-      createdTimes: 0,
       totalAmount: 0,
+      createdTimes: 0,
       storedata: [],
+      storeListTotal: 0,
       accountdata: {},
-      store: {}
+      store: {},
+      pageData: {
+        pagesize: 5,
+        page: 1
+      }
     }
   },
   computed: {},
   created() {},
   methods: {
     handleSizeChange(val) {
-      console.log(`每页 ${val} 条`)
+      this.pageData.pagesize = val
     },
     handleCurrentChange(val) {
-      console.log(`当前页: ${val}`)
+      this.pageData.page = val
     },
     onSearch(data) {
       if (data !== '') {
         this.accountdata = Object.assign({}, data.account_info)
-        data.deposit_list.map(a => {
-          this.totalAmount += Number(a.amount)
-          return this.totalAmount
-        })
-        this.storedata = [...data.deposit_list]
+        this.storedata = [...data.deposit_list.data]
+        this.storeListTotal = Number(data.deposit_list.total)
         this.store = Object.assign({}, data.store_info)
       } else {
         this.accountdata = {}
         this.storedata = []
         this.store = {}
-        console.log('查無資料')
       }
     }
   }

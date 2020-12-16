@@ -228,7 +228,7 @@ export default {
     },
     doAdd() {
       if (this.tableData.length >= 5) {
-        this.$message.error('最多附加5樣')
+        this.$message.warning('最多附加5樣')
         return
       }
       const index = this.index++

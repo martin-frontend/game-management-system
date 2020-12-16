@@ -24,6 +24,12 @@
 import { getAccountInfo } from '@/api/players'
 export default {
   name: 'SearchPanel',
+  props: {
+    pageData: {
+      type: Object,
+      default: () => {}
+    }
+  },
   data() {
     return {
       formData: {
@@ -44,6 +50,17 @@ export default {
       ]
     }
   },
+  watch: {
+    pageData: {
+      handler(newValue, oldValue) {
+        if (this.$refs['form']) {
+          this.handleSearch()
+        }
+      },
+      immediate: true,
+      deep: true
+    }
+  },
   methods: {
     handleSearch() {
       this.$refs['form'].validate((valid, err) => {
@@ -51,6 +68,8 @@ export default {
           const formData = new FormData()
           formData.append('type', this.formData.type)
           formData.append('text', this.formData.text)
+          formData.append('page', this.pageData.page)
+          formData.append('pagesize', this.pageData.pagesize)
           getAccountInfo(formData)
             .then((response) => {
               const { data } = response

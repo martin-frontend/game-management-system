@@ -129,7 +129,6 @@ export default {
       formData.append('role_id', this.formData.role_id)
       formData.append('status', this.formData.status)
       formData.append('id', this.formData.id)
-      console.log(this.formData.role_id)
       updateUser(formData)
         .then((response) => {
           if (response.data.success) {
