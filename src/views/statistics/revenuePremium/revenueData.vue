@@ -135,9 +135,7 @@
           </div>
         </div>
       </div>
-      <div v-else>
-        暫無數據
-      </div>
+      <div v-else>暫無數據</div>
     </el-row>
   </div>
 </template>
@@ -159,7 +157,15 @@ export default {
 
     tr {
       padding-right: 12px;
-      border: 1px solid #dfe6ec;
+      border-style: solid;
+      border-color: #dfe6ec;
+      border-width: 0 1px 1px 1px;
+
+      &:first-child {
+        border-style: solid;
+        border-color: #dfe6ec;
+        border-width: 1px;
+      }
     }
   }
 
@@ -172,7 +178,15 @@ export default {
       flex: 1;
 
       tr {
-        border: 1px solid #dfe6ec;
+        border-style: solid;
+        border-color: #dfe6ec;
+        border-width: 0 1px 1px 1px;
+
+        &:first-child {
+          border-style: solid;
+          border-color: #dfe6ec;
+          border-width: 1px;
+        }
       }
 
       &:last-child {
@@ -183,7 +197,13 @@ export default {
 
       &:first-child {
         tr {
-          border-width: 1px 0;
+         border-width: 0  0 1px 0;
+
+        &:first-child{
+          border-style: solid;
+          border-color: #dfe6ec;
+          border-width:1px 0;
+        }
         }
       }
     }
