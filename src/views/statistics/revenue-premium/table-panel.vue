@@ -14,9 +14,9 @@
   </div>
 </template>
 <script>
-import revenueData from './revenueData'
-import iapData from './iapData'
-import storeData from './storeData'
+import revenueData from './revenue-data'
+import iapData from './iap-data'
+import storeData from './store-data'
 export default {
   name: 'TablePanel',
   components: { revenueData, iapData, storeData },

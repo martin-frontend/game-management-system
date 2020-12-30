@@ -2,8 +2,8 @@
   <div class="page-container">
     <searchPanel @onSearch="onSearch" />
     <div class="table-container">
-      <el-tag>活動追蹤</el-tag>
-      <!-- <el-tabs v-model="activeName" style="margin-top:10px;">
+      <el-tag>遊戲歷程</el-tag>
+      <el-tabs v-model="activeName" style="margin-top:10px;">
         <el-tab-pane v-for="item in tabMapOptions" :key="item.key" :label="item.label" :name="item.key">
           <template v-if="activeName === 'coin'">
             <goldPanel :table-data="coindata" />
@@ -15,26 +15,30 @@
             <paidPanel :table-data="paiddata" />
           </template>
         </el-tab-pane>
-      </el-tabs> -->
+      </el-tabs>
     </div>
   </div>
 </template>
 <script>
-import searchPanel from './searchPanel'
+import searchPanel from './search-panel'
+import goldPanel from './gold-panel'
+import freePanel from './free-panel'
+import paidPanel from './paid-panel'
 export default {
   name: 'Index',
-  components: { searchPanel },
+  components: { searchPanel, goldPanel, freePanel, paidPanel },
   data() {
     return {
-      // activeName: 'coin',
-      // tabMapOptions: [
-      //   { label: '金幣', key: 'coin' },
-      //   { label: '免費鑽', key: 'free' },
-      //   { label: '付費鑽', key: 'paid' }
-      // ],
-      // coindata: [],
-      // freedata: [],
-      // paiddata: []
+      activeName: 'coin',
+      tabMapOptions: [
+        { label: '金幣', key: 'coin' },
+        { label: '免費鑽', key: 'free' },
+        { label: '付費鑽', key: 'paid' }
+      ],
+      coindata: [],
+      freedata: [],
+      paiddata: []
+
     }
   },
   methods: {

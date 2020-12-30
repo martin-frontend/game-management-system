@@ -9,8 +9,8 @@
 </template>
 <script>
 import { getrevenue } from '@/api/statistics'
-import searchPanel from './searchPanel'
-import tablePanel from './tablePanel'
+import searchPanel from './search-panel'
+import tablePanel from './table-panel'
 
 export default {
   name: 'Index',

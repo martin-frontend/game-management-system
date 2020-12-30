@@ -12,7 +12,7 @@
   </div>
 </template>
 <script>
-import tableData from './tableData'
+import tableData from './table-data'
 export default {
   name: 'TablePanel',
   components: { tableData },

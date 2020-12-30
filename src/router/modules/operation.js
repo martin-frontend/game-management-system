@@ -13,25 +13,25 @@ const operationRouter = {
   children: [
     {
       path: 'online-announcement',
-      component: () => import('@/views/operation/onlineAnnouncement'),
+      component: () => import('@/views/operation/online-announcement'),
       name: 'onlineAnnouncement',
       meta: { title: 'onlineAnnouncement', roles: '查詢線上公告', noCache: true }
     },
     {
       path: 'deliver-item',
-      component: () => import('@/views/operation/deliverItem'),
+      component: () => import('@/views/operation/deliver-item'),
       name: 'deliverItem',
       meta: { title: 'deliverItem', roles: '查詢發送物品', noCache: true }
     },
     {
       path: 'activity-code',
-      component: () => import('@/views/operation/activityCode'),
+      component: () => import('@/views/operation/activity-code'),
       name: 'activityCode',
       meta: { title: 'activityCode', roles: '查詢活動序號', noCache: true }
     },
     {
       path: 'account-suspension',
-      component: () => import('@/views/operation/accountSuspension'),
+      component: () => import('@/views/operation/account-suspension'),
       name: 'accountSuspension',
       meta: { title: 'accountSuspension', roles: '查詢帳號停權', noCache: true }
     }

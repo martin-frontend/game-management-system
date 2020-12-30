@@ -71,15 +71,15 @@
         <el-button v-if="title===`編輯物品`" type="primary" @click="updateItem">更 新</el-button>
       </div>
     </el-dialog>
-    <AddAcounts ref="addAcounts" :form-data="formData" @setInit="setInit" />
+    <AddAccounts ref="addAcounts" :form-data="formData" @setInit="setInit" />
   </div>
 </template>
 <script>
-import AddAcounts from './addAcounts'
+import AddAccounts from './add-accounts'
 import moment from 'moment'
 import { createItem, updateItem } from '@/api/item'
 export default {
-  components: { AddAcounts },
+  components: { AddAccounts },
   data() {
     return {
       index: 1,
@@ -220,8 +220,8 @@ export default {
       }
     },
     addAccounts() {
-      this.$refs.addAcounts.handleOpen()
-      this.$refs.addAcounts.createInit()
+      this.$refs.addAccounts.handleOpen()
+      this.$refs.addAccounts.createInit()
     },
     setInit(formData) {
       this.formData = formData

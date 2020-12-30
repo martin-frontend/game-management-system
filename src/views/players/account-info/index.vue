@@ -181,7 +181,7 @@
 </template>
 
 <script>
-import searchPanel from './searchPanel'
+import searchPanel from './search-panel'
 
 export default {
   name: 'AccountInfo',
