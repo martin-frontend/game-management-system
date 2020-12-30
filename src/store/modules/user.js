@@ -1,5 +1,5 @@
 import { login, logout, getInfo } from '@/api/user'
-import { getToken, removeToken } from '@/utils/auth'
+import { getToken, removeToken, setToken } from '@/utils/auth'
 import router, { resetRouter } from '@/router'
 
 const state = {
@@ -34,8 +34,8 @@ const actions = {
       formData.append('account', username.trim())
       formData.append('password', password)
       login(formData).then(response => {
-        // setToken(token)
         if (response.data.success) {
+          setToken('1111')
           resolve()
         } else {
           message.error(response.data.msg)
