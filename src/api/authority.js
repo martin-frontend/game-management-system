@@ -38,7 +38,7 @@ export function getRole() {
 }
 export function createRole(data) {
   return request({
-    url: 'authority_createrole',
+    url: 'authority/createrole',
     method: 'post',
     data
   })
@@ -46,14 +46,14 @@ export function createRole(data) {
 
 export function updateRole(data) {
   return request({
-    url: 'authority_updaterole',
+    url: 'authority/updaterole',
     method: 'post',
     data
   })
 }
 export function deleteRole(data) {
   return request({
-    url: 'authority_deleterole',
+    url: 'authority/deleterole',
     method: 'post',
     data
   })
