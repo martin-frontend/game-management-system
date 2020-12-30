@@ -37,7 +37,7 @@ service.interceptors.response.use(
    */
   response => {
     // if the custom status is not 20000, it is judged as an error.
-    if (response.status !== 201) {
+    if (response.status !== 201 && response.status !== 200) {
       Message({
         message: response.message || 'Error',
         type: 'error',
