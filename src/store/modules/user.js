@@ -35,7 +35,6 @@ const actions = {
       formData.append('password', password)
       login(formData).then(response => {
         if (response.data.success) {
-          // setToken('1111')
           resolve()
         } else {
           message.error(response.data.msg)
