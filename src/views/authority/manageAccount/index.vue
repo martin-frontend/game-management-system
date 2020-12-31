@@ -12,7 +12,7 @@
     </div>
     <el-table style="width: 100%" :data="tabledata" border>
       <el-table-column label="功能" width="180">
-        <template slot-scope="scope">
+        <template v-if="scope.row.roleLevel" slot-scope="scope">
           <el-button type="primary" @click="modifyUser(scope.row)">修改</el-button>
           <el-button type="danger" @click="deleteUser(scope.row.id)">刪除</el-button>
         </template>

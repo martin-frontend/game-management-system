@@ -37,7 +37,7 @@
             class="form-width"
           >
             <el-option
-              v-for="item in roleSelectList"
+              v-for="item in roleSelectList.filter(a=>a.roleLevel)"
               :key="item.id"
               :value="item.id"
               :label="item.name"
