@@ -32,7 +32,7 @@
         </el-form-item>
         <el-form-item label="權限" :label-width="formLabelWidth">
           <el-select
-            v-model="formData.role_id"
+            v-model="formData.roleId"
             placeholder="請選擇權限"
             class="form-width"
           >
@@ -105,7 +105,7 @@ export default {
       const formData = new FormData()
       formData.append('account', this.formData.account)
       formData.append('password', this.formData.password)
-      formData.append('role_id', this.formData.role_id)
+      formData.append('roleId', this.formData.roleId)
       formData.append('status', this.formData.status)
       createUser(formData)
         .then((response) => {
@@ -125,7 +125,7 @@ export default {
       const formData = new FormData()
       formData.append('account', this.formData.account)
       formData.append('password', this.formData.password)
-      formData.append('role_id', this.formData.role_id)
+      formData.append('roleId', this.formData.roleId)
       formData.append('status', this.formData.status)
       formData.append('id', this.formData.id)
       updateUser(formData)
