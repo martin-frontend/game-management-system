@@ -86,7 +86,6 @@ export default {
       this.title = title
       if (title === '修改') {
         this.formData = Object.assign({}, data)
-        // this.formData.role_id = this.formData.id
       }
     },
     initRoleSelect() {

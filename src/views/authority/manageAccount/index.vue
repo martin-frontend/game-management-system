@@ -26,10 +26,10 @@
         }}</template>
       </el-table-column>
       <el-table-column label="權限" width="180">
-        <template slot-scope="scope">{{ scope.row.role }}</template>
+        <template slot-scope="scope">{{ scope.row.roleName }}</template>
       </el-table-column>
-      <el-table-column prop="create_at" label="建立時間" sortable>
-        <template slot-scope="scope">{{ scope.row.create_at }}</template>
+      <el-table-column prop="createdAt" label="建立時間" sortable>
+        <template slot-scope="scope">{{ scope.row.createdAt }}</template>
       </el-table-column>
     </el-table>
     <Dialog ref="dialog" @initData="initData" />
@@ -95,6 +95,7 @@ export default {
         })
     },
     modifyUser(data) {
+      console.log(data)
       this.$refs.dialog.handleOpen('修改', data)
     }
   }
