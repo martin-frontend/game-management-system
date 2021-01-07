@@ -1,11 +1,12 @@
 <template>
-  <div :id="id" :class="className" :style="{height:height,width:width}" />
+  <div :style="{ height: height, width: width }"></div>
 </template>
 
 <script>
 import echarts from 'echarts'
+require('echarts/theme/macarons') // echarts theme
 import resize from './mixins/resize'
-
+import moment from 'moment'
 export default {
   mixins: [resize],
   props: {
@@ -13,26 +14,40 @@ export default {
       type: String,
       default: 'chart'
     },
-    id: {
-      type: String,
-      default: 'chart'
-    },
     width: {
       type: String,
-      default: '200px'
+      default: '100%'
     },
     height: {
       type: String,
-      default: '200px'
+      default: '250px'
+    },
+    autoResize: {
+      type: Boolean,
+      default: true
+    },
+    type: {
+      type: String,
+      default: ''
     }
   },
+  inject: ['group'],
   data() {
     return {
-      chart: null
+      chart: null,
+      dateList: [],
+      yAxisList: []
     }
   },
-  mounted() {
-    this.initChart()
+  watch: {
+    'group.tableData': {
+      deep: true,
+      handler(val) {
+        if (val) {
+          this.setOptions(this.group.tableData)
+        }
+      }
+    }
   },
   beforeDestroy() {
     if (!this.chart) {
@@ -41,185 +56,97 @@ export default {
     this.chart.dispose()
     this.chart = null
   },
+  mounted() {
+    this.$nextTick(() => {
+      this.initChart()
+    })
+  },
   methods: {
     initChart() {
-      this.chart = echarts.init(document.getElementById(this.id))
-
+      this.chart = echarts.init(this.$el, 'macarons')
+      this.setOptions(this.group.tableData)
+    },
+    setOptions(chartData) {
+      this.dateList = []
+      this.yAxisList = []
+      // const formmat = this.group.date === 'dau'?'YYYY-MM-DD':'YYYY-MM-DD'
+      chartData.forEach(element => {
+        this.dateList.push(element[0])
+        this.yAxisList.push(element[1])
+      })
+      this.dateList = this.dateList.sort().map(item => moment(item).format('YYYY-MM-DD'))
       this.chart.setOption({
-        backgroundColor: '#394056',
         title: {
-          top: 20,
-          text: 'Requests',
-          textStyle: {
-            fontWeight: 'normal',
-            fontSize: 16,
-            color: '#F1F1F3'
-          },
-          left: '1%'
+          text: !chartData.length ? '無資料' : ''
+        },
+        xAxis: {
+          // show: chartData.length,
+          data: this.dateList,
+          boundaryGap: false,
+          axisTick: {
+            show: false
+          }
+          // splitLine: {
+          //   show: false
+          // }
+        },
+        grid: {
+          left: 40,
+          right: 40,
+          bottom: 20,
+          top: 30,
+          containLabel: true
         },
         tooltip: {
           trigger: 'axis',
           axisPointer: {
-            lineStyle: {
-              color: '#57617B'
-            }
+            type: 'cross'
+          },
+          padding: [5, 10]
+        },
+        yAxis: {
+          axisTick: {
+            show: false
           }
         },
         legend: {
-          top: 20,
-          icon: 'rect',
-          itemWidth: 14,
-          itemHeight: 5,
-          itemGap: 13,
-          data: ['CMCC', 'CTCC', 'CUCC'],
-          right: '4%',
-          textStyle: {
-            fontSize: 12,
-            color: '#F1F1F3'
-          }
+          data: ['dau', 'wau', 'mau']
         },
-        grid: {
-          top: 100,
-          left: '2%',
-          right: '2%',
-          bottom: '2%',
-          containLabel: true
-        },
-        xAxis: [{
-          type: 'category',
-          boundaryGap: false,
-          axisLine: {
-            lineStyle: {
-              color: '#57617B'
-            }
-          },
-          data: ['13:00', '13:05', '13:10', '13:15', '13:20', '13:25', '13:30', '13:35', '13:40', '13:45', '13:50', '13:55']
-        }],
-        yAxis: [{
-          type: 'value',
-          name: '(%)',
-          axisTick: {
-            show: false
-          },
-          axisLine: {
-            lineStyle: {
-              color: '#57617B'
-            }
-          },
-          axisLabel: {
-            margin: 10,
-            textStyle: {
-              fontSize: 14
-            }
-          },
-          splitLine: {
-            lineStyle: {
-              color: '#57617B'
-            }
+        // legend: {
+        //   show: chartData.length,
+        //   y: 'bottom',
+        //   icon: 'circle',
+        //   itemWidth: 9,
+        //   itemHeight: 9,
+        //   padding: [35, 0, 25, 0],
+        //   data: ['新增帳戶數'],
+        //   textStyle: {
+        //     fontSize: 13,
+        //     color: ['FC7127']
+        //   }
+        // },
+        series: [
+          {
+            name: `${this.group.date}`,
+            smooth: true,
+            type: 'line',
+            itemStyle: {
+              normal: {
+                color: '#3888fa',
+                lineStyle: {
+                  color: '#3888fa',
+                  width: 2
+                },
+                areaStyle: {
+                  color: '#f3f8ff'
+                }
+              }
+            },
+            data: this.yAxisList,
+            animationDuration: 2800,
+            animationEasing: 'quadraticOut'
           }
-        }],
-        series: [{
-          name: 'CMCC',
-          type: 'line',
-          smooth: true,
-          symbol: 'circle',
-          symbolSize: 5,
-          showSymbol: false,
-          lineStyle: {
-            normal: {
-              width: 1
-            }
-          },
-          areaStyle: {
-            normal: {
-              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                offset: 0,
-                color: 'rgba(137, 189, 27, 0.3)'
-              }, {
-                offset: 0.8,
-                color: 'rgba(137, 189, 27, 0)'
-              }], false),
-              shadowColor: 'rgba(0, 0, 0, 0.1)',
-              shadowBlur: 10
-            }
-          },
-          itemStyle: {
-            normal: {
-              color: 'rgb(137,189,27)',
-              borderColor: 'rgba(137,189,2,0.27)',
-              borderWidth: 12
-
-            }
-          },
-          data: [220, 182, 191, 134, 150, 120, 110, 125, 145, 122, 165, 122]
-        }, {
-          name: 'CTCC',
-          type: 'line',
-          smooth: true,
-          symbol: 'circle',
-          symbolSize: 5,
-          showSymbol: false,
-          lineStyle: {
-            normal: {
-              width: 1
-            }
-          },
-          areaStyle: {
-            normal: {
-              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                offset: 0,
-                color: 'rgba(0, 136, 212, 0.3)'
-              }, {
-                offset: 0.8,
-                color: 'rgba(0, 136, 212, 0)'
-              }], false),
-              shadowColor: 'rgba(0, 0, 0, 0.1)',
-              shadowBlur: 10
-            }
-          },
-          itemStyle: {
-            normal: {
-              color: 'rgb(0,136,212)',
-              borderColor: 'rgba(0,136,212,0.2)',
-              borderWidth: 12
-
-            }
-          },
-          data: [120, 110, 125, 145, 122, 165, 122, 220, 182, 191, 134, 150]
-        }, {
-          name: 'CUCC',
-          type: 'line',
-          smooth: true,
-          symbol: 'circle',
-          symbolSize: 5,
-          showSymbol: false,
-          lineStyle: {
-            normal: {
-              width: 1
-            }
-          },
-          areaStyle: {
-            normal: {
-              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                offset: 0,
-                color: 'rgba(219, 50, 51, 0.3)'
-              }, {
-                offset: 0.8,
-                color: 'rgba(219, 50, 51, 0)'
-              }], false),
-              shadowColor: 'rgba(0, 0, 0, 0.1)',
-              shadowBlur: 10
-            }
-          },
-          itemStyle: {
-            normal: {
-              color: 'rgb(219,50,51)',
-              borderColor: 'rgba(219,50,51,0.2)',
-              borderWidth: 12
-            }
-          },
-          data: [220, 182, 125, 145, 122, 191, 134, 150, 120, 110, 165, 122]
-        }]
+        ]
       })
     }
   }

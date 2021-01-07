@@ -5,10 +5,12 @@ import elementEnLocale from 'element-ui/lib/locale/lang/en' // element-ui lang
 import elementZhLocale from 'element-ui/lib/locale/lang/zh-CN'// element-ui lang
 import elementEsLocale from 'element-ui/lib/locale/lang/es'// element-ui lang
 import elementJaLocale from 'element-ui/lib/locale/lang/ja'// element-ui lang
+import elementZhTWLocale from 'element-ui/lib/locale/lang/zh-TW'// element-ui lang
 import enLocale from './en'
-import zhLocale from './zh'
+import zhLocale from './zh-CN'
 import esLocale from './es'
 import jaLocale from './ja'
+import zhTWLocale from './zh-TW'
 
 Vue.use(VueI18n)
 
@@ -17,7 +19,7 @@ const messages = {
     ...enLocale,
     ...elementEnLocale
   },
-  zh: {
+  'zh-CN': {
     ...zhLocale,
     ...elementZhLocale
   },
@@ -28,6 +30,10 @@ const messages = {
   ja: {
     ...jaLocale,
     ...elementJaLocale
+  },
+  'zh-TW': {
+    ...zhTWLocale,
+    ...elementZhTWLocale
   }
 }
 export function getLanguage() {
@@ -39,10 +45,11 @@ export function getLanguage() {
   const locales = Object.keys(messages)
   for (const locale of locales) {
     if (language.indexOf(locale) > -1) {
+      console.log(locale)
       return locale
     }
   }
-  return 'en'
+  return 'zh-TW'
 }
 const i18n = new VueI18n({
   // set locale

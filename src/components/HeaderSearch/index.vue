@@ -55,7 +55,7 @@ export default {
     },
     searchPool(list) {
       // Support pinyin search
-      if (this.lang === 'zh' && this.supportPinyinSearch) {
+      if (this.lang === 'zh-CN' && this.supportPinyinSearch) {
         this.addPinyinField(list)
       }
       this.initFuse(list)

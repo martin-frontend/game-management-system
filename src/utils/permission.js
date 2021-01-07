@@ -8,9 +8,10 @@ import store from '@/store'
 export default function checkPermission(value) {
   if (value && value instanceof Array && value.length > 0) {
     const roles = store.getters && store.getters.roles
+    const roles_arr = roles.split(',')
     const permissionRoles = value
 
-    const hasPermission = roles.some(role => {
+    const hasPermission = roles_arr.some(role => {
       return permissionRoles.includes(role)
     })
     return hasPermission

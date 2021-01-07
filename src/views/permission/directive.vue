@@ -37,7 +37,7 @@
     <div :key="'checkPermission'+key" style="margin-top:60px;">
       <aside>
         {{ $t('permission.tips') }}
-        <br> e.g.
+        <br /> e.g.
       </aside>
 
       <el-tabs type="border-card" style="width:550px;">

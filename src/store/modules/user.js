@@ -1,5 +1,5 @@
-import { login, logout, getInfo } from '@/api/user'
-import { getToken, setToken, removeToken } from '@/utils/auth'
+import { login, getInfo } from '@/api/user'
+import { getToken, removeToken } from '@/utils/auth'
 import router, { resetRouter } from '@/router'
 
 const state = {
@@ -11,9 +11,6 @@ const state = {
 }
 
 const mutations = {
-  SET_TOKEN: (state, token) => {
-    state.token = token
-  },
   SET_INTRODUCTION: (state, introduction) => {
     state.introduction = introduction
   },
@@ -30,14 +27,19 @@ const mutations = {
 
 const actions = {
   // user login
-  login({ commit }, userInfo) {
+  login({ commit }, [userInfo, message]) {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
-      login({ username: username.trim(), password: password }).then(response => {
-        const { data } = response
-        commit('SET_TOKEN', data.token)
-        setToken(data.token)
-        resolve()
+      const formData = new FormData()
+      formData.append('account', username.trim())
+      formData.append('password', password)
+      login(formData).then(response => {
+        if (response.data.success) {
+          resolve()
+        } else {
+          message.error(response.data.msg)
+          reject()
+        }
       }).catch(error => {
         reject(error)
       })
@@ -47,25 +49,32 @@ const actions = {
   // get user info
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
-      getInfo(state.token).then(response => {
+      getInfo().then(response => {
         const { data } = response
+        if (data.success) {
+          const { content } = data
+          const roles = [content.roles]
+          const avatar = 'https://stickershop.line-scdn.net/stickershop/v1/product/10691644/LINEStorePC/main.png;compress=true'
+          const introduction = 'I am a super administrator'
+          // roles must be a non-empty array
+          if (!roles || roles.length <= 0) {
+            reject('getInfo: roles must be a non-null array!')
+          }
 
-        if (!data) {
-          reject('Verification failed, please Login again.')
+          commit('SET_ROLES', content.roles)
+          commit('SET_NAME', content.role)
+          commit('SET_AVATAR', avatar)
+          commit('SET_INTRODUCTION', introduction)
+          const newData = {
+            roles,
+            name,
+            avatar,
+            introduction
+          }
+          resolve(newData)
+        } else {
+          removeToken()
         }
-
-        const { roles, name, avatar, introduction } = data
-
-        // roles must be a non-empty array
-        if (!roles || roles.length <= 0) {
-          reject('getInfo: roles must be a non-null array!')
-        }
-
-        commit('SET_ROLES', roles)
-        commit('SET_NAME', name)
-        commit('SET_AVATAR', avatar)
-        commit('SET_INTRODUCTION', introduction)
-        resolve(data)
       }).catch(error => {
         reject(error)
       })
@@ -75,39 +84,44 @@ const actions = {
   // user logout
   logout({ commit, state, dispatch }) {
     return new Promise((resolve, reject) => {
-      logout(state.token).then(() => {
-        commit('SET_TOKEN', '')
-        commit('SET_ROLES', [])
-        removeToken()
-        resetRouter()
+      // logout(getToken()).then(() => {
+      //   commit('SET_ROLES', [])
+      //   removeToken()
+      //   resetRouter()
 
-        // reset visited views and cached views
-        // to fixed https://github.com/PanJiaChen/vue-element-admin/issues/2485
-        dispatch('tagsView/delAllViews', null, { root: true })
+      //   // reset visited views and cached views
+      //   // to fixed https://github.com/PanJiaChen/vue-element-admin/issues/2485
+      //   dispatch('tagsView/delAllViews', null, { root: true })
 
-        resolve()
-      }).catch(error => {
-        reject(error)
-      })
+      //   resolve()
+      // }).catch(error => {
+      //   reject(error)
+      // })
+      commit('SET_ROLES', [])
+      removeToken()
+      resetRouter()
+
+      // reset visited views and cached views
+      // to fixed https://github.com/PanJiaChen/vue-element-admin/issues/2485
+      dispatch('tagsView/delAllViews', null, { root: true })
+      resolve()
     })
   },
 
   // remove token
   resetToken({ commit }) {
     return new Promise(resolve => {
-      commit('SET_TOKEN', '')
       commit('SET_ROLES', [])
-      removeToken()
+      // removeToken()
       resolve()
     })
   },
 
   // dynamically modify permissions
   async changeRoles({ commit, dispatch }, role) {
-    const token = role + '-token'
+    // const token = role + '-token'
 
-    commit('SET_TOKEN', token)
-    setToken(token)
+    // setToken(token)
 
     const { roles } = await dispatch('getInfo')
 
