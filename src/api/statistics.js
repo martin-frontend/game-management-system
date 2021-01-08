@@ -42,3 +42,10 @@ export function getUserMau(data) {
     data
   })
 }
+export function getUserNru(data) {
+  return request({
+    url: '/analysis/getusernru',
+    method: 'post',
+    data
+  })
+}

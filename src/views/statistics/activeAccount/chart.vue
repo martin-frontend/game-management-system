@@ -23,11 +23,12 @@ export default {
   components: { LineMarker, tableData },
   data() {
     return {
-      date: 'dau',
+      date: 'DAU',
       dateOptions: [
-        { value: 'dau', label: 'DAU' },
-        { value: 'wau', label: 'WAU' },
-        { value: 'mau', label: 'MAU' }
+        { value: 'DAU', label: 'DAU' },
+        { value: 'WAU', label: 'WAU' },
+        { value: 'MAU', label: 'MAU' },
+        { value: 'NRU', label: 'NRU' }
       ]
     }
   },
