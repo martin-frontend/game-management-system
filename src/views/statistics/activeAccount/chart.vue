@@ -1,14 +1,15 @@
 <template>
   <div>
     <i class="download-icon el-icon-download"></i>
-    <el-tabs v-model="date">
+    <el-tabs v-model="date" @tab-click="handleClick">
       <el-tab-pane
         v-for="item in dateOptions"
         :key="item.value"
         :label="item.label"
         :name="item.value"
-      /></el-tabs>
-    <line-marker :type="date" />
+      />
+    </el-tabs>
+    <line-marker v-if="!$parent.loading" :type="date" />
     <tableData :date="date" />
   </div>
 </template>
@@ -18,6 +19,7 @@ import tableData from './tableData'
 
 export default {
   name: 'Chart',
+  inject: ['group'],
   components: { LineMarker, tableData },
   data() {
     return {
@@ -27,6 +29,11 @@ export default {
         { value: 'wau', label: 'WAU' },
         { value: 'mau', label: 'MAU' }
       ]
+    }
+  },
+  methods: {
+    handleClick() {
+      this.$parent.changeType(this.date)
     }
   }
 }

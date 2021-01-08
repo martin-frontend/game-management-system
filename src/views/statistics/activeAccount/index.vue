@@ -1,6 +1,6 @@
 <template>
   <div v-loading="loading" class="page-container">
-    <search-panel @updatedTableData="updatedTableData" />
+    <search-panel ref="searchPanel" @updatedTableData="updatedTableData" />
     <div class="table-container">
       <el-tag>活躍帳戶</el-tag>
     </div>
@@ -10,7 +10,8 @@
 <script>
 import searchPanel from './searchPanel'
 import chart from './chart'
-import { getActiveAccount } from '@/api/statistics'
+import { getUserDau, getUserWau, getUserMau } from '@/api/statistics'
+// import { registerLoading } from 'echarts/lib/echarts'
 
 export default {
   name: 'Index',
@@ -18,7 +19,8 @@ export default {
   data() {
     return {
       loading: false,
-      tableData: []
+      tableData: [],
+      date: 'dau'
     }
   },
   provide() {
@@ -28,37 +30,40 @@ export default {
   },
   methods: {
     updatedTableData(formData, loading) {
-      this.loading = loading
-      getActiveAccount(formData)
-        .then((response) => {
-          const { data } = response
-          if (data.success) {
-            const reduced = data.content.reduce(function(allDates, item) {
-              if (allDates.some(function(e) {
-                return e.date === item.date
-              })) {
-                allDates.filter(function(e) {
-                  return e.date === item.date
-                })[0].amount += +item.amount
-              } else {
-                allDates.push({
-                  date: item.date,
-                  amount: +item.amount
-                })
-              }
-              return allDates
-            }, [])
-            this.tableData = [...reduced]
-          } else {
-            this.tableData = []
-            this.$message.warning(data.msg)
-          }
-          this.loading = false
+      this.loading = true
+      switch (this.date) {
+        case 'dau':
+          getUserDau(formData).then(this.callbackSuccess).catch(this.callbackError)
+          break
+        case 'wau':
+          getUserWau(formData).then(this.callbackSuccess).catch(this.callbackError)
+          break
+        case 'mau':
+          getUserMau(formData).then(this.callbackSuccess).catch(this.callbackError)
+          break
+      }
+    },
+    callbackSuccess(response) {
+      const { data } = response
+      if (data.success) {
+        this.tableData = data.content
+        this.tableData.sort(function(a, b) {
+          return b[0] - a[0]
         })
-        .catch((error) => {
-          console.log(error)
-          this.loading = false
-        })
+      } else {
+        this.tableData = []
+        this.$message.warning(data.msg)
+      }
+      this.loading = false
+    },
+    callbackError(error) {
+      console.log(error)
+      this.loading = false
+    },
+    changeType(type) {
+      this.date = type
+      this.$refs.searchPanel.changeType(type)
+      this.$refs.searchPanel.handleSearch()
     }
   }
 }

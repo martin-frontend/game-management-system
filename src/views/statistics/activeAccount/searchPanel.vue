@@ -3,28 +3,40 @@
     <el-tag>請輸入查詢條件</el-tag>
     <div style="padding: 5px 0"></div>
     <el-form ref="form" :inline="true" :model="searchform" :rules="rules">
-      <el-form-item prop="startDate">
-        <el-date-picker
-          v-model="searchform.startDate"
-          value-format="yyyy-MM-dd"
-          type="date"
-          placeholder="選擇開始日期"
-        />
-      </el-form-item>
-      <el-form-item prop="endDate">
-        <el-date-picker
-          v-model="searchform.endDate"
-          value-format="yyyy-MM-dd"
-          type="date"
-          placeholder="選擇結束日期"
-          :picker-options="pickerOptions"
-        />
-      </el-form-item>
-      <el-form-item>
+      <template v-if="date === 'dau'">
+        <el-form-item prop="startDate">
+          <el-date-picker
+            v-model="searchform.startDate"
+            value-format="timestamp"
+            type="date"
+            placeholder="選擇開始日期"
+          />
+        </el-form-item>
+        <el-form-item prop="endDate">
+          <el-date-picker
+            v-model="searchform.endDate"
+            value-format="timestamp"
+            type="date"
+            placeholder="選擇結束日期"
+            :picker-options="pickerOptions"
+          />
+        </el-form-item>
+      </template>
+      <template v-else>
+        <el-form-item prop="startDate">
+          <el-date-picker
+            v-model="searchform.startDate"
+            value-format="timestamp"
+            type="year"
+            placeholder="選擇年"
+          />
+        </el-form-item>
+      </template>
+      <!-- <el-form-item>
         <el-select v-model="searchform.type" placeholder="請選擇">
           <el-option v-for="item in typeOptions" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
-      </el-form-item>
+      </el-form-item> -->
       <el-button type="primary" @click="handleSearch">查詢</el-button>
     </el-form>
   </div>
@@ -39,8 +51,8 @@ export default {
       loading: false,
       isStartDateError: false,
       searchform: {
-        startDate: this.getmonthstart(),
-        endDate: this.getmonthend(),
+        startDate: this.getMonthStart(),
+        endDate: this.getMonthEnd(),
         type: 'ALL'
       },
       rules: {
@@ -55,7 +67,8 @@ export default {
         { value: 'all', label: 'ALL' },
         { value: 'android', label: 'Android' },
         { value: 'ios', label: 'iOS' }
-      ]
+      ],
+      date: 'dau'
     }
   },
   computed: {
@@ -80,9 +93,13 @@ export default {
       this.$refs['form'].validate((valid, err) => {
         if (valid) {
           const formData = new FormData()
-          formData.append('startdate', this.searchform.startDate)
-          formData.append('enddate', this.searchform.endDate)
-          if (this.searchform.typeOptions && this.searchform.typeOptions !== 'all') { formData.append('type', this.searchform.typeOptions) }
+          formData.append('startDate', moment(this.searchform.startDate).valueOf())
+          if (this.date === 'dau') {
+            formData.append('endDate', moment(this.searchform.endDate).valueOf())
+          } else {
+            formData.append('endDate', moment(this.searchform.startDate).endOf('year').valueOf())
+          }
+          // if (this.searchform.typeOptions && this.searchform.typeOptions !== 'all') { formData.append('type', this.searchform.typeOptions) }
           this.$emit('updatedTableData', formData, this.loading)
         } else {
           console.log('error submit!!')
@@ -114,11 +131,15 @@ export default {
         callback()
       }
     },
-    getmonthstart() {
-      return moment().startOf('month').format('YYYY-MM-DD')
+    getMonthStart() {
+      return moment().startOf('month').valueOf()
     },
-    getmonthend() {
-      return moment().endOf('month').format('YYYY-MM-DD')
+    getMonthEnd() {
+      return moment().endOf('month').valueOf()
+    },
+    changeType(type) {
+      this.date = type
+      this.searchform.startDate = moment(this.searchform.startDate).startOf('year').valueOf()
     }
   }
 }

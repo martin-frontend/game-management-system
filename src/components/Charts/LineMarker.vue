@@ -4,9 +4,9 @@
 
 <script>
 import echarts from 'echarts'
-// require('echarts/theme/macarons') // echarts theme
+require('echarts/theme/macarons') // echarts theme
 import resize from './mixins/resize'
-
+import moment from 'moment'
 export default {
   mixins: [resize],
   props: {
@@ -40,19 +40,11 @@ export default {
     }
   },
   watch: {
-    type: {
-      deep: true,
-      handler(val) {
-        if (val) {
-          this.setOptions(this.group.tableData)
-        }
-      }
-    },
     'group.tableData': {
       deep: true,
       handler(val) {
         if (val) {
-          this.initChart()
+          this.setOptions(this.group.tableData)
         }
       }
     }
@@ -64,105 +56,95 @@ export default {
     this.chart.dispose()
     this.chart = null
   },
+  mounted() {
+    this.$nextTick(() => {
+      this.initChart()
+    })
+  },
   methods: {
     initChart() {
-      this.chart = echarts.init(this.$el)
+      this.chart = echarts.init(this.$el, 'macarons')
       this.setOptions(this.group.tableData)
     },
     setOptions(chartData) {
       this.dateList = []
       this.yAxisList = []
+      // const formmat = this.group.date === 'dau'?'YYYY-MM-DD':'YYYY-MM-DD'
       chartData.forEach(element => {
-        this.dateList.push(element.date)
-        this.yAxisList.push(element.amount)
+        this.dateList.push(element[0])
+        this.yAxisList.push(element[1])
       })
+      this.dateList = this.dateList.sort().map(item => moment(item).format('YYYY-MM-DD'))
       this.chart.setOption({
         title: {
           text: !chartData.length ? '無資料' : ''
         },
         xAxis: {
-          show: chartData.length,
+          // show: chartData.length,
           data: this.dateList,
           boundaryGap: false,
           axisTick: {
             show: false
-          },
-          splitLine: {
-            show: false
-          },
-          axisLine: {
-            lineStyle: {
-              color: '#20B2B0'
-            },
-            borderType: 'dashed'
           }
+          // splitLine: {
+          //   show: false
+          // }
         },
         grid: {
-          left: 15,
-          right: 15,
-          bottom: 77,
-          top: 67,
+          left: 40,
+          right: 40,
+          bottom: 20,
+          top: 30,
           containLabel: true
         },
         tooltip: {
           trigger: 'axis',
           axisPointer: {
-            type: 'cross',
-            label: {
-              color: '#1F1F1F',
-              shadowBlur: 0
-            }
+            type: 'cross'
           },
           padding: [5, 10]
         },
         yAxis: {
-          show: chartData.length,
           axisTick: {
-            show: false
-          },
-          axisLine: {
-            lineStyle: {
-              color: '#20B2B0'
-            }
-          },
-          axisPointer: {
             show: false
           }
         },
         legend: {
-          show: chartData.length,
-          y: 'bottom',
-          icon: 'circle',
-          itemWidth: 9,
-          itemHeight: 9,
-          padding: [35, 0, 25, 0],
-          data: ['新增帳戶數'],
-          textStyle: {
-            fontSize: 13,
-            color: ['FC7127']
-          }
+          data: ['dau', 'wau', 'mau']
         },
+        // legend: {
+        //   show: chartData.length,
+        //   y: 'bottom',
+        //   icon: 'circle',
+        //   itemWidth: 9,
+        //   itemHeight: 9,
+        //   padding: [35, 0, 25, 0],
+        //   data: ['新增帳戶數'],
+        //   textStyle: {
+        //     fontSize: 13,
+        //     color: ['FC7127']
+        //   }
+        // },
         series: [
           {
-            name: '新增帳戶數',
-            itemStyle: {
-              normal: {
-                color: '#20B2B0',
-                lineStyle: {
-                  color: '#20B2B0',
-                  width: 4
-                },
-                barBorderRadius: [50, 50, 0, 0]
-              },
-              emphasis: {
-                barBorderRadius: [50, 50]
-              }
-            },
+            name: `${this.group.date}`,
             smooth: true,
             type: 'line',
+            itemStyle: {
+              normal: {
+                color: '#3888fa',
+                lineStyle: {
+                  color: '#3888fa',
+                  width: 2
+                },
+                areaStyle: {
+                  color: '#f3f8ff'
+                }
+              }
+            },
             data: this.yAxisList,
             animationDuration: 2800,
-            animationEasing: 'cubicInOut'
+            animationEasing: 'quadraticOut'
           }
         ]
       })
