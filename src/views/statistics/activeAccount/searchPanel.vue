@@ -3,7 +3,7 @@
     <el-tag>請輸入查詢條件</el-tag>
     <div style="padding: 5px 0"></div>
     <el-form ref="form" :inline="true" :model="searchform" :rules="rules">
-      <template v-if="date === 'dau'">
+      <template v-if="date === 'DAU'">
         <el-form-item prop="startDate">
           <el-date-picker
             v-model="searchform.startDate"
@@ -68,7 +68,7 @@ export default {
         { value: 'android', label: 'Android' },
         { value: 'ios', label: 'iOS' }
       ],
-      date: 'dau'
+      date: 'DAU'
     }
   },
   computed: {

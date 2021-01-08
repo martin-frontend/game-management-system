@@ -114,7 +114,7 @@ export default {
           }
         },
         legend: {
-          data: ['dau', 'wau', 'mau']
+          data: ['DAU', 'WAU', 'MAU']
         },
         // legend: {
         //   show: chartData.length,

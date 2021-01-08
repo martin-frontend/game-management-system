@@ -10,7 +10,7 @@
 <script>
 import searchPanel from './searchPanel'
 import chart from './chart'
-import { getUserDau, getUserWau, getUserMau } from '@/api/statistics'
+import { getUserDau, getUserWau, getUserMau, getUserNru } from '@/api/statistics'
 // import { registerLoading } from 'echarts/lib/echarts'
 
 export default {
@@ -20,7 +20,7 @@ export default {
     return {
       loading: false,
       tableData: [],
-      date: 'dau'
+      date: 'DAU'
     }
   },
   provide() {
@@ -32,14 +32,17 @@ export default {
     updatedTableData(formData, loading) {
       this.loading = true
       switch (this.date) {
-        case 'dau':
+        case 'DAU':
           getUserDau(formData).then(this.callbackSuccess).catch(this.callbackError)
           break
-        case 'wau':
+        case 'WAU':
           getUserWau(formData).then(this.callbackSuccess).catch(this.callbackError)
           break
-        case 'mau':
+        case 'MAU':
           getUserMau(formData).then(this.callbackSuccess).catch(this.callbackError)
+          break
+        case 'NRU':
+          getUserNru(formData).then(this.callbackSuccess).catch(this.callbackError)
           break
       }
     },
