@@ -76,6 +76,7 @@ export default {
       formData.append('id', row.id)
       formData.append('releaseState', '0')
       formData.append('releaseDate', moment().valueOf())
+      formData.append('reason', '')
       updateSuspension(formData)
         .then((resopnse) => {
           const { data } = resopnse

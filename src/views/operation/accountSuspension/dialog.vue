@@ -1,30 +1,30 @@
 <template>
   <div>
-    <el-dialog :title="title" :before-close="handleClose" :visible.sync="dialogFormVisible" width="50%">
-      <el-form :model="formData">
+    <el-dialog v-if="dialogFormVisible" :title="title" :before-close="handleClose" :visible.sync="dialogFormVisible" width="50%">
+      <el-form ref="form" :model="formData" :rules="rules">
         <el-form-item
-          :key="formData.accounts[0].key"
           :label="'帳號'"
-          :prop="'accounts.0.value'"
+          :prop="'account'"
           :label-width="formLabelWidth"
         >
-          <el-input v-if="numberOfAccounts==1" v-model="formData.accounts[0].id" class="form-width form-margin" />
-          <el-input v-if="numberOfAccounts>1" v-model="multiAccounts" disabled class="form-width form-margin" />
-          <el-button @click="addAccounts">新增多筆帳號ID</el-button>
+          <el-input v-model="formData.account" class="form-width form-margin" />
+          <el-button @click="addAccounts">新增多筆帳號</el-button>
           <!-- <i v-if="index == 0" class="el-icon-upload2 icon"></i> -->
           <!-- <el-button v-if="index != 0" @click.prevent="removeAccount(account)">删除</el-button> -->
         </el-form-item>
-        <el-form-item label="停權天數" :label-width="formLabelWidth">
+        <el-form-item v-if="!checked" label="停權天數" prop="days" :label-width="formLabelWidth">
           <el-input v-model="formData.days" class="form-width form-margin" :disabled="formData.checked" />
         </el-form-item>
-        <el-form-item label="結束時間" :label-width="formLabelWidth">
+        <el-form-item label="結束時間" :label-width="formLabelWidth" :disabled="formData.checked">
           <el-date-picker
+            v-if="!checked"
             v-model="formData.releaseDate"
             type="datetime"
             value-format="yyyy-MM-dd HH:mm:ss"
             class="form-margin"
             disabled
           />
+          <el-input v-if="checked" value="永久停權" class="form-width form-margin" disabled />
           <el-checkbox v-model="formData.checked">永久停權</el-checkbox>
         </el-form-item>
         <el-form-item label="事由" :label-width="formLabelWidth">
@@ -55,8 +55,9 @@ export default {
   data() {
     return {
       formData: {
-        accounts: [{
-          id: ''
+        account: '',
+        accountList: [{
+          account: ''
         }],
         releaseDate: '',
         checked: false,
@@ -64,18 +65,21 @@ export default {
       },
       dialogFormVisible: false,
       formLabelWidth: '80px',
-      title: '新增停權帳號'
+      title: '新增停權帳號',
+      rules: {
+        account: [
+          { required: true, message: '請輸入帳號', trigger: 'change' }
+        ],
+        days: [
+          { required: true, message: '請輸入停權天數', trigger: 'change' },
+          { pattern: /^[0-9]*$/, message: '請輸入數字', trigger: 'change' }
+        ]
+      }
     }
   },
   computed: {
     days() {
       return this.formData.days
-    },
-    numberOfAccounts() {
-      return this.formData.accounts.length
-    },
-    multiAccounts() {
-      return this.formData.accounts[0].id + ',...'
     },
     checked() {
       return this.formData.checked
@@ -83,18 +87,12 @@ export default {
   },
   watch: {
     days(val) {
-      if (val === '' || val === undefined) {
-        this.formData.releaseDate = ''
-      } else if (val !== '') {
+      if (val && parseInt(val)) {
         this.formData.releaseDate = moment().add(val, 'day').endOf('day').format(
           'yyyy-MM-DD HH:mm:ss'
         )
-      }
-    },
-    checked(val) {
-      if (val === true) {
+      } else {
         this.formData.releaseDate = ''
-        this.formData.days = ''
       }
     }
   },
@@ -104,7 +102,7 @@ export default {
       this.dialogFormVisible = false
       this.formData = {
         releaseDate: '',
-        accounts: [{
+        accountList: [{
           id: ''
         }],
         checked: false
@@ -117,53 +115,44 @@ export default {
       //   this.form = {}
     },
     createSuspension() {
-      const formData = new FormData()
-      if (this.formData.accounts.length === 1) {
-        formData.append('account', this.formData.accounts[0].id)
-      } else {
-        const id = this.formData.accounts.map(function(item, index, array) {
-          return item.id
-        })
-        formData.append('account', id.join())
-      }
-      if (this.formData.checked) {
-        formData.append('releaseState', '1')
-        formData.append('releaseDate', '')
-      } else {
-        formData.append('releaseDate', moment(this.formData.releaseDate).valueOf())
-        formData.append('releaseState', '0')
-      }
-      formData.append('reason', this.formData.reason)
-      createSuspension(formData)
-        .then((resopnse) => {
-          const { data } = resopnse
-          if (data.success) {
-            this.$emit('initdata')
-            this.$message.success(data.msg)
+      this.$refs.form.validate(valid => {
+        if (valid) {
+          const formData = new FormData()
+          formData.append('account', this.formData.account)
+          if (this.formData.checked) {
+            formData.append('releaseState', '1')
+            formData.append('releaseDate', '')
           } else {
-            this.$message.warning(data.msg)
+            formData.append('releaseDate', moment(this.formData.releaseDate).valueOf())
+            formData.append('releaseState', '0')
           }
-          if (data.content) { this.confirmModify(formData, data.content) } else { this.handleClose() }
-        })
-        .catch((err) => {
-          console.log(err)
-        })
+          formData.append('reason', this.formData.reason)
+          createSuspension(formData)
+            .then((resopnse) => {
+              const { data } = resopnse
+              if (data.success) {
+                this.$emit('initdata')
+                this.$message.success(data.msg)
+              } else {
+                this.$message.warning(data.msg)
+              }
+              if (data.content) { this.confirmModify(formData, data.content) } else { this.handleClose() }
+            })
+            .catch((err) => {
+              console.log(err)
+            })
+        }
+      })
     },
     initdataChild() {
       this.handleClose()
       this.$emit('initdata')
     },
     removeAccount(item) {
-      var index = this.formData.accounts.indexOf(item)
+      var index = this.formData.account.indexOf(item)
       if (index !== -1) {
-        this.formData.accounts.splice(index, 1)
+        this.formData.account.splice(index, 1)
       }
-    },
-    addAccount() {
-      this.formData.accounts.push({
-        id: '',
-        key: Date.now()
-      })
     },
     addAccounts() {
       this.$refs.addAcounts.handleOpen()
@@ -181,7 +170,6 @@ export default {
 <style lang="scss" scoped>
 .form-margin{
   margin-right: 10px;
-  margin-bottom: 10px;
 }
 .form-width{
   width: 220px;
