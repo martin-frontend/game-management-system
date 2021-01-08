@@ -132,8 +132,10 @@ export default {
         series: [
           {
             name: `${this.group.date}`,
-            smooth: true,
             type: 'line',
+            symbolSize: 5,
+            symbol: 'circle',
+            smooth: 0,
             itemStyle: {
               normal: {
                 color: '#3888fa',

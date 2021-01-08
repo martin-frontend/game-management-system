@@ -1,6 +1,6 @@
 <template>
   <div>
-    <i class="download-icon el-icon-download"></i>
+    <!-- <i class="download-icon el-icon-download"></i> -->
     <el-tabs v-model="date" @tab-click="handleClick">
       <el-tab-pane
         v-for="item in dateOptions"
