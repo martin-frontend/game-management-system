@@ -4,7 +4,7 @@
       <el-form :model="checkDataForm">
         <el-checkbox-group v-model="checkDataForm.check">
           <el-checkbox v-for="item in checkData" :key="item.account" :label="item.account">
-            <p v-html="checkboxText(item.account,item.releaseDate,item.releaseDate)"></p>
+            <p v-html="checkboxText(item.account,item.releaseDate)"></p>
           </el-checkbox>
         </el-checkbox-group>
       </el-form>
@@ -49,8 +49,9 @@ export default {
     TransformTime(time) {
       return moment(time).format('YYYY-MM-DD HH:mm:ss')
     },
-    checkboxText(account, before, after) {
-      return account + '<br>' + '修改前:' + this.TransformTime(before) + '  修改後:' + this.TransformTime(after)
+    checkboxText(account, before) {
+      const after = this.oriData.get('releaseDate')
+      return account + '<br>' + '修改前:' + this.TransformTime(before) + '  修改後:' + this.TransformTime(Number(after))
     },
     OnSubmit() {
       const idArr = []
@@ -59,7 +60,6 @@ export default {
           idArr.push(element._id)
         }
       })
-      console.log(idArr)
       const formData = new FormData()
       formData.append('id', idArr.join())
       formData.append('releaseDate', this.oriData.get('releaseDate'))
