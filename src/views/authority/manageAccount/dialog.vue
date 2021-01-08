@@ -6,11 +6,11 @@
       width="30%"
     >
       <el-form :model="formData">
-        <el-form-item label="帳號ID" :label-width="formLabelWidth">
+        <el-form-item label="帳號" :label-width="formLabelWidth">
           <el-input
             v-model="formData.account"
             autocomplete="off"
-            placeholder="請輸入ID"
+            placeholder="請輸入帳號"
             class="form-width"
           />
         </el-form-item>

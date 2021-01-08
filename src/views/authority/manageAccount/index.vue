@@ -17,7 +17,7 @@
           <el-button type="danger" @click="deleteUser(scope.row.id)">刪除</el-button>
         </template>
       </el-table-column>
-      <el-table-column label="帳號ID" width="180">
+      <el-table-column label="帳號" width="180">
         <template slot-scope="scope">{{ scope.row.account }}</template>
       </el-table-column>
       <el-table-column label="狀態" width="180">

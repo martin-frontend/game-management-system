@@ -34,13 +34,13 @@ const statisticsRouter = {
       component: () => import('@/views/statistics/revenuePremium'),
       name: 'revenuePremium',
       meta: { title: 'revenuePremium', roles: '查詢營收付費', noCache: true }
-    },
-    {
-      path: 'activity-track',
-      component: () => import('@/views/statistics/activityTrack'),
-      name: 'activityTrack',
-      meta: { title: 'activityTrack', noCache: true }
     }
+    // {
+    //   path: 'activity-track',
+    //   component: () => import('@/views/statistics/activityTrack'),
+    //   name: 'activityTrack',
+    //   meta: { title: 'activityTrack', noCache: true }
+    // }
   ]
 }
 
