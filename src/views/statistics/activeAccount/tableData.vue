@@ -1,12 +1,12 @@
 <template>
   <div>
-    <el-table :data="group.tableData">
+    <el-table border :header-cell-style="headerStyle" :data="group.tableData">
       <el-table-column label="日期">
         <template slot-scope="scope">
           {{ scope.row[0] | moment('YYYY-MM-DD') }}
         </template>
       </el-table-column>
-      <el-table-column label="數量">
+      <el-table-column :label="group.date">
         <template slot-scope="scope">
           {{ scope.row[1] }}
         </template>
@@ -22,6 +22,13 @@ export default {
     date: {
       type: String,
       default: ''
+    }
+  },
+  data() {
+    return {
+      headerStyle: {
+        backgroundColor: '#f5f7fa'
+      }
     }
   },
   methods: {
