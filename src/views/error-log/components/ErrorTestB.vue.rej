@@ -1,0 +1,4 @@
+diff a/src/views/error-log/components/ErrorTestB.vue b/src/views/error-log/components/ErrorTestB.vue	(rejected hunks)
+@@ -2 +2 @@
+-  <div />
++  <div></div>

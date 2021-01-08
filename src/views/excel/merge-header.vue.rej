@@ -1,0 +1,4 @@
+diff a/src/views/excel/merge-header.vue b/src/views/excel/merge-header.vue	(rejected hunks)
+@@ -39 +39 @@
+-          <i class="el-icon-time" />
++          <i class="el-icon-time"></i>

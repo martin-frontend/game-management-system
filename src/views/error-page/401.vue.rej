@@ -1,0 +1,7 @@
+diff a/src/views/error-page/401.vue b/src/views/error-page/401.vue	(rejected hunks)
+@@ -28 +28 @@
+-        <img :src="errGif" width="313" height="428" alt="Girl has dropped her ice cream.">
++        <img :src="errGif" width="313" height="428" alt="Girl has dropped her ice cream." />
+@@ -32 +32 @@
+-      <img :src="ewizardClap" class="pan-img">
++      <img :src="ewizardClap" class="pan-img" />

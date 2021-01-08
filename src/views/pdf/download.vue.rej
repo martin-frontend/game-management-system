@@ -1,0 +1,4 @@
+diff a/src/views/pdf/download.vue b/src/views/pdf/download.vue	(rejected hunks)
+@@ -11 +11 @@
+-    <div ref="content" class="node-article-content" v-html="article.content" />
++    <div ref="content" class="node-article-content" v-html="article.content"></div>

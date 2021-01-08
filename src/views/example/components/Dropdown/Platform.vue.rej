@@ -1,0 +1,4 @@
+diff a/src/views/example/components/Dropdown/Platform.vue b/src/views/example/components/Dropdown/Platform.vue	(rejected hunks)
+@@ -5 +5 @@
+-      <i class="el-icon-caret-bottom el-icon--right" />
++      <i class="el-icon-caret-bottom el-icon--right"></i>

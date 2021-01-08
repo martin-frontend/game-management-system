@@ -1,0 +1,22 @@
+diff a/src/views/profile/components/Activity.vue b/src/views/profile/components/Activity.vue	(rejected hunks)
+@@ -5 +5 @@
+-        <img class="img-circle" :src="'https://wpimg.wallstcn.com/57ed425a-c71e-4201-9428-68760c0537c4.jpg'+avatarPrefix">
++        <img class="img-circle" :src="'https://wpimg.wallstcn.com/57ed425a-c71e-4201-9428-68760c0537c4.jpg'+avatarPrefix" />
+@@ -19 +19 @@
+-            <i class="el-icon-share" />
++            <i class="el-icon-share"></i>
+@@ -33 +33 @@
+-        <img class="img-circle" :src="'https://wpimg.wallstcn.com/9e2a5d0a-bd5b-457f-ac8e-86554616c87b.jpg'+avatarPrefix">
++        <img class="img-circle" :src="'https://wpimg.wallstcn.com/9e2a5d0a-bd5b-457f-ac8e-86554616c87b.jpg'+avatarPrefix" />
+@@ -47 +47 @@
+-            <i class="el-icon-share" />
++            <i class="el-icon-share"></i>
+@@ -61 +61 @@
+-        <img class="img-circle" :src="'https://wpimg.wallstcn.com/fb57f689-e1ab-443c-af12-8d4066e202e2.jpg'+avatarPrefix">
++        <img class="img-circle" :src="'https://wpimg.wallstcn.com/fb57f689-e1ab-443c-af12-8d4066e202e2.jpg'+avatarPrefix" />
+@@ -68 +68 @@
+-            <img :src="item+carouselPrefix" class="image">
++            <img :src="item+carouselPrefix" class="image" />
+@@ -73 +73 @@
+-        <li><span class="link-black text-sm"><i class="el-icon-share" /> Share</span></li>
++        <li><span class="link-black text-sm"><i class="el-icon-share"></i> Share</span></li>
