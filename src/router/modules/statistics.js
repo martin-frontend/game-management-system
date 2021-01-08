@@ -12,12 +12,6 @@ const statisticsRouter = {
   },
   children: [
     {
-      path: 'add-account',
-      component: () => import('@/views/statistics/addAccount'),
-      name: 'addAccount',
-      meta: { title: 'addAccount', roles: '查詢新增帳戶', noCache: true }
-    },
-    {
       path: 'active-account',
       component: () => import('@/views/statistics/activeAccount'),
       name: 'activeAccount',
