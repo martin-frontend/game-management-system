@@ -4,13 +4,13 @@
       <el-form :model="checkDataForm">
         <el-checkbox-group v-model="checkDataForm.check">
           <el-checkbox v-for="item in checkData" :key="item.account" :label="item.account">
-            <p v-html="checkboxText(item.account,item.releaseDate)"></p>
+            <p v-html="checkboxText(item.account,item.releaseDate,item.releaseState)"></p>
           </el-checkbox>
         </el-checkbox-group>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="handleClose">取 消</el-button>
-        <el-button type="primary" @click="OnSubmit">新 增</el-button>
+        <el-button type="primary" @click="OnSubmit">更 新</el-button>
       </div>
     </el-dialog>
   </div>
@@ -49,9 +49,10 @@ export default {
     TransformTime(time) {
       return moment(time).format('YYYY-MM-DD HH:mm:ss')
     },
-    checkboxText(account, before) {
+    checkboxText(account, before, state) {
       const after = this.oriData.get('releaseDate')
-      return account + '<br>' + '修改前:' + this.TransformTime(before) + '  修改後:' + this.TransformTime(Number(after))
+      console.log(state)
+      return account + '<br>' + '修改前:' + (state === '1' ? '永久停權' : this.TransformTime(before)) + '  修改後:' + this.TransformTime(Number(after))
     },
     OnSubmit() {
       const idArr = []
