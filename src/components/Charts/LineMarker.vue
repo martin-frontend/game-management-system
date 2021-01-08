@@ -7,6 +7,7 @@ import echarts from 'echarts'
 require('echarts/theme/macarons') // echarts theme
 import resize from './mixins/resize'
 import moment from 'moment'
+import { deepClone } from '@/utils'
 export default {
   mixins: [resize],
   props: {
@@ -69,15 +70,18 @@ export default {
     setOptions(chartData) {
       this.dateList = []
       this.yAxisList = []
+      const newData = deepClone(chartData)
+      newData.sort(function(a, b) {
+        return a[0] - b[0]
+      })
       // const formmat = this.group.date === 'dau'?'YYYY-MM-DD':'YYYY-MM-DD'
-      chartData.forEach(element => {
-        this.dateList.push(element[0])
+      newData.forEach(element => {
+        this.dateList.push(moment(element[0]).format('YYYY-MM-DD'))
         this.yAxisList.push(element[1])
       })
-      this.dateList = this.dateList.sort().map(item => moment(item).format('YYYY-MM-DD'))
       this.chart.setOption({
         title: {
-          text: !chartData.length ? '無資料' : ''
+          text: !newData.length ? '無資料' : ''
         },
         xAxis: {
           // show: chartData.length,
