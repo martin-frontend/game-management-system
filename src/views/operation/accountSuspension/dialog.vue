@@ -4,7 +4,7 @@
       <el-form :model="formData">
         <el-form-item
           :key="formData.accounts[0].key"
-          :label="'帳號ID'"
+          :label="'帳號'"
           :prop="'accounts.0.value'"
           :label-width="formLabelWidth"
         >
@@ -19,7 +19,7 @@
         </el-form-item>
         <el-form-item label="結束時間" :label-width="formLabelWidth">
           <el-date-picker
-            v-model="formData.recoverytime"
+            v-model="formData.releaseDate"
             type="datetime"
             value-format="yyyy-MM-dd HH:mm:ss"
             class="form-margin"
@@ -42,21 +42,23 @@
       </div>
     </el-dialog>
     <AddAcounts ref="addAcounts" :form-data="formData" @setInit="setInit" />
+    <ConfirmModify ref="confirmModify" @initdataChild="initdataChild" />
   </div>
 </template>
 <script>
 import AddAcounts from './addAcounts'
+import ConfirmModify from './confirmModify'
 import moment from 'moment'
 import { createSuspension } from '@/api/suspension'
 export default {
-  components: { AddAcounts },
+  components: { AddAcounts, ConfirmModify },
   data() {
     return {
       formData: {
         accounts: [{
           id: ''
         }],
-        recoverytime: '',
+        releaseDate: '',
         checked: false,
         reason: ''
       },
@@ -82,16 +84,16 @@ export default {
   watch: {
     days(val) {
       if (val === '' || val === undefined) {
-        this.formData.recoverytime = ''
+        this.formData.releaseDate = ''
       } else if (val !== '') {
-        this.formData.recoverytime = moment().add(val, 'day').endOf('day').format(
+        this.formData.releaseDate = moment().add(val, 'day').endOf('day').format(
           'yyyy-MM-DD HH:mm:ss'
         )
       }
     },
     checked(val) {
       if (val === true) {
-        this.formData.recoverytime = ''
+        this.formData.releaseDate = ''
         this.formData.days = ''
       }
     }
@@ -101,7 +103,7 @@ export default {
       this.loading = false
       this.dialogFormVisible = false
       this.formData = {
-        recoverytime: '',
+        releaseDate: '',
         accounts: [{
           id: ''
         }],
@@ -117,15 +119,20 @@ export default {
     createSuspension() {
       const formData = new FormData()
       if (this.formData.accounts.length === 1) {
-        formData.append('suspendid', this.formData.accounts[0].id)
+        formData.append('account', this.formData.accounts[0].id)
       } else {
         const id = this.formData.accounts.map(function(item, index, array) {
           return item.id
         })
-        formData.append('suspendid', id.join())
+        formData.append('account', id.join())
       }
-      formData.append('recoverytime', this.formData.recoverytime)
-      formData.append('suspendstate', 1)
+      if (this.formData.checked) {
+        formData.append('releaseState', '1')
+        formData.append('releaseDate', '')
+      } else {
+        formData.append('releaseDate', moment(this.formData.releaseDate).valueOf())
+        formData.append('releaseState', '0')
+      }
       formData.append('reason', this.formData.reason)
       createSuspension(formData)
         .then((resopnse) => {
@@ -136,11 +143,15 @@ export default {
           } else {
             this.$message.warning(data.msg)
           }
-          this.handleClose()
+          if (data.content) { this.confirmModify(formData, data.content) } else { this.handleClose() }
         })
         .catch((err) => {
           console.log(err)
         })
+    },
+    initdataChild() {
+      this.handleClose()
+      this.$emit('initdata')
     },
     removeAccount(item) {
       var index = this.formData.accounts.indexOf(item)
@@ -157,6 +168,9 @@ export default {
     addAccounts() {
       this.$refs.addAcounts.handleOpen()
       this.$refs.addAcounts.createInit()
+    },
+    confirmModify(oriData, confirmData) {
+      this.$refs.confirmModify.handleOpen(oriData, confirmData)
     },
     setInit(formData) {
       this.formData = formData

@@ -5,13 +5,12 @@
       border
     >
       <el-table-column
-        v-if="checkPermission(['修改帳號停權'])"
-        prop="operating"
-        label="功能"
+        prop="isbaned"
+        label="狀態"
         width="120"
       >
         <template slot-scope="scope">
-          <el-button type="primary" size="small" @click="recovery(scope.row)">復權</el-button>
+          {{ scope.row.isbaned?"停權中":"已復權" }}
         </template>
       </el-table-column>
       <el-table-column
@@ -74,7 +73,6 @@ export default {
     recovery(row) {
       const formData = new FormData()
       formData.append('id', row.id)
-      formData.append('releaseState', '0')
       formData.append('releaseDate', moment().valueOf())
       updateSuspension(formData)
         .then((resopnse) => {

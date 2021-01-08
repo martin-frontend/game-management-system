@@ -5,8 +5,9 @@
       <el-button v-if="checkPermission(['修改帳號停權'])" icon="el-icon-plus" type="primary" circle style="float: right" @click="add" />
       <el-tabs v-model="activeName" style="margin-top:10px;">
         <el-tab-pane v-for="item in tabMapOptions" :key="item.key" :label="item.label" :name="item.key">
-          <template v-if="activeName === 'all'">
-            <List v-loading="loading" :table-data="tableData" @initdata="initdata" />
+          <template>
+            <List v-if="activeName === 'banList'" v-loading="loading" :table-data="filterData(tableData)" @initdata="initdata" />
+            <HistoryList v-if="activeName === 'history'" v-loading="loading" :table-data="tableData" @initdata="initdata" />
           </template>
         </el-tab-pane>
       </el-tabs>
@@ -17,19 +18,21 @@
 
 <script>
 import List from './list'
+import HistoryList from './historylist'
 import Dialog from './dialog'
 import { getSuspension } from '@/api/suspension'
 import checkPermission from '@/utils/permission'
 export default {
   name: 'AccountSuspension',
-  components: { Dialog, List },
+  components: { Dialog, List, HistoryList },
   data() {
     return {
       loading: false,
       tabMapOptions: [
-        { label: '停權名單', key: 'all' }
+        { label: '停權名單', key: 'banList' },
+        { label: '停權名單', key: 'history' }
       ],
-      activeName: 'all',
+      activeName: 'banList',
       tableData: []
     }
   },
@@ -62,6 +65,9 @@ export default {
         .catch((error) => {
           console.log(error)
         })
+    },
+    filterData(arr) {
+      if (arr) { return arr.filter(item => item.isbaned) }
     }
   }
 }
