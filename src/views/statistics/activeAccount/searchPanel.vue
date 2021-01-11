@@ -94,7 +94,7 @@ export default {
         if (valid) {
           const formData = new FormData()
           formData.append('startDate', moment(this.searchform.startDate).valueOf())
-          if (this.date === 'dau') {
+          if (this.date === 'DAU') {
             formData.append('endDate', moment(this.searchform.endDate).valueOf())
           } else {
             formData.append('endDate', moment(this.searchform.startDate).endOf('year').valueOf())
@@ -140,6 +140,7 @@ export default {
     changeType(type) {
       this.date = type
       this.searchform.startDate = moment(this.searchform.startDate).startOf('year').valueOf()
+      if (type === 'DAU') { this.searchform.endDate = moment(this.searchform.startDate).endOf('year').valueOf() }
     }
   }
 }
