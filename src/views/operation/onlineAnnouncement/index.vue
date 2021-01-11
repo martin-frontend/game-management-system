@@ -18,7 +18,7 @@
           :name="item.key"
           @tab-click="changeTab"
         >
-          <Announcement v-loading="loading" :table-data="filterData(tableData)" @edit="edit" @initdata="initdata" />
+          <Announcement v-loading="loading" :table-data="filterData()" @edit="edit" @initdata="initdata" />
         </el-tab-pane>
       </el-tabs>
     </div>
@@ -29,7 +29,7 @@
 <script>
 import Announcement from './announcement'
 import Dialog from './dialog'
-import { getBulletin } from '@/api/announcement'
+import { getAnnounce } from '@/api/announcement'
 import checkPermission from '@/utils/permission'
 
 export default {
@@ -61,17 +61,17 @@ export default {
     },
     filterData() {
       switch (this.activeName) {
-        case 'launched':
-          return this.tableData.filter(function(item, index, array) {
-            return item.status === '上架中'
-          })
         case 'notLaunch':
           return this.tableData.filter(function(item, index, array) {
-            return item.status === '未上架'
+            return item.status === '1'
+          })
+        case 'launched':
+          return this.tableData.filter(function(item, index, array) {
+            return item.status === '2'
           })
         case 'removed':
           return this.tableData.filter(function(item, index, array) {
-            return item.status === '已下架'
+            return item.status === '3'
           })
         case 'all':
           return this.tableData
@@ -93,14 +93,14 @@ export default {
       }
       const formData = new FormData()
       formData.append('state', state)
-      getBulletin(formData)
+      getAnnounce(formData)
         .then((response) => {
           const { data } = response
           if (data.success) {
-            this.tableData = [...data.content.data]
+            this.tableData = [...data.content]
             this.tableData = this.tableData.map((item) => ({
               ...item,
-              id: Number(item.id)
+              id: item.id
             }))
           } else {
             this.tableData = []
