@@ -16,7 +16,6 @@ router.beforeEach(async(to, from, next) => {
 
   // set page title
   document.title = getPageTitle(to.meta.title)
-  console.log(to.meta.title)
   // determine whether the user has logged in
   const hasToken = getToken()
   // console.log(hasToken)
@@ -30,12 +29,9 @@ router.beforeEach(async(to, from, next) => {
       // determine whether the user has obtained his permission roles through getInfo
       const hasRoles = store.getters.roles && store.getters.roles.length > 0
       if (hasRoles) {
-        console.log(hasRoles)
         next()
       } else {
-        console.log('outter try')
         try {
-          console.log('try')
           // get user info
           // note: roles must be a object array! such as: ['admin'] or ,['developer','editor']
           const { roles } = await store.dispatch('user/getInfo')
