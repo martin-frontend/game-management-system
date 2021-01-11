@@ -1,5 +1,5 @@
 import { login, getInfo } from '@/api/user'
-import { getToken, removeToken } from '@/utils/auth'
+import { getToken, removeToken, setToken } from '@/utils/auth'
 import router, { resetRouter } from '@/router'
 
 const state = {
@@ -35,6 +35,7 @@ const actions = {
       formData.append('password', password)
       login(formData).then(response => {
         if (response.data.success) {
+          setToken(response.data.content.token)
           resolve()
         } else {
           message.error(response.data.msg)
@@ -73,7 +74,7 @@ const actions = {
           }
           resolve(newData)
         } else {
-          removeToken()
+          // removeToken()
         }
       }).catch(error => {
         reject(error)
