@@ -38,7 +38,7 @@ module.exports = {
     },
     proxy: {
       '/': {
-        target: 'http://localhost:3000/',
+        target: 'https://ps2-service2.herokuapp.com',
         changeOrigin: true,
         pathRewrite: {
           '^/': ''
