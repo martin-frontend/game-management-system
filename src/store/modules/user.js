@@ -1,5 +1,5 @@
 import { login, getInfo } from '@/api/user'
-import { getToken, removeToken } from '@/utils/auth'
+import { getToken, removeToken, setToken } from '@/utils/auth'
 import router, { resetRouter } from '@/router'
 
 const state = {
@@ -35,6 +35,8 @@ const actions = {
       formData.append('password', password)
       login(formData).then(response => {
         if (response.data.success) {
+          console.log(response.data.content.token)
+          setToken(response.data.content.token)
           resolve()
         } else {
           message.error(response.data.msg)
@@ -49,7 +51,7 @@ const actions = {
   // get user info
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
-      getInfo().then(response => {
+      getInfo(getToken()).then(response => {
         const { data } = response
         if (data.success) {
           const { content } = data
