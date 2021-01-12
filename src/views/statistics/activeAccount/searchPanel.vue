@@ -93,9 +93,9 @@ export default {
       this.$refs['form'].validate((valid, err) => {
         if (valid) {
           const formData = new FormData()
-          formData.append('startDate', moment(this.searchform.startDate).valueOf())
+          formData.append('startDate', this.searchform.startDate)
           if (this.date === 'DAU') {
-            formData.append('endDate', moment(this.searchform.endDate).valueOf())
+            formData.append('endDate', this.searchform.endDate)
           } else {
             formData.append('endDate', moment(this.searchform.startDate).endOf('year').valueOf())
           }
@@ -139,7 +139,6 @@ export default {
     },
     changeType(type) {
       this.date = type
-      this.searchform.startDate = moment(this.searchform.startDate).startOf('year').valueOf()
       if (type === 'DAU') { this.searchform.endDate = moment(this.searchform.startDate).endOf('year').valueOf() }
     }
   }
