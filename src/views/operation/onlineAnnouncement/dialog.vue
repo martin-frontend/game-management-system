@@ -152,7 +152,7 @@ export default {
     handleOnSaleDate(rule, value, callback) {
       if (value && moment(value) > moment(this.formData.nosaleDate)) {
         this.isOnSaleDateError = true
-        callback(new Error('請選擇正確的上架日期'))
+        callback(new Error('上架時間不可大於下架時間'))
       } else if (!value) {
         callback(new Error('上架日期不得為空'))
       } else {
@@ -162,7 +162,7 @@ export default {
     },
     handleNoSaleDate(rule, value, callback) {
       if (value && moment(value) < moment(this.formData.onsaleDate)) {
-        return callback(new Error('請選擇正確的下架日期'))
+        return callback(new Error('下架時間不可小於上架時間'))
       } else if (!value) {
         callback(new Error('下架日期不得為空'))
       } else {
