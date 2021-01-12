@@ -23,6 +23,7 @@
                   v-for="subitem in item.role"
                   :key="subitem"
                   :label="subitem"
+                  :disabled="defaultPage(subitem)"
                 />
               </el-checkbox-group>
             </el-tab-pane>
@@ -43,12 +44,12 @@
 </template>
 <script>
 import { createRole, updateRole } from '@/api/authority'
-import { getRoles } from '@/utils/roles'
+import { getRoles, getDefaultRoles } from '@/utils/roles'
 export default {
   data() {
     return {
       formData: {
-        roles: []
+        roles: getDefaultRoles()
       },
       dialogFormVisible: false,
       formLabelWidth: '80px',
@@ -63,7 +64,7 @@ export default {
         id: '',
         name: '',
         roleLevel: '',
-        roles: []
+        roles: getDefaultRoles()
       }
     },
     handleClose() {
@@ -116,6 +117,14 @@ export default {
         .catch((err) => {
           console.log(err)
         })
+    },
+    defaultPage(subitem) {
+      console.log('defaultPage')
+      const defaultPage = getDefaultRoles()
+      if (defaultPage.indexOf(subitem) < 0) {
+        return false
+      }
+      return true
     }
   }
 }

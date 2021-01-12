@@ -6,6 +6,11 @@ const Roles = [
   { 'name': '帳號權限', role: ['查詢管理帳號', '查詢權限設定', '修改管理帳號', '修改權限設定'] }
 ]
 
+const defaultRoles = ['查詢帳號資訊', '查詢新增帳戶', '查詢帳號停權', '查詢權限設定']
+
 export function getRoles() {
   return Roles
+}
+export function getDefaultRoles() {
+  return defaultRoles
 }
