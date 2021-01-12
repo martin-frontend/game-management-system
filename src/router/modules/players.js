@@ -5,7 +5,7 @@ const playersRouter = {
   path: '/players-data',
   component: Layout,
   name: 'players',
-  redirect: '/players/account-info',
+  redirect: '/players-data/account-info',
   meta: {
     title: 'players',
     icon: 'el-icon-s-custom'

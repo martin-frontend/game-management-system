@@ -5,7 +5,7 @@ const analysisRouter = {
   path: '/analysis',
   component: Layout,
   name: 'analysis',
-  redirect: '/analysis/add-account',
+  redirect: '/analysis/active-account',
   meta: {
     title: 'analysis',
     icon: 'chart'
