@@ -30,7 +30,7 @@
   </div>
 </template>
 <script>
-import { getremain } from '@/api/statistics'
+import { getremain } from '@/api/analysis'
 import moment from 'moment'
 export default {
   name: 'SearchPanel',

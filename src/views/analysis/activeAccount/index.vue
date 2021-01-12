@@ -10,7 +10,7 @@
 <script>
 import searchPanel from './searchPanel'
 import chart from './chart'
-import { getUserDau, getUserWau, getUserMau, getUserNru } from '@/api/statistics'
+import { getUserDau, getUserWau, getUserMau, getUserNru } from '@/api/analysis'
 // import { registerLoading } from 'echarts/lib/echarts'
 
 export default {

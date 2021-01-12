@@ -8,7 +8,7 @@
   </div>
 </template>
 <script>
-import { getrevenue } from '@/api/statistics'
+import { getrevenue } from '@/api/analysis'
 import searchPanel from './searchPanel'
 import tablePanel from './tablePanel'
 
