@@ -10,23 +10,15 @@
           />
         </el-form-item>
         <el-form-item prop="category" label="分類" :label-width="formLabelWidth">
-          <template v-if="isSelect">
-            <el-select v-model="formData.category" placeholder="請選擇分類">
-              <el-option label="重要" value="重要" />
-              <el-option label="活動" value="活動" />
-              <el-option label="維護" value="維護" />
-              <el-option label="補償" value="補償" />
-              <el-option label="其他" value="其他" />
-            </el-select>
-          </template>
-          <template v-if="!isSelect">
-            <el-input
-              v-model="formData.category"
-              class="category-input"
-              placeholder="請輸入類型名稱"
-            />
-          </template>
-          <svg-icon icon-class="form" class="icon" @click="isSelect = !isSelect" />
+          <el-select
+            v-model="formData.category"
+            placeholder="請選擇分類"
+            filterable
+            allow-create
+            default-first-option
+          >
+            <el-option v-for="category in accountList" :key="category.key" :label="category.label" :value="category.key" />
+          </el-select>
         </el-form-item>
         <el-form-item prop="onsaleDate" label="日期" :label-width="formLabelWidth">
           <el-date-picker
@@ -85,7 +77,6 @@ export default {
       checked: false,
       dialogFormVisible: false,
       isOnSaleDateError: false,
-      isSelect: true,
       formLabelWidth: '80px',
       title: '新增公告',
       rules: {
@@ -118,6 +109,13 @@ export default {
           return moment(time) < moment(vm.formData.onsaleDate)
         }
       }
+    },
+    accountList() {
+      const arr = this.$parent.formData.accountList
+      if (arr[0] && arr[0].label) {
+        return arr
+      }
+      return []
     }
   },
   methods: {
@@ -129,7 +127,6 @@ export default {
         nosaleDate: '',
         content: ''
       }
-      this.isSelect = true
     },
     handleClose(done) {
       this.loading = false

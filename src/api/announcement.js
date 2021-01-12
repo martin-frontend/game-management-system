@@ -27,4 +27,16 @@ export function deleteAnnounce(data) {
     data
   })
 }
-
+export function getannouncecategory() {
+  return request({
+    url: '/operation/getannouncecategory',
+    method: 'get'
+  })
+}
+export function updateannouncecategory(data) {
+  return request({
+    url: '/operation/updateannouncecategory',
+    method: 'post',
+    data
+  })
+}

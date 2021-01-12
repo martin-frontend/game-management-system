@@ -7,9 +7,16 @@
         icon="el-icon-plus"
         type="primary"
         circle
-        style="float: right"
+        style="float: right;margin-left:10px"
         @click="add"
       />
+      <el-button
+        style="float: right"
+        type="primary"
+        @click="handleCategory"
+      >
+        編輯分類
+      </el-button>
       <el-tabs v-model="activeName" style="margin-top: 10px">
         <el-tab-pane
           v-for="item in tabMapOptions"
@@ -22,6 +29,7 @@
         </el-tab-pane>
       </el-tabs>
     </div>
+    <AddAcounts ref="addAcounts" :form-data="formData" @setInit="setInit" />
     <Dialog ref="dialog" @initdata="initdata" />
   </div>
 </template>
@@ -29,12 +37,12 @@
 <script>
 import Announcement from './announcement'
 import Dialog from './dialog'
-import { getAnnounce } from '@/api/announcement'
+import { getAnnounce, getannouncecategory } from '@/api/announcement'
 import checkPermission from '@/utils/permission'
-
+import AddAcounts from './addAcounts'
 export default {
   name: 'OnlineAnnouncement',
-  components: { Dialog, Announcement },
+  components: { Dialog, Announcement, AddAcounts },
   data() {
     return {
       loading: false,
@@ -45,11 +53,20 @@ export default {
         { label: '已下架', key: 'removed' }
       ],
       activeName: 'all',
-      tableData: []
+      tableData: [],
+      formData: {
+        accountList: [
+          {
+            label: '',
+            key: Date.now()
+          }
+        ]
+      }
     }
   },
   mounted() {
     this.initdata()
+    this.categoryList()
   },
   methods: {
     checkPermission,
@@ -76,6 +93,28 @@ export default {
         case 'all':
           return this.tableData
       }
+    },
+    categoryList() {
+      getannouncecategory()
+        .then((response) => {
+          const { data } = response
+          if (data.success) {
+            if (data.content.length > 0) {
+              const category = data.content.split(',')
+              this.formData.accountList = category.map((item, index) => {
+                return {
+                  label: item,
+                  key: Date.now() + index
+                }
+              })
+            }
+          } else {
+            this.$message.warning(data.msg)
+          }
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     },
     initdata() {
       this.loading = true
@@ -115,6 +154,12 @@ export default {
     changeTab(tab, event) {
       // this.initData()
       alert()
+    },
+    handleCategory() {
+      this.$refs.addAcounts.handleOpen()
+    },
+    setInit(formData) {
+      this.formData = formData
     }
   }
 }
