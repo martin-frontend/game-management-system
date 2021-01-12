@@ -2,6 +2,7 @@
   <div>
     <el-dialog
       :title="title + '權限'"
+      :before-close="handleClose"
       :visible.sync="dialogFormVisible"
       width="60%"
     >
@@ -29,7 +30,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button @click="handleClose">取 消</el-button>
         <el-button
           v-if="title === '新增'"
           type="primary"
@@ -57,8 +58,17 @@ export default {
     }
   },
   methods: {
+    resetFormData() {
+      this.formData = {
+        id: '',
+        name: '',
+        roleLevel: '',
+        roles: []
+      }
+    },
     handleClose() {
       this.loading = false
+      this.resetFormData()
       this.dialogFormVisible = false
     },
     handleOpen(title, data) {
