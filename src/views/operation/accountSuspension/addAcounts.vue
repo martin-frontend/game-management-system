@@ -120,7 +120,8 @@ export default {
       })
     },
     addAccounts() {
-      const filterArr = this.formData.accountList.filter((item, index) => item.account !== '' && this.formData.accountList.indexOf(item) === index)
+      const set = new Set()
+      const filterArr = this.formData.accountList.filter((item, index) => item.account !== '' && !set.has(item.account) ? set.add(item.account) : false)
       if (filterArr.length > 0) {
         const mapArr = filterArr.map((item) => item.account)
         this.formData.account = mapArr.join()

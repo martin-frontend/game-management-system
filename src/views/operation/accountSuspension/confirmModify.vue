@@ -20,7 +20,7 @@ import moment from 'moment'
 import { updateSuspension } from '@/api/suspension'
 
 export default {
-  name: 'AddAccounts',
+  name: 'ConfirmModify',
   data() {
     return {
       dialogFormVisible: false,
