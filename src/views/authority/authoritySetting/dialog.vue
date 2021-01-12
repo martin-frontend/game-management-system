@@ -119,7 +119,6 @@ export default {
         })
     },
     defaultPage(subitem) {
-      console.log('defaultPage')
       const defaultPage = getDefaultRoles()
       if (defaultPage.indexOf(subitem) < 0) {
         return false
