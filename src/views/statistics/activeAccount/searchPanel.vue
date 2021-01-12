@@ -139,6 +139,7 @@ export default {
     },
     changeType(type) {
       this.date = type
+      this.searchform.startDate = moment(this.searchform.startDate).startOf('year').valueOf()
       if (type === 'DAU') { this.searchform.endDate = moment(this.searchform.startDate).endOf('year').valueOf() }
     }
   }
