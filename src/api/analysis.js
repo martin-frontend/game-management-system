@@ -35,6 +35,13 @@ export function getUser(data) {
     data
   })
 }
+export function getUserLog(data) {
+  return request({
+    url: '/analysis/getuserlog',
+    method: 'post',
+    data
+  })
+}
 export function getUserWau(data) {
   return request({
     url: '/analysis/getuserwau',

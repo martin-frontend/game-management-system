@@ -12,18 +12,22 @@
         >
           <template v-if="activeName === 'account'">
             <el-table :data="accountdata" style="width: 100%" border>
-
+              <el-table-column prop="account" label="id" width="200">
+                <template slot-scope="scope">{{ scope.row._id }}</template>
+              </el-table-column>
               <el-table-column prop="account" label="帳號" width="200">
                 <template slot-scope="scope">{{ scope.row.account }}</template>
               </el-table-column>
               <el-table-column prop="accountName" label="名稱" width="200">
                 <template slot-scope="scope">{{ scope.row.accountName }}</template>
               </el-table-column>
-              <el-table-column prop="log" label="登入紀錄" width="200">
-                <template></template>
-              </el-table-column>
-              <el-table-column prop="createdAt" label="建立時間" sortable>
+              <el-table-column prop="createdAt" label="建立時間" sortable width="200">
                 <template slot-scope="scope">{{ TransformTime(scope.row.createdAt) }}</template>
+              </el-table-column>
+              <el-table-column prop="log" label="功能">
+                <template slot-scope="scope">
+                  <el-button type="primary" size="small" @click="openLog(scope.row.account,scope.row._id)">查看登入紀錄</el-button>
+                </template>
               </el-table-column>
             </el-table>
             <div class="table-pagination">
@@ -41,16 +45,19 @@
         </el-tab-pane>
       </el-tabs>
     </div>
+    <Dialog ref="dialog" />
   </div>
 </template>
 
 <script>
 import searchPanel from './searchPanel'
+import Dialog from './dialog'
 import moment from 'moment'
 
 export default {
   name: 'AccountInfo',
-  components: { searchPanel },
+  components: { searchPanel, Dialog },
+
   data() {
     return {
       tabMapOptions: [
@@ -88,6 +95,9 @@ export default {
     },
     TransformTime(time) {
       return moment(time).format('YYYY-MM-DD HH:mm:ss')
+    },
+    openLog(account, id) {
+      this.$refs.dialog.handleOpen(account, id)
     }
   }
 }
