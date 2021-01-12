@@ -21,7 +21,7 @@
   </div>
 </template>
 <script>
-import { getAccountInfo } from '@/api/players'
+import { getUser } from '@/api/analysis'
 export default {
   name: 'SearchPanel',
   props: {
@@ -33,7 +33,7 @@ export default {
   data() {
     return {
       formData: {
-        type: 'user_id',
+        type: 'account',
         text: ''
       },
       rules: {
@@ -41,12 +41,12 @@ export default {
           { required: true, message: '請選擇角色', trigger: 'change' }
         ],
         text: [
-          { required: true, message: '請填寫內容', trigger: 'change' }
+          { message: '請填寫內容', trigger: 'change' }
         ]
       },
       options: [
-        { value: 'user_id', label: '角色ID' },
-        { value: 'user_name', label: '角色名稱' }
+        { value: 'account', label: '角色帳號' },
+        { value: 'accountName', label: '角色名稱' }
       ]
     }
   },
@@ -61,23 +61,32 @@ export default {
       deep: true
     }
   },
+  mounted() {
+    this.handleSearch()
+  },
   methods: {
     handleSearch() {
       this.$refs['form'].validate((valid, err) => {
         if (valid) {
           const formData = new FormData()
-          formData.append('type', this.formData.type)
-          formData.append('text', this.formData.text)
-          formData.append('page', this.pageData.page)
-          formData.append('pagesize', this.pageData.pagesize)
-          getAccountInfo(formData)
+          switch (this.formData.type) {
+            case 'account':
+              formData.append('account', this.formData.text)
+              break
+            case 'accountName':
+              formData.append('accountName', this.formData.text)
+              break
+          }
+          getUser(formData)
             .then((response) => {
               const { data } = response
+              console.log(data)
+
               if (data.success) {
                 this.$emit('onSearch', data.content)
-                this.$message.success(data.msg)
+                // this.$message.success(data.msg)
               } else {
-                this.$message.warning(data.msg)
+                // this.$message.warning(data.msg)
               }
             })
             .catch((error) => {

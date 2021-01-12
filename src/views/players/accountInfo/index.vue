@@ -3,9 +3,6 @@
     <searchPanel :page-data="pageData" @onSearch="onSearch" />
     <div class="table-container">
       <el-tag>帳號資訊</el-tag>
-      <p v-if="activeName === 'stored' && totalAmount" style="margin-top: 15px">
-        累計儲值金額：{{ totalAmount }}NTD
-      </p>
       <el-tabs v-model="activeName" style="margin-top: 10px">
         <el-tab-pane
           v-for="item in tabMapOptions"
@@ -14,10 +11,10 @@
           :name="item.key"
         >
           <template v-if="activeName === 'account'">
-            <el-table :data="storedata" style="width: 100%" border>
+            <el-table :data="accountdata" style="width: 100%" border>
 
               <el-table-column prop="account" label="帳號" width="200">
-                <template slot-scope="scope">{{ scope.row.amount }}</template>
+                <template slot-scope="scope">{{ scope.row.account }}</template>
               </el-table-column>
               <el-table-column prop="accountName" label="名稱" width="200">
                 <template slot-scope="scope">{{ scope.row.accountName }}</template>
@@ -26,7 +23,7 @@
                 <template></template>
               </el-table-column>
               <el-table-column prop="createdAt" label="建立時間" sortable>
-                <template slot-scope="scope">{{ scope.row.createdAt }}</template>
+                <template slot-scope="scope">{{ TransformTime(scope.row.createdAt) }}</template>
               </el-table-column>
             </el-table>
             <div class="table-pagination">
@@ -35,7 +32,7 @@
                 :page-sizes="[5, 10, 15, 20]"
                 :page-size="5"
                 layout="total, sizes, prev, pager, next, jumper"
-                :total="storeListTotal"
+                :total="accountTotal"
                 @size-change="handleSizeChange"
                 @current-change="handleCurrentChange"
               />
@@ -49,6 +46,7 @@
 
 <script>
 import searchPanel from './searchPanel'
+import moment from 'moment'
 
 export default {
   name: 'AccountInfo',
@@ -61,10 +59,8 @@ export default {
       activeName: 'account',
       totalAmount: 0,
       createdTimes: 0,
-      storedata: [],
-      storeListTotal: 0,
-      accountdata: {},
-      store: {},
+      accountdata: [],
+      accountTotal: 0,
       pageData: {
         pagesize: 5,
         page: 1
@@ -81,16 +77,17 @@ export default {
       this.pageData.page = val
     },
     onSearch(data) {
-      if (data !== '') {
-        this.accountdata = Object.assign({}, data.account_info)
-        this.storedata = [...data.deposit_list.data]
-        this.storeListTotal = Number(data.deposit_list.total)
-        this.store = Object.assign({}, data.store_info)
-      } else {
-        this.accountdata = {}
-        this.storedata = []
-        this.store = {}
+      if (data) {
+        if (data.length) {
+          this.accountdata = [...data]
+          this.accountTotal = data.length
+        } else {
+          this.accountdata = []
+        }
       }
+    },
+    TransformTime(time) {
+      return moment(time).format('YYYY-MM-DD HH:mm:ss')
     }
   }
 }
