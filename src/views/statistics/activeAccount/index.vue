@@ -61,9 +61,11 @@ export default {
     },
     callbackError(error) {
       console.log(error)
+      this.tableData = []
       this.loading = false
     },
     changeType(type) {
+      if (this.date === type) return
       this.date = type
       this.$refs.searchPanel.changeType(type)
       this.$refs.searchPanel.handleSearch()
