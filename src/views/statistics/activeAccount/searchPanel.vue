@@ -3,13 +3,14 @@
     <el-tag>請輸入查詢條件</el-tag>
     <div style="padding: 5px 0"></div>
     <el-form ref="form" :inline="true" :model="searchform" :rules="rules">
-      <template v-if="date === 'DAU'">
+      <template v-if="date === 'DAU' || date === 'NRU'">
         <el-form-item prop="startDate">
           <el-date-picker
             v-model="searchform.startDate"
             value-format="timestamp"
             type="date"
             placeholder="選擇開始日期"
+            :picker-options="startPickerOptions"
           />
         </el-form-item>
         <el-form-item prop="endDate">
@@ -18,7 +19,7 @@
             value-format="timestamp"
             type="date"
             placeholder="選擇結束日期"
-            :picker-options="pickerOptions"
+            :picker-options="endPickerOptions"
           />
         </el-form-item>
       </template>
@@ -29,6 +30,7 @@
             value-format="timestamp"
             type="year"
             placeholder="選擇年"
+            :picker-options="startPickerOptions"
           />
         </el-form-item>
       </template>
@@ -57,10 +59,10 @@ export default {
       },
       rules: {
         startDate: [
-          { required: true, trigger: 'change', validator: this.handleStartDate }
+          { required: true, trigger: 'change', message: '開始日期不得為空' }
         ],
         endDate: [
-          { required: true, trigger: 'change', validator: this.handleEndDate }
+          { required: true, trigger: 'change', message: '結束日期不得為空' }
         ]
       },
       typeOptions: [
@@ -72,14 +74,25 @@ export default {
     }
   },
   computed: {
-    pickerOptions() {
+    endPickerOptions() {
       const vm = this
       return {
         disabledDate(time) {
           if (vm.isStartDateError) {
             return false
           }
-          return moment(time) < moment(vm.searchform.startDate)
+          return moment(time) < moment(vm.searchform.startDate) || moment(time) > moment()
+        }
+      }
+    },
+    startPickerOptions() {
+      const vm = this
+      return {
+        disabledDate(time) {
+          if (vm.isStartDateError) {
+            return false
+          }
+          return moment(time) > moment()
         }
       }
     }
@@ -107,30 +120,30 @@ export default {
         }
       })
     },
-    handleStartDate(rule, value, callback) {
-      if (value && moment(value) > moment(this.searchform.endDate)) {
-        this.isStartDateError = true
-        callback(new Error('請選擇正確的開始日期'))
-      } else if (!value) {
-        callback(new Error('開始日期不得為空'))
-      } else {
-        this.isStartDateError = false
-        callback()
-      }
-    },
-    handleEndDate(rule, value, callback) {
-      if (value && moment(value) < moment(this.searchform.startDate)) {
-        return callback(new Error('請選擇正確的結束日期'))
-      } else if (!value) {
-        callback(new Error('結束日期不得為空'))
-      } else {
-        if (this.searchform.startDate) {
-          this.$refs['form'].validateField(['startDate'])
-        }
-        this.isStartDateError = false
-        callback()
-      }
-    },
+    // handleStartDate(rule, value, callback) {
+    //   if (value && moment(value) > moment(this.searchform.endDate)) {
+    //     this.isStartDateError = true
+    //     callback(new Error('請選擇正確的開始日期'))
+    //   } else if (!value) {
+    //     callback(new Error('開始日期不得為空'))
+    //   } else {
+    //     this.isStartDateError = false
+    //     callback()
+    //   }
+    // },
+    // handleEndDate(rule, value, callback) {
+    //   if (value && moment(value) < moment(this.searchform.startDate)) {
+    //     return callback(new Error('請選擇正確的結束日期'))
+    //   } else if (!value) {
+    //     callback(new Error('結束日期不得為空'))
+    //   } else {
+    //     if (this.searchform.startDate) {
+    //       this.$refs['form'].validateField(['startDate'])
+    //     }
+    //     this.isStartDateError = false
+    //     callback()
+    //   }
+    // },
     getMonthStart() {
       return moment().startOf('month').valueOf()
     },
