@@ -2,51 +2,71 @@
   <div class="page-container">
     <searchPanel @onSearch="onSearch" />
     <div class="table-container">
-      <el-tag>遊戲歷程</el-tag>
-      <el-tabs v-model="activeName" style="margin-top:10px;">
-        <el-tab-pane v-for="item in tabMapOptions" :key="item.key" :label="item.label" :name="item.key">
-          <template v-if="activeName === 'coin'">
-            <goldPanel :table-data="coindata" />
-          </template>
-          <template v-else-if="activeName === 'free'">
-            <freePanel :table-data="freedata" />
-          </template>
-          <template v-else>
-            <paidPanel :table-data="paiddata" />
-          </template>
-        </el-tab-pane>
-      </el-tabs>
+      <el-tag style="margin-bottom:10px;">遊戲歷程</el-tag>
+      <el-table
+        :data="tableData"
+        border
+      >
+        <el-table-column
+          prop="logText"
+          label="Log 記錄"
+          width="250"
+        />
+        <el-table-column
+          prop="createdAt"
+          label="時間"
+          sortable
+        >
+          <template slot-scope="scope">{{ TransformTime(scope.row.createdAt) }}</template>
+        </el-table-column>
+      </el-table>
+      <div class="table-pagination">
+        <el-pagination
+          :current-page="1"
+          :page-sizes="[100, 200, 300, 400]"
+          :page-size="100"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="tableData.length"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+        />
+      </div>
     </div>
   </div>
 </template>
 <script>
 import searchPanel from './searchPanel'
-import goldPanel from './goldPanel'
-import freePanel from './freePanel'
-import paidPanel from './paidPanel'
+import moment from 'moment'
+
 export default {
   name: 'Index',
-  components: { searchPanel, goldPanel, freePanel, paidPanel },
+  components: { searchPanel },
   data() {
     return {
-      activeName: 'coin',
-      tabMapOptions: [
-        { label: '金幣', key: 'coin' },
-        { label: '免費鑽', key: 'free' },
-        { label: '付費鑽', key: 'paid' }
-      ],
-      coindata: [],
-      freedata: [],
-      paiddata: []
-
+      tableData: []
     }
   },
   methods: {
     onSearch(data) {
-      this.coindata = [...data.coin]
-      this.freedata = [...data.freedimand]
-      this.paiddata = [...data.paydimand]
+      this.tableData = [...data.content]
+    },
+    handleSizeChange(val) {
+      console.log(`每页 ${val} 条`)
+    },
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`)
+    },
+    TransformTime(time) {
+      return moment(time).format('YYYY-MM-DD HH:mm:ss')
     }
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.el-pagination{
+  width: 100%;
+  text-align: right;
+}
+</style>
+

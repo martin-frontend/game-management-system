@@ -43,18 +43,16 @@
         </el-tab-pane>
       </el-tabs>
     </div>
-    <Dialog ref="dialog" />
   </div>
 </template>
 
 <script>
 import searchPanel from './searchPanel'
-import Dialog from './dialog'
 import moment from 'moment'
 
 export default {
   name: 'AccountInfo',
-  components: { searchPanel, Dialog },
+  components: { searchPanel },
 
   data() {
     return {
@@ -93,9 +91,6 @@ export default {
     },
     TransformTime(time) {
       return moment(time).format('YYYY-MM-DD HH:mm:ss')
-    },
-    openLog(account, id) {
-      this.$refs.dialog.handleOpen(account, id)
     }
   }
 }
