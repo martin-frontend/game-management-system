@@ -1,6 +1,6 @@
 <template>
   <div class="page-container">
-    <searchPanel @onSearch="onSearch" />
+    <searchPanel :page-data="pageData" @onSearch="onSearch" />
     <div class="table-container">
       <el-tag style="margin-bottom:10px;">遊戲歷程</el-tag>
       <el-table
@@ -23,10 +23,10 @@
       <div class="table-pagination">
         <el-pagination
           :current-page="1"
-          :page-sizes="[100, 200, 300, 400]"
-          :page-size="100"
+          :page-sizes="[25, 50, 75, 10]"
+          :page-size="25"
           layout="total, sizes, prev, pager, next, jumper"
-          :total="tableData.length"
+          :total="tableTotal"
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
         />
@@ -43,18 +43,31 @@ export default {
   components: { searchPanel },
   data() {
     return {
-      tableData: []
+      tableData: [],
+      tableTotal: 0,
+      pageData: {
+        pagesize: 25,
+        page: 1
+      }
     }
   },
   methods: {
-    onSearch(data) {
-      this.tableData = [...data.content]
+    onSearch(dataobj) {
+      console.log(dataobj)
+      if (dataobj) {
+        if (dataobj.data.length) {
+          this.tableData = [...dataobj.data]
+          this.tableTotal = dataobj.total
+        } else {
+          this.tableData = []
+        }
+      }
     },
     handleSizeChange(val) {
-      console.log(`每页 ${val} 条`)
+      this.pageData.pagesize = val
     },
     handleCurrentChange(val) {
-      console.log(`当前页: ${val}`)
+      this.pageData.page = val
     },
     TransformTime(time) {
       return moment(time).format('YYYY-MM-DD HH:mm:ss')

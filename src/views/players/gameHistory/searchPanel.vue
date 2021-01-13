@@ -19,6 +19,12 @@ import { getUserLog } from '@/api/analysis'
 
 export default {
   name: 'SearchPanel',
+  props: {
+    pageData: {
+      type: Object,
+      default: () => {}
+    }
+  },
   data() {
     return {
       isStartDateError: false,
@@ -41,17 +47,30 @@ export default {
       }
     }
   },
+  watch: {
+    pageData: {
+      handler(newValue, oldValue) {
+        if (this.$refs['form']) {
+          this.handleSearch()
+        }
+      },
+      immediate: true,
+      deep: true
+    }
+  },
   methods: {
     handleSearch() {
       this.$refs['form'].validate((valid, err) => {
         if (valid) {
           const formData = new FormData()
           formData.append('account', this.formData.text)
+          formData.append('pageSize', this.pageData.pagesize)
+          formData.append('page', this.pageData.page)
           getUserLog(formData)
             .then((response) => {
               const { data } = response
               if (data.success) {
-                this.$emit('onSearch', data)
+                this.$emit('onSearch', data.content)
               } else {
                 this.$message.warning(data.msg)
               }
