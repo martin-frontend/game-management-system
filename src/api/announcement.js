@@ -1,30 +1,42 @@
 import request from '@/utils/request'
 
-export function getBulletin() {
+export function getAnnounce() {
   return request({
-    url: 'operation_getbulletin',
+    url: '/operation/getannounce',
     method: 'get'
   })
 }
-export function createBulletin(data) {
+export function createAnnounce(data) {
   return request({
-    url: 'operation_createbulletin',
+    url: '/operation/createannounce',
     method: 'post',
     data
   })
 }
-export function updateBulletin(data) {
+export function updateAnnounce(data) {
   return request({
-    url: 'operation_updatebulletin',
+    url: '/operation/updateannounce',
     method: 'post',
     data
   })
 }
-export function deleteBulletin(data) {
+export function deleteAnnounce(data) {
   return request({
-    url: 'operation_deletebulletin',
+    url: '/operation/deleteannounce',
     method: 'post',
     data
   })
 }
-
+export function getannouncecategory() {
+  return request({
+    url: '/operation/getannouncecategory',
+    method: 'get'
+  })
+}
+export function updateannouncecategory(data) {
+  return request({
+    url: '/operation/updateannouncecategory',
+    method: 'post',
+    data
+  })
+}

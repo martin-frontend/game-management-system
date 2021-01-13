@@ -45,7 +45,7 @@ export default {
   },
   data() {
     return {
-      statisticsData: {
+      analysisData: {
         article_count: 1024,
         pageviews_count: 1024
       }

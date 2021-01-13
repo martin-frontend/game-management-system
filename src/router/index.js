@@ -8,7 +8,7 @@ import Layout from '@/layout'
 
 /* Router Modules */
 import playersRouter from './modules/players'
-import statisticsRouter from './modules/statistics'
+import analysisRouter from './modules/analysis'
 import operationRouter from './modules/operation'
 import authorityRouter from './modules/authority'
 
@@ -73,7 +73,7 @@ export const constantRoutes = [{
 export const asyncRoutes = [
   /** when your routing map is too long, you can split it into small modules **/
   playersRouter,
-  statisticsRouter,
+  analysisRouter,
   operationRouter,
   authorityRouter,
 

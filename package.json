@@ -4,9 +4,9 @@
   "description": "A magical vue admin. An out-of-box UI solution for enterprise applications. Newest development stack of vue. Lots of awesome features",
   "author": "Pan <panfree23@gmail.com>",
   "scripts": {
-    "start": "node dist/app.js",
     "dev": "vue-cli-service serve",
     "lint": "eslint --ext .js,.vue src",
+    "start": "node dist/app.js",
     "build:prod": "vue-cli-service build",
     "build:stage": "vue-cli-service build --mode staging",
     "preview": "node build/index.js --preview",
@@ -24,7 +24,6 @@
     "dropzone": "5.5.1",
     "echarts": "4.2.1",
     "element-ui": "2.13.2",
-    "express": "^4.17.1",
     "file-saver": "2.0.1",
     "fuse.js": "3.4.4",
     "js-cookie": "2.2.0",
