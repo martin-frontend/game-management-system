@@ -23,7 +23,6 @@
                   v-for="subitem in item.role"
                   :key="subitem"
                   :label="subitem"
-                  :disabled="defaultPage(subitem)"
                 />
               </el-checkbox-group>
             </el-tab-pane>
