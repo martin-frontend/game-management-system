@@ -54,7 +54,7 @@ export default {
       isStartDateError: false,
       searchform: {
         startDate: this.getMonthStart(),
-        endDate: this.getMonthEnd(),
+        endDate: this.getNowMoment(),
         type: 'ALL'
       },
       rules: {
@@ -70,7 +70,13 @@ export default {
         { value: 'android', label: 'Android' },
         { value: 'ios', label: 'iOS' }
       ],
-      date: 'DAU'
+      date: 'DAU',
+      startDate_DAU: this.getMonthStart(),
+      endDate_DAU: this.getNowMoment(),
+      startDate_WAU: this.getYearStart(),
+      startDate_MAU: this.getYearStart(),
+      startDate_NRU: this.getMonthStart(),
+      endDate_NRU: this.getNowMoment()
     }
   },
   computed: {
@@ -101,6 +107,14 @@ export default {
     this.handleSearch()
   },
   methods: {
+    saveDate() {
+      this[`startDate_${this.date}`] = this.searchform.startDate
+      if (this.date !== 'WAU' && this.date !== 'MAU') { this[`endDate_${this.date}`] = this.searchform.endDate }
+    },
+    setDate() {
+      this.searchform.startDate = this[`startDate_${this.date}`]
+      if (this.date !== 'WAU' && this.date !== 'MAU') { this.searchform.endDate = this[`endDate_${this.date}`] }
+    },
     handleSearch() {
       this.loading = true
       this.$refs['form'].validate((valid, err) => {
@@ -147,13 +161,16 @@ export default {
     getMonthStart() {
       return moment().startOf('month').valueOf()
     },
-    getMonthEnd() {
-      return moment().endOf('month').valueOf()
+    getYearStart() {
+      return moment().startOf('year').valueOf()
+    },
+    getNowMoment() {
+      return moment().format('x')
     },
     changeType(type) {
+      this.saveDate()
       this.date = type
-      this.searchform.startDate = moment(this.searchform.startDate).startOf('year').valueOf()
-      this.searchform.endDate = moment(this.searchform.startDate).endOf('year').valueOf()
+      this.setDate()
     }
   }
 }
