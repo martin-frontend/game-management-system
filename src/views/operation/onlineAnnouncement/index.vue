@@ -11,6 +11,7 @@
         @click="add"
       />
       <el-button
+        v-loading="listLoading"
         style="float: right"
         type="primary"
         @click="handleCategory"
@@ -46,6 +47,7 @@ export default {
   data() {
     return {
       loading: false,
+      listLoading: false,
       tabMapOptions: [
         { label: '公告欄', key: 'all' },
         { label: '上架中', key: 'launched' },
@@ -95,6 +97,7 @@ export default {
       }
     },
     categoryList() {
+      this.listLoading = true
       getannouncecategory()
         .then((response) => {
           const { data } = response
@@ -111,6 +114,7 @@ export default {
           } else {
             this.$message.warning(data.msg)
           }
+          this.listLoading = false
         })
         .catch((error) => {
           console.log(error)

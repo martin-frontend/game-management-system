@@ -17,7 +17,7 @@
             allow-create
             default-first-option
           >
-            <el-option v-for="category in accountList" :key="category.key" :label="category.label" :value="category.key" />
+            <el-option v-for="category in accountList" :key="category.key" :label="category.label" :value="category.label" />
           </el-select>
         </el-form-item>
         <el-form-item prop="onsaleDate" label="日期" :label-width="formLabelWidth">

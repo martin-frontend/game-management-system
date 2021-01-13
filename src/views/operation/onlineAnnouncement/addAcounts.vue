@@ -9,7 +9,7 @@
           :label-width="formLabelWidth"
         >
           <el-input v-model="category.label" class="form-width form-margin" />
-          <el-button v-if="index == 0" @click="addAccount">新增帳號</el-button>
+          <el-button v-if="index == 0" @click="addAccount">新增分類</el-button>
           <el-button v-else @click.prevent="removeAccount(category)">删除</el-button>
         </el-form-item>
       </el-form>
