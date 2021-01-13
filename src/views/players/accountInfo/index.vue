@@ -24,10 +24,8 @@
               <el-table-column prop="createdAt" label="建立時間" sortable width="200">
                 <template slot-scope="scope">{{ TransformTime(scope.row.createdAt) }}</template>
               </el-table-column>
-              <el-table-column prop="log" label="功能">
-                <template slot-scope="scope">
-                  <el-button type="primary" size="small" @click="openLog(scope.row.account,scope.row._id)">查看登入紀錄</el-button>
-                </template>
+              <el-table-column prop="updatedAt" label="最後登入時間" sortable>
+                <template slot-scope="scope">{{ TransformTime(scope.row.updatedAt) }}</template>
               </el-table-column>
             </el-table>
             <div class="table-pagination">

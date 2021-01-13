@@ -4,7 +4,7 @@
       <el-form :model="formData">
         <el-form-item
           v-for="(account, index) in formData.accountList"
-          :key="account.key"
+          :key="index"
           :label="'帳號'"
           :label-width="formLabelWidth"
         >
@@ -53,11 +53,25 @@ export default {
       formLabelWidth: '80px',
       title: '新增多筆帳號',
       initData: {},
+      accountText: '',
       excelData: {
         header: null,
         results: null
       }
     }
+  },
+  watch: {
+    formData: {
+      handler: function(newobj, oldobj) {
+        if (newobj) {
+          this.accountText = newobj.account
+          console.log(this.accountText)
+        }
+      },
+      immediate: true,
+      deep: true
+    }
+
   },
   methods: {
     handleClose(done) {
@@ -66,8 +80,16 @@ export default {
       this.setInit()
     },
     handleOpen(title, row) {
+      const accountArr = this.accountText.split(',')
+      this.formData.accountList = []
+      accountArr.forEach(element => {
+        this.formData.accountList.push({
+          account: element
+        })
+      })
       this.dialogFormVisible = true
     },
+
     // handleUpload(file) {
     //   const rawFile = file.raw
     //   return new Promise((resolve, reject) => {
@@ -115,8 +137,7 @@ export default {
     },
     addAccount() {
       this.formData.accountList.push({
-        account: '',
-        key: Date.now()
+        account: ''
       })
     },
     addAccounts() {

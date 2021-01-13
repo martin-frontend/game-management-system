@@ -77,6 +77,8 @@ export default {
               formData.append('accountName', this.formData.text)
               break
           }
+          formData.append('pageSize', this.pageData.pagesize)
+          formData.append('page', this.pageData.page)
           getUser(formData)
             .then((response) => {
               const { data } = response

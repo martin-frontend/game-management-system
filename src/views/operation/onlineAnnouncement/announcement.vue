@@ -23,7 +23,7 @@
               size="small"
               @click="lanuch('off',scope.row)"
             >立即下架</el-button>
-            <el-button type="danger" size="small" @click="remove(scope.row.id,scope.row.status)">刪除</el-button>
+            <el-button v-if="scope.row.status!=='2'" type="danger" size="small" @click="remove(scope.row.id,scope.row.status)">刪除</el-button>
           </template>
         </el-table-column>
       </div>
@@ -94,25 +94,21 @@ export default {
       this.$emit('edit', { title, row })
     },
     remove(id, state) {
-      if (state === '2') {
-        this.$message.warning('此產品上架中，請先下架產品再刪除')
-      } else {
-        const formData = new FormData()
-        formData.append('id', id)
-        deleteAnnounce(formData)
-          .then((response) => {
-            const { data } = response
-            if (data.success) {
-              this.$emit('initdata')
-              this.$message.success(data.msg)
-            } else {
-              this.$message.warning(data.msg)
-            }
-          })
-          .catch((err) => {
-            console.log(err)
-          })
-      }
+      const formData = new FormData()
+      formData.append('id', id)
+      deleteAnnounce(formData)
+        .then((response) => {
+          const { data } = response
+          if (data.success) {
+            this.$emit('initdata')
+            this.$message.success(data.msg)
+          } else {
+            this.$message.warning(data.msg)
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     },
     lanuch(type, row) {
       const formData = new FormData()
