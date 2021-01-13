@@ -65,7 +65,6 @@ export default {
       handler: function(newobj, oldobj) {
         if (newobj) {
           this.accountText = newobj.account
-          console.log(this.accountText)
         }
       },
       immediate: true,
@@ -80,13 +79,15 @@ export default {
       this.setInit()
     },
     handleOpen(title, row) {
-      const accountArr = this.accountText.split(',')
-      this.formData.accountList = []
-      accountArr.forEach(element => {
-        this.formData.accountList.push({
-          account: element
+      if (this.accountText && this.accountText !== '') {
+        const accountArr = this.accountText.split(',')
+        this.formData.accountList = []
+        accountArr.forEach(element => {
+          this.formData.accountList.push({
+            account: element
+          })
         })
-      })
+      }
       this.dialogFormVisible = true
     },
 
