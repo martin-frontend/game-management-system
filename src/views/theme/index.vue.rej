@@ -1,4 +1,0 @@
-diff a/src/views/theme/index.vue b/src/views/theme/index.vue	(rejected hunks)
-@@ -43 +43 @@
--        <i class="el-icon-upload el-icon-right" />
-+        <i class="el-icon-upload el-icon-right"></i>

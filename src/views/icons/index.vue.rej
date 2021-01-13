@@ -1,4 +1,0 @@
-diff a/src/views/icons/index.vue b/src/views/icons/index.vue	(rejected hunks)
-@@ -31 +31 @@
--                <i :class="'el-icon-' + item" />
-+                <i :class="'el-icon-' + item"></i>

@@ -1,4 +1,0 @@
-diff a/src/views/zip/index.vue b/src/views/zip/index.vue	(rejected hunks)
-@@ -31 +31 @@
--          <i class="el-icon-time" />
-+          <i class="el-icon-time"></i>

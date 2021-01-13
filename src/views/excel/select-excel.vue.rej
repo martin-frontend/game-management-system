@@ -1,4 +1,0 @@
-diff a/src/views/excel/select-excel.vue b/src/views/excel/select-excel.vue	(rejected hunks)
-@@ -44 +44 @@
--          <i class="el-icon-time" />
-+          <i class="el-icon-time"></i>

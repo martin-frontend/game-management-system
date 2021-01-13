@@ -1,4 +1,0 @@
-diff a/src/views/qiniu/upload.vue b/src/views/qiniu/upload.vue	(rejected hunks)
-@@ -3 +3 @@
--    <i class="el-icon-upload" />
-+    <i class="el-icon-upload"></i>
