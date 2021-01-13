@@ -100,6 +100,7 @@ export default {
       this.listLoading = true
       getannouncecategory()
         .then((response) => {
+          this.listLoading = false
           const { data } = response
           if (data.success) {
             if (data.content.length > 0) {
@@ -114,7 +115,6 @@ export default {
           } else {
             this.$message.warning(data.msg)
           }
-          this.listLoading = false
         })
         .catch((error) => {
           console.log(error)

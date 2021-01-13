@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-dialog :title="title" :before-close="handleClose" :close-on-click-modal="false" :visible="dialogFormVisible" width="50%">
+    <el-dialog :title="title" :before-close="handleClose" :close-on-click-modal="false" :visible="dialogFormVisible" width="550px">
       <el-form :model="formData">
         <el-form-item
           v-for="(category, index) in formData.accountList"
@@ -8,9 +8,9 @@
           :label="index === 0?'分類名稱':''"
           :label-width="formLabelWidth"
         >
-          <el-input v-model="category.label" class="form-width form-margin" />
+          <el-input v-model.trim="category.label" :disabled="category.disabled" class="form-width form-margin" />
+          <el-button :disabled="category.disabled" @click.prevent="removeAccount(category)">删除</el-button>
           <el-button v-if="index == 0" @click="addAccount">新增分類</el-button>
-          <el-button v-else @click.prevent="removeAccount(category)">删除</el-button>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -46,10 +46,20 @@ export default {
     },
     handleOpen(title, row) {
       this.dialogFormVisible = true
+      const categoryArr = this.$parent.tableData.map((item) => (item.category))
       this.formData = cloneDeep(this.$parent.formData)
+      this.formData.accountList.forEach((element, index, arr) => {
+        if (categoryArr.indexOf(element.label) !== -1) {
+          this.$set(element, 'disabled', true)
+        }
+      })
       this.createInit()
     },
     removeAccount(item) {
+      if (this.formData.accountList.length === 1) {
+        this.$message.error('至少新增一個分類')
+        return
+      }
       var index = this.formData.accountList.indexOf(item)
       if (index !== -1) {
         this.formData.accountList.splice(index, 1)
