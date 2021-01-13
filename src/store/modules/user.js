@@ -55,7 +55,7 @@ const actions = {
         if (data.success) {
           const { content } = data
           const roles = [content.roles]
-          const avatar = 'https://stickershop.line-scdn.net/stickershop/v1/product/10691644/LINEStorePC/main.png;compress=true'
+          const avatar = 'https://wpimg.wallstcn.com/9e2a5d0a-bd5b-457f-ac8e-86554616c87b.jpg'
           const introduction = 'I am a super administrator'
           // roles must be a non-empty array
           if (!roles || roles.length <= 0) {
