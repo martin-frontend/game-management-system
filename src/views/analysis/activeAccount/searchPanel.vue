@@ -107,7 +107,7 @@ export default {
         if (valid) {
           const formData = new FormData()
           formData.append('startDate', this.searchform.startDate)
-          if (this.date === 'DAU') {
+          if (this.date === 'DAU' || this.date === 'NRU') {
             formData.append('endDate', this.searchform.endDate)
           } else {
             formData.append('endDate', moment(this.searchform.startDate).endOf('year').valueOf())
