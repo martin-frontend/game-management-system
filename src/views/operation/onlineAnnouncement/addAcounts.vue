@@ -87,6 +87,9 @@ export default {
           .then((resopnse) => {
             const { data } = resopnse
             if (data.success) {
+              this.formData.accountList.forEach(item => {
+                delete item.disabled
+              })
               this.$parent.setInit(this.formData)
               this.handleClose()
             } else {
