@@ -21,30 +21,9 @@ export function getAddAccount(data) {
     data
   })
 }
-export function getUserDau(data) {
+export function getActiveAccount(data) {
   return request({
-    url: '/analysis/getuserdau',
-    method: 'post',
-    data
-  })
-}
-export function getUserWau(data) {
-  return request({
-    url: '/analysis/getuserwau',
-    method: 'post',
-    data
-  })
-}
-export function getUserMau(data) {
-  return request({
-    url: '/analysis/getusermau',
-    method: 'post',
-    data
-  })
-}
-export function getUserNru(data) {
-  return request({
-    url: '/analysis/getusernru',
+    url: 'statistics_getactiveaccount',
     method: 'post',
     data
   })

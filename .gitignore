@@ -1,11 +1,11 @@
 .DS_Store
 node_modules/
-# dist/
+dist/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 **/*.log
-deploy.sh
+
 tests/**/coverage/
 tests/e2e/reports
 selenium-debug.log
@@ -18,9 +18,7 @@ selenium-debug.log
 *.njsproj
 *.sln
 *.local
-.env.development
-.env.production
-.env.staging
+
 package-lock.json
 yarn.lock
 

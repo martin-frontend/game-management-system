@@ -1,21 +1,22 @@
 import request from '@/utils/request'
 
-export function getSuspension() {
+export function getSuspension(data) {
   return request({
-    url: 'operation/getban',
-    method: 'get'
+    url: 'operation_getsuspension',
+    method: 'get',
+    data
   })
 }
 export function createSuspension(data) {
   return request({
-    url: 'operation/createban',
+    url: 'operation_createsuspension',
     method: 'post',
     data
   })
 }
 export function updateSuspension(data) {
   return request({
-    url: 'operation/updateban',
+    url: 'operation_updatesuspension',
     method: 'post',
     data
   })
