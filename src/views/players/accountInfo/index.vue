@@ -12,9 +12,9 @@
         >
           <template v-if="activeName === 'account'">
             <el-table :data="accountdata" style="width: 100%" border>
-              <el-table-column prop="account" label="id" width="200">
+              <!-- <el-table-column prop="account" label="id" width="200">
                 <template slot-scope="scope">{{ scope.row._id }}</template>
-              </el-table-column>
+              </el-table-column> -->
               <el-table-column prop="account" label="帳號" width="200">
                 <template slot-scope="scope">{{ scope.row.account }}</template>
               </el-table-column>
@@ -31,8 +31,8 @@
             <div class="table-pagination">
               <el-pagination
                 :current-page="1"
-                :page-sizes="[5, 10, 15, 20]"
-                :page-size="5"
+                :page-sizes="[25, 50, 75, 10]"
+                :page-size="25"
                 layout="total, sizes, prev, pager, next, jumper"
                 :total="accountTotal"
                 @size-change="handleSizeChange"
@@ -67,7 +67,7 @@ export default {
       accountdata: [],
       accountTotal: 0,
       pageData: {
-        pagesize: 5,
+        pagesize: 25,
         page: 1
       }
     }
@@ -81,11 +81,11 @@ export default {
     handleCurrentChange(val) {
       this.pageData.page = val
     },
-    onSearch(data) {
-      if (data) {
-        if (data.length) {
-          this.accountdata = [...data]
-          this.accountTotal = data.length
+    onSearch(dataobj) {
+      if (dataobj) {
+        if (dataobj.data.length) {
+          this.accountdata = [...dataobj.data]
+          this.accountTotal = dataobj.total
         } else {
           this.accountdata = []
         }

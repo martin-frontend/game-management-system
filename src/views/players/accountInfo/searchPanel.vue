@@ -82,7 +82,6 @@ export default {
           getUser(formData)
             .then((response) => {
               const { data } = response
-              console.log(data)
 
               if (data.success) {
                 this.$emit('onSearch', data.content)
