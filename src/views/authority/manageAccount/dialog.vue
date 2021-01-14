@@ -20,6 +20,7 @@
             autocomplete="off"
             placeholder="請輸入密碼"
             class="form-width"
+            show-password
           />
         </el-form-item>
         <el-form-item v-if="title !== '修改'" label="確認密碼" :label-width="formLabelWidth">
@@ -28,6 +29,7 @@
             autocomplete="off"
             placeholder="請輸入密碼"
             class="form-width"
+            show-password
           />
         </el-form-item>
         <el-form-item label="權限" :label-width="formLabelWidth">
