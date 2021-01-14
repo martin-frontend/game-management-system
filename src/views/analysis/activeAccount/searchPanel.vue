@@ -119,12 +119,12 @@ export default {
       this.loading = true
       this.$refs['form'].validate((valid, err) => {
         if (valid) {
-          const formData = new FormData()
-          formData.append('startDate', this.searchform.startDate)
+          const formData = {}
+          formData.startDate = this.searchform.startDate
           if (this.date === 'DAU' || this.date === 'NRU') {
-            formData.append('endDate', this.searchform.endDate)
+            formData.endDate = this.searchform.endDate
           } else {
-            formData.append('endDate', moment(this.searchform.startDate).endOf('year').valueOf())
+            formData.endDate = moment(this.searchform.startDate).endOf('year').valueOf()
           }
           // if (this.searchform.typeOptions && this.searchform.typeOptions !== 'all') { formData.append('type', this.searchform.typeOptions) }
           this.$emit('updatedTableData', formData, this.loading)

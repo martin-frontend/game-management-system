@@ -21,45 +21,45 @@ export function getAddAccount(data) {
     data
   })
 }
-export function getUserDau(data) {
+export function getUserDau(params) {
   return request({
-    url: '/analysis/getuserdau',
-    method: 'post',
-    data
+    url: '/analysis/userdau',
+    method: 'get',
+    params
   })
 }
-export function getUser(data) {
+export function getUser(params) {
   return request({
-    url: '/analysis/getuser',
-    method: 'post',
-    data
+    url: '/analysis/user',
+    method: 'get',
+    params
   })
 }
-export function getUserLog(data) {
+export function getUserLog(params) {
   return request({
-    url: '/analysis/getuserlog',
-    method: 'post',
-    data
+    url: '/analysis/userlog',
+    method: 'get',
+    params
   })
 }
-export function getUserWau(data) {
+export function getUserWau(params) {
   return request({
-    url: '/analysis/getuserwau',
-    method: 'post',
-    data
+    url: '/analysis/userwau',
+    method: 'get',
+    params
   })
 }
-export function getUserMau(data) {
+export function getUserMau(params) {
   return request({
-    url: '/analysis/getusermau',
-    method: 'post',
-    data
+    url: '/analysis/usermau',
+    method: 'get',
+    params
   })
 }
-export function getUserNru(data) {
+export function getUserNru(params) {
   return request({
-    url: '/analysis/getusernru',
-    method: 'post',
-    data
+    url: '/analysis/usernru',
+    method: 'get',
+    params
   })
 }
