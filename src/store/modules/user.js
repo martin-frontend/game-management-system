@@ -5,7 +5,7 @@ import router, { resetRouter } from '@/router'
 const state = {
   token: getToken(),
   name: '',
-  avatar: '',
+  accountName: '',
   introduction: '',
   roles: []
 }
@@ -17,8 +17,9 @@ const mutations = {
   SET_NAME: (state, name) => {
     state.name = name
   },
-  SET_AVATAR: (state, avatar) => {
-    state.avatar = avatar
+  SET_AccountName: (state, accountName) => {
+    console.log(accountName)
+    state.accountName = accountName
   },
   SET_ROLES: (state, roles) => {
     state.roles = roles
@@ -55,7 +56,7 @@ const actions = {
         if (data.success) {
           const { content } = data
           const roles = [content.roles]
-          const avatar = 'https://wpimg.wallstcn.com/9e2a5d0a-bd5b-457f-ac8e-86554616c87b.jpg'
+          const accountName = [content.accountName]
           const introduction = 'I am a super administrator'
           // roles must be a non-empty array
           if (!roles || roles.length <= 0) {
@@ -64,12 +65,11 @@ const actions = {
 
           commit('SET_ROLES', content.roles)
           commit('SET_NAME', content.role)
-          commit('SET_AVATAR', avatar)
+          commit('SET_AccountName', content.accountName)
           commit('SET_INTRODUCTION', introduction)
           const newData = {
             roles,
-            name,
-            avatar,
+            accountName,
             introduction
           }
           resolve(newData)
