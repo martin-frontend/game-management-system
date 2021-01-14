@@ -51,7 +51,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button @click="handleClose">取 消</el-button>
         <el-button
           v-if="title === '新增'"
           type="primary"
@@ -78,8 +78,12 @@ export default {
     this.initRoleSelect()
   },
   methods: {
+    resetFormData() {
+      this.formData = {}
+    },
     handleClose() {
       this.loading = false
+      this.resetFormData()
       this.dialogFormVisible = false
     },
     handleOpen(title, data) {
