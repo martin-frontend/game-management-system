@@ -12,7 +12,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <div class="table-pagination">
+    <!-- <div class="table-pagination">
       <el-pagination
         :current-page="1"
         :page-sizes="[25, 50, 75, 10]"
@@ -22,7 +22,7 @@
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
       />
-    </div>
+    </div> -->
   </div>
 </template>
 <script>
