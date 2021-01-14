@@ -21,7 +21,7 @@ const playersRouter = {
       path: 'game-history',
       component: () => import('@/views/players/gameHistory'),
       name: 'gameHistory',
-      meta: { title: 'gameHistory', roles: '查詢發送物品', noCache: true }
+      meta: { title: 'gameHistory', roles: '查詢遊戲歷程', noCache: true }
     }
   ]
 }
