@@ -3,19 +3,21 @@
     <search-panel ref="searchPanel" @updatedTableData="updatedTableData" />
     <div class="table-container">
       <el-tag>活躍帳戶</el-tag>
+      <chart class="account-chart" />
+      <tableData :date="date" />
     </div>
-    <chart class="account-chart" />
   </div>
 </template>
 <script>
 import searchPanel from './searchPanel'
 import chart from './chart'
+import tableData from './tableData'
 import { getUserDau, getUserWau, getUserMau, getUserNru } from '@/api/analysis'
 // import { registerLoading } from 'echarts/lib/echarts'
 
 export default {
   name: 'Index',
-  components: { searchPanel, chart },
+  components: { searchPanel, chart, tableData },
   data() {
     return {
       loading: false,
