@@ -45,7 +45,7 @@
     <el-button style="margin-top:80px;" type="primary" icon="el-icon-document" @click="getHtml">
       Get HTML
     </el-button>
-    <div v-html="html" />
+    <div v-html="html"></div>
   </div>
 </template>
 

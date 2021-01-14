@@ -28,7 +28,7 @@
       </el-table-column>
       <el-table-column align="center" label="Date" width="220">
         <template slot-scope="scope">
-          <i class="el-icon-time" />
+          <i class="el-icon-time"></i>
           <span>{{ scope.row.display_time }}</span>
         </template>
       </el-table-column>

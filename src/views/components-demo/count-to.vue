@@ -17,13 +17,13 @@
     />
     <div style="margin-left: 25%;margin-top: 40px;">
       <label class="label" for="startValInput">startVal:
-        <input v-model.number="setStartVal" type="number" name="startValInput">
+        <input v-model.number="setStartVal" type="number" name="startValInput" />
       </label>
       <label class="label" for="endValInput">endVal:
-        <input v-model.number="setEndVal" type="number" name="endVaInput">
+        <input v-model.number="setEndVal" type="number" name="endVaInput" />
       </label>
       <label class="label" for="durationInput">duration:
-        <input v-model.number="setDuration" type="number" name="durationInput">
+        <input v-model.number="setDuration" type="number" name="durationInput" />
       </label>
       <div class="startBtn example-btn" @click="start">
         Start
@@ -31,18 +31,18 @@
       <div class="pause-resume-btn example-btn" @click="pauseResume">
         pause/resume
       </div>
-      <br>
+      <br />
       <label class="label" for="decimalsInput">decimals:
-        <input v-model.number="setDecimals" type="number" name="decimalsInput">
+        <input v-model.number="setDecimals" type="number" name="decimalsInput" />
       </label>
       <label class="label" for="separatorInput">separator:
-        <input v-model="setSeparator" name="separatorInput">
+        <input v-model="setSeparator" name="separatorInput" />
       </label>
       <label class="label" for="prefixInput">prefix:
-        <input v-model="setPrefix" name="prefixInput">
+        <input v-model="setPrefix" name="prefixInput" />
       </label>
       <label class="label" for="suffixInput">suffix:
-        <input v-model="setSuffix" name="suffixInput">
+        <input v-model="setSuffix" name="suffixInput" />
       </label>
     </div>
     <aside>&lt;count-to :start-val=&#x27;{{ _startVal }}&#x27; :end-val=&#x27;{{ _endVal }}&#x27; :duration=&#x27;{{ _duration }}&#x27;

@@ -7,15 +7,15 @@
     </aside>
     <split-pane split="vertical" @resize="resize">
       <template slot="paneL">
-        <div class="left-container" />
+        <div class="left-container"></div>
       </template>
       <template slot="paneR">
         <split-pane split="horizontal">
           <template slot="paneL">
-            <div class="top-container" />
+            <div class="top-container"></div>
           </template>
           <template slot="paneR">
-            <div class="bottom-container" />
+            <div class="bottom-container"></div>
           </template>
         </split-pane>
       </template>

@@ -40,7 +40,7 @@
       </el-button>
       <el-button type="primary">
         Upload
-        <i class="el-icon-upload el-icon-right" />
+        <i class="el-icon-upload el-icon-right"></i>
       </el-button>
     </div>
 
