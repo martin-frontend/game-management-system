@@ -122,21 +122,19 @@ export default {
     },
     initdata() {
       this.loading = true
-      let state = ''
-      switch (this.activeName) {
-        case 'launched':
-          state = '0'
-          break
-        case 'notLaunch':
-          state = '1'
-          break
-        case 'removed':
-          state = '2'
-          break
-      }
-      const formData = new FormData()
-      formData.append('state', state)
-      getAnnounce(formData)
+      // let state = ''
+      // switch (this.activeName) {
+      //   case 'launched':
+      //     state = '0'
+      //     break
+      //   case 'notLaunch':
+      //     state = '1'
+      //     break
+      //   case 'removed':
+      //     state = '2'
+      //     break
+      // }
+      getAnnounce()
         .then((response) => {
           const { data } = response
           if (data.success) {

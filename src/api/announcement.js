@@ -2,41 +2,41 @@ import request from '@/utils/request'
 
 export function getAnnounce() {
   return request({
-    url: '/operation/getannounce',
+    url: '/operation/announce',
     method: 'get'
   })
 }
 export function createAnnounce(data) {
   return request({
-    url: '/operation/createannounce',
+    url: '/operation/announce',
     method: 'post',
     data
   })
 }
 export function updateAnnounce(data) {
   return request({
-    url: '/operation/updateannounce',
-    method: 'post',
+    url: '/operation/announce',
+    method: 'put',
     data
   })
 }
 export function deleteAnnounce(data) {
   return request({
-    url: '/operation/deleteannounce',
-    method: 'post',
+    url: '/operation/announce',
+    method: 'delete',
     data
   })
 }
 export function getannouncecategory() {
   return request({
-    url: '/operation/getannouncecategory',
+    url: '/operation/announce/category',
     method: 'get'
   })
 }
 export function updateannouncecategory(data) {
   return request({
-    url: '/operation/updateannouncecategory',
-    method: 'post',
+    url: '/operation/announce/category',
+    method: 'put',
     data
   })
 }
