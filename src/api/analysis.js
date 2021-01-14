@@ -28,11 +28,11 @@ export function getUserDau(params) {
     params
   })
 }
-export function getUser(data) {
+export function getUser(params) {
   return request({
     url: '/analysis/user',
-    method: 'post',
-    data
+    method: 'get',
+    params
   })
 }
 export function getUserLog(params) {
