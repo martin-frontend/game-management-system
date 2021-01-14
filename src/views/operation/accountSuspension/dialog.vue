@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-dialog v-if="dialogFormVisible" :title="title" :before-close="handleClose" :visible.sync="dialogFormVisible" width="50%">
+    <el-dialog v-if="dialogFormVisible" :close-on-click-modal="false" :title="title" :before-close="handleClose" :visible.sync="dialogFormVisible" width="50%">
       <el-form ref="form" :model="formData" :rules="rules">
         <el-form-item
           :label="'帳號'"
