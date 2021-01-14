@@ -2,6 +2,7 @@
   <div>
     <el-dialog
       :title="title + '帳號'"
+      :before-close="handleClose"
       :visible.sync="dialogFormVisible"
       :close-on-click-modal="false"
       width="30%"
