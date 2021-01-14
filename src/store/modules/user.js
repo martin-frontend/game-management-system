@@ -113,7 +113,7 @@ const actions = {
   resetToken({ commit }) {
     return new Promise(resolve => {
       commit('SET_ROLES', [])
-      // removeToken()
+      removeToken()
       resolve()
     })
   },
