@@ -56,9 +56,9 @@ export default {
     },
     initdata() {
       this.loading = true
-      const formData = new FormData()
-      formData.append('pageSize', this.pageData.pagesize)
-      formData.append('page', this.pageData.page)
+      const formData = {}
+      formData.pageSize = this.pageData.pagesize
+      formData.page = this.pageData.page
       getSuspension(formData)
         .then((response) => {
           const { data } = response
