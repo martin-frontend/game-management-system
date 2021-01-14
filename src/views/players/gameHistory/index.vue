@@ -53,7 +53,6 @@ export default {
   },
   methods: {
     onSearch(dataobj) {
-      console.log(dataobj)
       if (dataobj) {
         if (dataobj.data.length) {
           this.tableData = [...dataobj.data]

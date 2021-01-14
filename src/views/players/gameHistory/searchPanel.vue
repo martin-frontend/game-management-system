@@ -62,10 +62,10 @@ export default {
     handleSearch() {
       this.$refs['form'].validate((valid, err) => {
         if (valid) {
-          const formData = new FormData()
-          formData.append('account', this.formData.text)
-          formData.append('pageSize', this.pageData.pagesize)
-          formData.append('page', this.pageData.page)
+          const formData = {}
+          formData.account = this.formData.text
+          formData.pageSize = this.pageData.pagesize
+          formData.page = this.pageData.page
           getUserLog(formData)
             .then((response) => {
               const { data } = response
