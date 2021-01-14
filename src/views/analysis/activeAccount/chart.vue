@@ -10,17 +10,15 @@
       />
     </el-tabs>
     <line-marker v-if="!$parent.loading" :type="date" />
-    <tableData :date="date" />
   </div>
 </template>
 <script>
 import LineMarker from '@/components/Charts/LineMarker'
-import tableData from './tableData'
 
 export default {
   name: 'Chart',
   inject: ['group'],
-  components: { LineMarker, tableData },
+  components: { LineMarker },
   data() {
     return {
       date: 'DAU',
