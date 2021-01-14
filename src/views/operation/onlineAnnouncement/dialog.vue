@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-dialog :title="title" :before-close="handleClose" :visible.sync="dialogFormVisible" width="50%">
+    <el-dialog :title="title" :close-on-click-modal="false" :before-close="handleClose" :visible.sync="dialogFormVisible" width="50%">
       <el-form ref="ruleForm" :rules="rules" :model="formData">
         <el-form-item prop="title" label="標題" :label-width="formLabelWidth">
           <el-input

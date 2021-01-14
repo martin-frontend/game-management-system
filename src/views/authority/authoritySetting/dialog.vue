@@ -4,6 +4,7 @@
       :title="title + '權限'"
       :before-close="handleClose"
       :visible.sync="dialogFormVisible"
+      :close-on-click-modal="false"
       width="60%"
     >
       <el-form :model="formData">

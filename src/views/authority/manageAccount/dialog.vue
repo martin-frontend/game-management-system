@@ -3,6 +3,7 @@
     <el-dialog
       :title="title + '帳號'"
       :visible.sync="dialogFormVisible"
+      :close-on-click-modal="false"
       width="30%"
     >
       <el-form :model="formData">
