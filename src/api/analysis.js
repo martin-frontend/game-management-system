@@ -23,7 +23,7 @@ export function getAddAccount(data) {
 }
 export function getUserDau(params) {
   return request({
-    url: '/analysis/userdau',
+    url: '/analysis/user/dau',
     method: 'get',
     params
   })
@@ -37,28 +37,28 @@ export function getUser(params) {
 }
 export function getUserLog(params) {
   return request({
-    url: '/analysis/userlog',
+    url: '/analysis/user/log',
     method: 'get',
     params
   })
 }
 export function getUserWau(params) {
   return request({
-    url: '/analysis/userwau',
+    url: '/analysis/user/wau',
     method: 'get',
     params
   })
 }
 export function getUserMau(params) {
   return request({
-    url: '/analysis/usermau',
+    url: '/analysis/user/mau',
     method: 'get',
     params
   })
 }
 export function getUserNru(params) {
   return request({
-    url: '/analysis/usernru',
+    url: '/analysis/user/nru',
     method: 'get',
     params
   })

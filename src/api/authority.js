@@ -3,28 +3,28 @@ import request from '@/utils/request'
 // user
 export function getUser() {
   return request({
-    url: 'user/getuser',
+    url: 'user',
     method: 'get'
   })
 }
 export function createUser(data) {
   return request({
-    url: 'user/createuser',
+    url: 'user',
     method: 'post',
     data
   })
 }
 export function updateUser(data) {
   return request({
-    url: 'user/updateuser',
-    method: 'post',
+    url: 'user',
+    method: 'put',
     data
   })
 }
 export function deleteUser(data) {
   return request({
-    url: 'user/deleteuser',
-    method: 'post',
+    url: 'user',
+    method: 'delete',
     data
   })
 }
