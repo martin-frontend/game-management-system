@@ -2,6 +2,7 @@
   <div>
     <el-dialog
       :title="title + '帳號'"
+      :before-close="handleClose"
       :visible.sync="dialogFormVisible"
       :close-on-click-modal="false"
       width="30%"
@@ -21,6 +22,7 @@
             autocomplete="off"
             placeholder="請輸入密碼"
             class="form-width"
+            show-password
           />
         </el-form-item>
         <el-form-item v-if="title !== '修改'" label="確認密碼" :label-width="formLabelWidth">
@@ -29,6 +31,7 @@
             autocomplete="off"
             placeholder="請輸入密碼"
             class="form-width"
+            show-password
           />
         </el-form-item>
         <el-form-item label="權限" :label-width="formLabelWidth">
@@ -51,7 +54,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button @click="handleClose">取 消</el-button>
         <el-button
           v-if="title === '新增'"
           type="primary"
@@ -78,8 +81,12 @@ export default {
     this.initRoleSelect()
   },
   methods: {
+    resetFormData() {
+      this.formData = {}
+    },
     handleClose() {
       this.loading = false
+      this.resetFormData()
       this.dialogFormVisible = false
     },
     handleOpen(title, data) {

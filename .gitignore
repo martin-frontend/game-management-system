@@ -23,4 +23,3 @@ package-lock.json
 yarn.lock
 
 .prettierrc.js
-/.env.production
