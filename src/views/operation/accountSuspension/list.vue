@@ -34,10 +34,10 @@
     <div class="table-pagination">
       <el-pagination
         :current-page="1"
-        :page-sizes="[100, 200, 300, 400]"
-        :page-size="100"
+        :page-sizes="[25, 50, 75, 100]"
+        :page-size="25"
         layout="total, sizes, prev, pager, next, jumper"
-        :total="tableData.length"
+        :total="pageTotal"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
       />
@@ -57,19 +57,34 @@ export default {
       default() {
         return []
       }
+    },
+    pageTotal: {
+      type: Number,
+      default() {
+        return 0
+      }
     }
+
   },
   data() {
     return {
+      pageData: {
+        pagesize: 25,
+        page: 1
+      }
     }
   },
   methods: {
     checkPermission,
     handleSizeChange(val) {
-      console.log(`每页 ${val} 条`)
+      this.pageData.pagesize = val
+      this.$emit('pageChange', this.pageData)
+      this.$emit('initdata')
     },
     handleCurrentChange(val) {
-      console.log(`当前页: ${val}`)
+      this.pageData.page = val
+      this.$emit('pageChange', this.pageData)
+      this.$emit('initdata', this.pageData)
     },
     recovery(row) {
       const formData = new FormData()

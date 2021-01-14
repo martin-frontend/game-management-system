@@ -1,9 +1,10 @@
 import request from '@/utils/request'
 
-export function getSuspension() {
+export function getSuspension(data) {
   return request({
     url: 'operation/getban',
-    method: 'get'
+    method: 'post',
+    data
   })
 }
 export function createSuspension(data) {

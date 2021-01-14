@@ -6,8 +6,8 @@
       <el-tabs v-model="activeName" style="margin-top:10px;">
         <el-tab-pane v-for="item in tabMapOptions" :key="item.key" :label="item.label" :name="item.key">
           <template>
-            <List v-if="activeName === 'banList'" v-loading="loading" :table-data="filterData(tableData)" @initdata="initdata" />
-            <HistoryList v-if="activeName === 'history'" v-loading="loading" :table-data="tableData" @initdata="initdata" />
+            <List v-if="activeName === 'banList'" v-loading="loading" :table-data="filterData(tableData)" :page-total="pageTotal" @initdata="initdata" @pageChange="pageChange" />
+            <HistoryList v-if="activeName === 'history'" v-loading="loading" :table-data="tableData" :page-total="pageTotal" @initdata="initdata" @pageChange="pageChange" />
           </template>
         </el-tab-pane>
       </el-tabs>
@@ -33,7 +33,12 @@ export default {
         { label: '停權名單', key: 'history' }
       ],
       activeName: 'banList',
-      tableData: []
+      tableData: [],
+      pageData: {
+        pagesize: 25,
+        page: 1
+      },
+      pageTotal: 0
     }
   },
   computed: {
@@ -51,11 +56,16 @@ export default {
     },
     initdata() {
       this.loading = true
-      getSuspension()
+      const formData = new FormData()
+      formData.append('pageSize', this.pageData.pagesize)
+      formData.append('page', this.pageData.page)
+      getSuspension(formData)
         .then((response) => {
           const { data } = response
           if (data.success) {
-            this.tableData = [...data.content]
+            this.tableData = [...data.content.data]
+            this.pageTotal = data.content.total
+            console.log(this.pageTotal)
           } else {
             this.tableData = []
             this.$message.warning(data.msg)
@@ -65,6 +75,10 @@ export default {
         .catch((error) => {
           console.log(error)
         })
+    },
+    pageChange(data) {
+      this.pageData.pagesize = data.pagesize
+      this.pageData.page = data.page
     },
     filterData(arr) {
       if (arr) { return arr.filter(item => item.isbaned) }
