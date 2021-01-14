@@ -5,12 +5,12 @@
       border
     >
       <el-table-column
-        prop="isbaned"
+        prop="isbanned"
         label="狀態"
         width="120"
       >
         <template slot-scope="scope">
-          {{ scope.row.isbaned?"停權中":"已復權" }}
+          {{ scope.row.isbanned?"停權中":"已復權" }}
         </template>
       </el-table-column>
       <el-table-column

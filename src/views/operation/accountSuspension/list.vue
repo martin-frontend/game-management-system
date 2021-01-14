@@ -107,6 +107,7 @@ export default {
         })
     },
     TransformTime(state, time) {
+      console.log(state)
       if (state === '1') {
         return '永久停權'
       } else {

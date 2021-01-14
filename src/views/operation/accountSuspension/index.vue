@@ -30,7 +30,7 @@ export default {
       loading: false,
       tabMapOptions: [
         { label: '停權名單', key: 'banList' },
-        { label: '停權名單', key: 'history' }
+        { label: '歷史記錄', key: 'history' }
       ],
       activeName: 'banList',
       tableData: [],
@@ -81,7 +81,7 @@ export default {
       this.pageData.page = data.page
     },
     filterData(arr) {
-      if (arr) { return arr.filter(item => item.isbaned) }
+      if (arr) { return arr.filter(item => item.isbanned) }
     }
   }
 }
