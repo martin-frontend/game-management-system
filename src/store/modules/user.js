@@ -18,7 +18,6 @@ const mutations = {
     state.name = name
   },
   SET_AccountName: (state, accountName) => {
-    console.log(accountName)
     state.accountName = accountName
   },
   SET_ROLES: (state, roles) => {
