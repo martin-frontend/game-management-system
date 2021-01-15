@@ -3,28 +3,28 @@ import request from '@/utils/request'
 // user
 export function getUser() {
   return request({
-    url: 'authority_getuser',
+    url: 'user',
     method: 'get'
   })
 }
 export function createUser(data) {
   return request({
-    url: 'authority_createuser',
+    url: 'user',
     method: 'post',
     data
   })
 }
 export function updateUser(data) {
   return request({
-    url: 'authority_updateuser',
-    method: 'post',
+    url: 'user',
+    method: 'put',
     data
   })
 }
 export function deleteUser(data) {
   return request({
-    url: 'authority_deleteuser',
-    method: 'post',
+    url: 'user',
+    method: 'delete',
     data
   })
 }
@@ -32,13 +32,13 @@ export function deleteUser(data) {
 // role
 export function getRole() {
   return request({
-    url: 'authority_getrole',
+    url: 'authority/role',
     method: 'get'
   })
 }
 export function createRole(data) {
   return request({
-    url: 'authority_createrole',
+    url: 'authority/role',
     method: 'post',
     data
   })
@@ -46,15 +46,15 @@ export function createRole(data) {
 
 export function updateRole(data) {
   return request({
-    url: 'authority_updaterole',
-    method: 'post',
+    url: 'authority/role',
+    method: 'put',
     data
   })
 }
 export function deleteRole(data) {
   return request({
-    url: 'authority_deleterole',
-    method: 'post',
+    url: 'authority/role',
+    method: 'delete',
     data
   })
 }

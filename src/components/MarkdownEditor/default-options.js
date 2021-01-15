@@ -4,7 +4,7 @@ export default {
   previewStyle: 'vertical',
   useCommandShortcut: true,
   useDefaultHTMLSanitizer: true,
-  usageStatistics: false,
+  usageAnalysis: false,
   hideModeSwitch: false,
   toolbarItems: [
     'heading',

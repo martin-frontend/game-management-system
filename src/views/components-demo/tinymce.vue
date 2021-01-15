@@ -7,7 +7,7 @@
     <div>
       <tinymce v-model="content" :height="300" />
     </div>
-    <div class="editor-content" v-html="content" />
+    <div class="editor-content" v-html="content"></div>
   </div>
 </template>
 

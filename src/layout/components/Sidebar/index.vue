@@ -2,9 +2,6 @@
   <div :class="{ 'has-logo': showLogo }">
     <logo v-if="showLogo" :collapse="isCollapse" />
     <el-scrollbar wrap-class="scrollbar-wrapper">
-      <div :class="['side-bar-icon', { 'icon-none': isCollapse }]">
-        <img :src="require(`@/assets/images/menu-icon.png`)" />
-      </div>
       <el-menu
         :default-active="activeMenu"
         :collapse="isCollapse"
@@ -57,14 +54,3 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
-.side-bar-icon {
-  width: 100%;
-  height: 56px;
-  padding: 0 20px;
-  text-align: center;
-  &.icon-none {
-    display: none;
-  }
-}
-</style>

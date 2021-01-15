@@ -2,7 +2,9 @@
   <div>
     <el-dialog
       :title="title + '權限'"
+      :before-close="handleClose"
       :visible.sync="dialogFormVisible"
+      :close-on-click-modal="false"
       width="60%"
     >
       <el-form :model="formData">
@@ -29,7 +31,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button @click="handleClose">取 消</el-button>
         <el-button
           v-if="title === '新增'"
           type="primary"
@@ -42,12 +44,12 @@
 </template>
 <script>
 import { createRole, updateRole } from '@/api/authority'
-import { getRoles } from '@/utils/roles'
+import { getRoles, getDefaultRoles } from '@/utils/roles'
 export default {
   data() {
     return {
       formData: {
-        roles: []
+        roles: getDefaultRoles()
       },
       dialogFormVisible: false,
       formLabelWidth: '80px',
@@ -57,8 +59,17 @@ export default {
     }
   },
   methods: {
+    resetFormData() {
+      this.formData = {
+        id: '',
+        name: '',
+        roleLevel: '',
+        roles: getDefaultRoles()
+      }
+    },
     handleClose() {
       this.loading = false
+      this.resetFormData()
       this.dialogFormVisible = false
     },
     handleOpen(title, data) {
@@ -106,6 +117,13 @@ export default {
         .catch((err) => {
           console.log(err)
         })
+    },
+    defaultPage(subitem) {
+      const defaultPage = getDefaultRoles()
+      if (defaultPage.indexOf(subitem) < 0) {
+        return false
+      }
+      return true
     }
   }
 }

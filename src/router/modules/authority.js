@@ -5,7 +5,7 @@ const authorityRouter = {
   path: '/authority',
   component: Layout,
   name: 'authority',
-  redirect: '/authority/manage-account',
+  redirect: 'noRedirect',
   meta: {
     title: 'authority',
     icon: 'lock'

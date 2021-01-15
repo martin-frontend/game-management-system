@@ -12,12 +12,12 @@
     </div>
     <el-table style="width: 100%" :data="tabledata" border>
       <el-table-column label="功能" width="180">
-        <template slot-scope="scope">
+        <template v-if="scope.row.roleLevel" slot-scope="scope">
           <el-button type="primary" @click="modifyUser(scope.row)">修改</el-button>
           <el-button type="danger" @click="deleteUser(scope.row.id)">刪除</el-button>
         </template>
       </el-table-column>
-      <el-table-column label="帳號ID" width="180">
+      <el-table-column label="帳號" width="180">
         <template slot-scope="scope">{{ scope.row.account }}</template>
       </el-table-column>
       <el-table-column label="狀態" width="180">
@@ -26,10 +26,10 @@
         }}</template>
       </el-table-column>
       <el-table-column label="權限" width="180">
-        <template slot-scope="scope">{{ scope.row.role }}</template>
+        <template slot-scope="scope">{{ scope.row.roleName }}</template>
       </el-table-column>
-      <el-table-column prop="create_at" label="建立時間" sortable>
-        <template slot-scope="scope">{{ scope.row.create_at }}</template>
+      <el-table-column prop="createdAt" label="建立時間" sortable>
+        <template slot-scope="scope">{{ scope.row.createdAt }}</template>
       </el-table-column>
     </el-table>
     <Dialog ref="dialog" @initData="initData" />
@@ -95,6 +95,7 @@ export default {
         })
     },
     modifyUser(data) {
+      console.log(data)
       this.$refs.dialog.handleOpen('修改', data)
     }
   }

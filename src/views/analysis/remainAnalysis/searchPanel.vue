@@ -2,18 +2,18 @@
   <div class="search-panel">
     <el-tag>請輸入查詢條件</el-tag>
     <div style="padding: 5px 0"></div>
-    <el-form ref="form" :inline="true" :model="searchform" :rules="rules">
-      <el-form-item prop="startDate">
+    <el-form ref="form" :inline="true" :model="formData" :rules="rules">
+      <el-form-item prop="startdate">
         <el-date-picker
-          v-model="searchform.startDate"
+          v-model="formData.startdate"
           value-format="yyyy-MM-dd"
           type="date"
           placeholder="選擇開始日期"
         />
       </el-form-item>
-      <el-form-item prop="endDate">
+      <el-form-item prop="enddate">
         <el-date-picker
-          v-model="searchform.endDate"
+          v-model="formData.enddate"
           value-format="yyyy-MM-dd"
           type="date"
           placeholder="選擇結束日期"
@@ -21,7 +21,7 @@
         />
       </el-form-item>
       <el-form-item>
-        <el-select v-model="searchform.type" placeholder="請選擇">
+        <el-select v-model="formData.type" placeholder="請選擇">
           <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
       </el-form-item>
@@ -30,31 +30,27 @@
   </div>
 </template>
 <script>
+import { getremain } from '@/api/analysis'
 import moment from 'moment'
-
 export default {
   name: 'SearchPanel',
   data() {
     return {
-      loading: false,
       isStartDateError: false,
-      searchform: {
-        startDate: this.getmonthstart(),
-        endDate: this.getmonthend(),
-        type: 'ALL'
-      },
+      formData: { startdate: '', enddate: '' },
+      // type:'date'會將其初始化成string类型，使得value-format="yyyy-MM-dd"會報錯
       rules: {
-        startDate: [
+        startdate: [
           { required: true, trigger: 'change', validator: this.handleStartDate }
         ],
-        endDate: [
+        enddate: [
           { required: true, trigger: 'change', validator: this.handleEndDate }
         ]
       },
       options: [
         { value: 'ALL', label: 'ALL' },
-        { value: 'ANDROID', label: 'Android' },
-        { value: 'IOS', label: 'iOS' }
+        { value: 'Android', label: 'Android' },
+        { value: 'IOS', label: 'IOS' }
       ]
     }
   },
@@ -66,24 +62,41 @@ export default {
           if (vm.isStartDateError) {
             return false
           }
-          return moment(time) < moment(vm.searchform.startDate)
+          return moment(time) < moment(vm.formData.startdate)
         }
       }
     }
   },
   mounted() {
+    this.initData()
     this.handleSearch()
   },
   methods: {
+    initData() {
+      this.formData.startdate = this.getmonthstart()
+      this.formData.enddate = this.getmonthend()
+      this.formData.type = 'ALL'
+    },
     handleSearch() {
-      this.loading = true
       this.$refs['form'].validate((valid, err) => {
         if (valid) {
           const formData = new FormData()
-          formData.append('startdate', this.searchform.startDate)
-          formData.append('enddate', this.searchform.endDate)
-          if (this.searchform.type !== 'ALL') { formData.append('type', this.searchform.type) }
-          this.$emit('updatedTableData', formData, this.loading)
+          formData.append('startdate', this.formData.startdate)
+          formData.append('enddate', this.formData.enddate)
+          if (this.formData.type !== 'ALL') { formData.append('type', this.formData.type) }
+          getremain(formData)
+            .then((response) => {
+              const { data } = response
+              if (data.success) {
+                this.$emit('onSearch', data.content)
+              } else {
+                this.$emit('onSearch', [])
+                this.$message.warning(data.msg)
+              }
+            })
+            .catch((error) => {
+              console.log(error)
+            })
         } else {
           console.log('error submit!!')
           return false
@@ -91,7 +104,7 @@ export default {
       })
     },
     handleStartDate(rule, value, callback) {
-      if (value && moment(value) > moment(this.searchform.endDate)) {
+      if (value && moment(value) > moment(this.formData.enddate)) {
         this.isStartDateError = true
         callback(new Error('請選擇正確的開始日期'))
       } else if (!value) {
@@ -102,13 +115,13 @@ export default {
       }
     },
     handleEndDate(rule, value, callback) {
-      if (value && moment(value) < moment(this.searchform.startDate)) {
+      if (value && moment(value) < moment(this.formData.startdate)) {
         return callback(new Error('請選擇正確的結束日期'))
       } else if (!value) {
         callback(new Error('結束日期不得為空'))
       } else {
-        if (this.searchform.startDate) {
-          this.$refs['form'].validateField(['startDate'])
+        if (this.formData.startdate) {
+          this.$refs['form'].validateField(['startdate'])
         }
         this.isStartDateError = false
         callback()

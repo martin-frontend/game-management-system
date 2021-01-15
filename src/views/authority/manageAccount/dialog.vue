@@ -2,15 +2,17 @@
   <div>
     <el-dialog
       :title="title + '帳號'"
+      :before-close="handleClose"
       :visible.sync="dialogFormVisible"
+      :close-on-click-modal="false"
       width="30%"
     >
       <el-form :model="formData">
-        <el-form-item label="帳號ID" :label-width="formLabelWidth">
+        <el-form-item label="帳號" :label-width="formLabelWidth">
           <el-input
             v-model="formData.account"
             autocomplete="off"
-            placeholder="請輸入ID"
+            placeholder="請輸入帳號"
             class="form-width"
           />
         </el-form-item>
@@ -20,6 +22,7 @@
             autocomplete="off"
             placeholder="請輸入密碼"
             class="form-width"
+            show-password
           />
         </el-form-item>
         <el-form-item v-if="title !== '修改'" label="確認密碼" :label-width="formLabelWidth">
@@ -28,16 +31,17 @@
             autocomplete="off"
             placeholder="請輸入密碼"
             class="form-width"
+            show-password
           />
         </el-form-item>
         <el-form-item label="權限" :label-width="formLabelWidth">
           <el-select
-            v-model="formData.role_id"
+            v-model="formData.roleId"
             placeholder="請選擇權限"
             class="form-width"
           >
             <el-option
-              v-for="item in roleSelectList"
+              v-for="item in roleSelectList.filter(a=>a.roleLevel)"
               :key="item.id"
               :value="item.id"
               :label="item.name"
@@ -50,7 +54,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button @click="handleClose">取 消</el-button>
         <el-button
           v-if="title === '新增'"
           type="primary"
@@ -77,8 +81,12 @@ export default {
     this.initRoleSelect()
   },
   methods: {
+    resetFormData() {
+      this.formData = {}
+    },
     handleClose() {
       this.loading = false
+      this.resetFormData()
       this.dialogFormVisible = false
     },
     handleOpen(title, data) {
@@ -86,7 +94,6 @@ export default {
       this.title = title
       if (title === '修改') {
         this.formData = Object.assign({}, data)
-        // this.formData.role_id = this.formData.id
       }
     },
     initRoleSelect() {
@@ -106,7 +113,7 @@ export default {
       const formData = new FormData()
       formData.append('account', this.formData.account)
       formData.append('password', this.formData.password)
-      formData.append('role_id', this.formData.role_id)
+      formData.append('roleId', this.formData.roleId)
       formData.append('status', this.formData.status)
       createUser(formData)
         .then((response) => {
@@ -126,7 +133,7 @@ export default {
       const formData = new FormData()
       formData.append('account', this.formData.account)
       formData.append('password', this.formData.password)
-      formData.append('role_id', this.formData.role_id)
+      formData.append('roleId', this.formData.roleId)
       formData.append('status', this.formData.status)
       formData.append('id', this.formData.id)
       updateUser(formData)

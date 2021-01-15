@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-dialog :title="title" :before-close="handleClose" :visible.sync="dialogFormVisible" width="50%">
+    <el-dialog :title="title" :close-on-click-modal="false" :before-close="handleClose" :visible.sync="dialogFormVisible" width="50%">
       <el-form ref="ruleForm" :rules="rules" :model="formData">
         <el-form-item prop="title" label="標題" :label-width="formLabelWidth">
           <el-input
@@ -10,27 +10,19 @@
           />
         </el-form-item>
         <el-form-item prop="category" label="分類" :label-width="formLabelWidth">
-          <template v-if="isSelect">
-            <el-select v-model="formData.category" placeholder="請選擇分類">
-              <el-option label="重要" value="重要" />
-              <el-option label="活動" value="活動" />
-              <el-option label="維護" value="維護" />
-              <el-option label="補償" value="補償" />
-              <el-option label="其他" value="其他" />
-            </el-select>
-          </template>
-          <template v-if="!isSelect">
-            <el-input
-              v-model="formData.category"
-              class="category-input"
-              placeholder="請輸入類型名稱"
-            />
-          </template>
-          <svg-icon icon-class="form" class="icon" @click="isSelect = !isSelect" />
+          <el-select
+            v-model="formData.category"
+            placeholder="請選擇分類"
+            filterable
+            allow-create
+            default-first-option
+          >
+            <el-option v-for="category in accountList" :key="category.key" :label="category.label" :value="category.label" />
+          </el-select>
         </el-form-item>
-        <el-form-item prop="onsaledate" label="日期" :label-width="formLabelWidth">
+        <el-form-item prop="onsaleDate" label="日期" :label-width="formLabelWidth">
           <el-date-picker
-            v-model="formData.onsaledate"
+            v-model="formData.onsaleDate"
             type="datetime"
             placeholder="請選擇上架日期時間"
             value-format="yyyy-MM-dd HH:mm:ss"
@@ -39,9 +31,9 @@
           />
           <el-checkbox v-model="checked" @change="doCheck">立即上架</el-checkbox>
         </el-form-item>
-        <el-form-item prop="nosaledate" :label-width="formLabelWidth">
+        <el-form-item prop="nosaleDate" :label-width="formLabelWidth">
           <el-date-picker
-            v-model="formData.nosaledate"
+            v-model="formData.nosaleDate"
             type="datetime"
             placeholder="請選擇下架日期時間"
             value-format="yyyy-MM-dd HH:mm:ss"
@@ -60,15 +52,16 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="handleClose">取 消</el-button>
-        <el-button v-if="title===`新增公告`" type="primary" @click="createBulletin">建 立</el-button>
-        <el-button v-if="title===`編輯公告`" type="primary" @click="updateBulletin">更 新</el-button>
+        <el-button v-if="title===`新增公告`" type="primary" @click="createAnnounce">建 立</el-button>
+        <el-button v-if="title===`編輯公告`" type="primary" @click="updateAnnounce">更 新</el-button>
       </div>
     </el-dialog>
   </div>
 </template>
 <script>
 import moment from 'moment'
-import { createBulletin, updateBulletin } from '@/api/announcement'
+import { createAnnounce, updateAnnounce } from '@/api/announcement'
+
 export default {
   components: {},
   data() {
@@ -76,14 +69,13 @@ export default {
       formData: {
         title: '',
         category: '',
-        onsaledate: '',
-        nosaledate: '',
+        onsaleDate: '',
+        nosaleDate: '',
         content: ''
       },
       checked: false,
       dialogFormVisible: false,
       isOnSaleDateError: false,
-      isSelect: true,
       formLabelWidth: '80px',
       title: '新增公告',
       rules: {
@@ -93,10 +85,10 @@ export default {
         category: [
           { required: true, message: '請輸入類型名稱', trigger: 'change' }
         ],
-        onsaledate: [
+        onsaleDate: [
           { required: true, trigger: 'change', validator: this.handleOnSaleDate }
         ],
-        nosaledate: [
+        nosaleDate: [
           { required: true, trigger: 'change', validator: this.handleNoSaleDate }
         ],
         content: [
@@ -113,9 +105,16 @@ export default {
           if (vm.isOnSaleDateError) {
             return false
           }
-          return moment(time) < moment(vm.formData.onsaledate)
+          return moment(time) < moment(vm.formData.onsaleDate)
         }
       }
+    },
+    accountList() {
+      const arr = this.$parent.formData.accountList
+      if (arr[0] && arr[0].label) {
+        return arr
+      }
+      return []
     }
   },
   methods: {
@@ -123,11 +122,10 @@ export default {
       this.formData = {
         title: '',
         category: '',
-        onsaledate: '',
-        nosaledate: '',
+        onsaleDate: '',
+        nosaleDate: '',
         content: ''
       }
-      this.isSelect = true
     },
     handleClose(done) {
       this.loading = false
@@ -143,14 +141,14 @@ export default {
       this.title = title + '公告'
       if (title === '編輯') {
         this.formData = Object.assign({}, row)
-        this.formData.onsaledate = new Date(this.formData.onsaledate)
-        this.formData.nosaledate = new Date(this.formData.nosaledate)
+        this.formData.onsaleDate = new Date(this.formData.onsaleDate)
+        this.formData.nosaleDate = new Date(this.formData.nosaleDate)
       }
     },
     handleOnSaleDate(rule, value, callback) {
-      if (value && moment(value) > moment(this.formData.nosaledate)) {
+      if (value && moment(value) > moment(this.formData.nosaleDate)) {
         this.isOnSaleDateError = true
-        callback(new Error('請選擇正確的上架日期'))
+        callback(new Error('上架時間不可大於下架時間'))
       } else if (!value) {
         callback(new Error('上架日期不得為空'))
       } else {
@@ -159,28 +157,28 @@ export default {
       }
     },
     handleNoSaleDate(rule, value, callback) {
-      if (value && moment(value) < moment(this.formData.onsaledate)) {
-        return callback(new Error('請選擇正確的下架日期'))
+      if (value && moment(value) < moment(this.formData.onsaleDate)) {
+        return callback(new Error('下架時間不可小於上架時間'))
       } else if (!value) {
         callback(new Error('下架日期不得為空'))
       } else {
-        if (this.formData.onsaledate) {
-          this.$refs['ruleForm'].validateField(['onsaledate'])
+        if (this.formData.onsaleDate) {
+          this.$refs['ruleForm'].validateField(['onsaleDate'])
         }
         this.isOnSaleDateError = false
         callback()
       }
     },
-    createBulletin() {
+    createAnnounce() {
       this.$refs['ruleForm'].validate((valid) => {
         if (valid) {
           const formData = new FormData()
           formData.append('title', this.formData.title)
           formData.append('category', this.formData.category)
-          formData.append('onsaledate', this.getdatetime(this.formData.onsaledate))
-          formData.append('nosaledate', this.getdatetime(this.formData.nosaledate))
+          formData.append('onsaleDate', this.getdatetime(this.formData.onsaleDate))
+          formData.append('nosaleDate', this.getdatetime(this.formData.nosaleDate))
           formData.append('content', this.formData.content)
-          createBulletin(formData)
+          createAnnounce(formData)
             .then((resopnse) => {
               this.$emit('initdata')
               this.handleClose()
@@ -191,17 +189,17 @@ export default {
         }
       })
     },
-    updateBulletin() {
+    updateAnnounce() {
       this.$refs['ruleForm'].validate((valid) => {
         if (valid) {
           const formData = new FormData()
+          formData.append('id', this.formData.id)
           formData.append('title', this.formData.title)
           formData.append('category', this.formData.category)
-          formData.append('onsaledate', this.getdatetime(this.formData.onsaledate))
-          formData.append('nosaledate', this.getdatetime(this.formData.nosaledate))
+          formData.append('onsaleDate', this.getdatetime(this.formData.onsaleDate))
+          formData.append('nosaleDate', this.getdatetime(this.formData.nosaleDate))
           formData.append('content', this.formData.content)
-          formData.append('id', this.formData.id)
-          updateBulletin(formData)
+          updateAnnounce(formData)
             .then((response) => {
               const { data } = response
               if (data.success) {
@@ -224,13 +222,13 @@ export default {
         type: 'warning' })
     },
     getdatetime(datetime) {
-      return moment(datetime).format('YYYY-MM-DD HH:mm:ss')
+      return moment(datetime).valueOf()
     },
     doCheck(e) {
       if (e) {
-        this.$set(this.formData, 'onsaledate', moment().format('YYYY-MM-DD HH:mm:ss'))
+        this.$set(this.formData, 'onsaleDate', moment().format('YYYY-MM-DD HH:mm:ss'))
       } else {
-        this.$set(this.formData, 'onsaledate', '')
+        this.$set(this.formData, 'onsaleDate', '')
       }
     }
   }

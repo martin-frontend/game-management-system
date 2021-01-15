@@ -1,11 +1,11 @@
-import { login, logout, getInfo } from '@/api/user'
+import { login, getInfo } from '@/api/user'
 import { getToken, removeToken } from '@/utils/auth'
 import router, { resetRouter } from '@/router'
 
 const state = {
   token: getToken(),
   name: '',
-  avatar: '',
+  accountName: '',
   introduction: '',
   roles: []
 }
@@ -17,8 +17,8 @@ const mutations = {
   SET_NAME: (state, name) => {
     state.name = name
   },
-  SET_AVATAR: (state, avatar) => {
-    state.avatar = avatar
+  SET_AccountName: (state, accountName) => {
+    state.accountName = accountName
   },
   SET_ROLES: (state, roles) => {
     state.roles = roles
@@ -34,8 +34,8 @@ const actions = {
       formData.append('account', username.trim())
       formData.append('password', password)
       login(formData).then(response => {
-        // setToken(token)
         if (response.data.success) {
+          // setToken(response.data.content.token)
           resolve()
         } else {
           message.error(response.data.msg)
@@ -55,7 +55,7 @@ const actions = {
         if (data.success) {
           const { content } = data
           const roles = [content.roles]
-          const avatar = 'https://stickershop.line-scdn.net/stickershop/v1/product/10691644/LINEStorePC/main.png;compress=true'
+          const accountName = [content.accountName]
           const introduction = 'I am a super administrator'
           // roles must be a non-empty array
           if (!roles || roles.length <= 0) {
@@ -64,12 +64,11 @@ const actions = {
 
           commit('SET_ROLES', content.roles)
           commit('SET_NAME', content.role)
-          commit('SET_AVATAR', avatar)
+          commit('SET_AccountName', content.accountName)
           commit('SET_INTRODUCTION', introduction)
           const newData = {
             roles,
-            name,
-            avatar,
+            accountName,
             introduction
           }
           resolve(newData)
@@ -85,19 +84,27 @@ const actions = {
   // user logout
   logout({ commit, state, dispatch }) {
     return new Promise((resolve, reject) => {
-      logout(getToken()).then(() => {
-        commit('SET_ROLES', [])
-        removeToken()
-        resetRouter()
+      // logout(getToken()).then(() => {
+      //   commit('SET_ROLES', [])
+      //   removeToken()
+      //   resetRouter()
 
-        // reset visited views and cached views
-        // to fixed https://github.com/PanJiaChen/vue-element-admin/issues/2485
-        dispatch('tagsView/delAllViews', null, { root: true })
+      //   // reset visited views and cached views
+      //   // to fixed https://github.com/PanJiaChen/vue-element-admin/issues/2485
+      //   dispatch('tagsView/delAllViews', null, { root: true })
 
-        resolve()
-      }).catch(error => {
-        reject(error)
-      })
+      //   resolve()
+      // }).catch(error => {
+      //   reject(error)
+      // })
+      commit('SET_ROLES', [])
+      removeToken()
+      resetRouter()
+
+      // reset visited views and cached views
+      // to fixed https://github.com/PanJiaChen/vue-element-admin/issues/2485
+      dispatch('tagsView/delAllViews', null, { root: true })
+      resolve()
     })
   },
 

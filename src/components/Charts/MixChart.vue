@@ -1,5 +1,5 @@
 <template>
-  <div :id="id" :class="className" :style="{height:height,width:width}" />
+  <div :id="id" :class="className" :style="{height:height,width:width}"></div>
 </template>
 
 <script>
@@ -54,7 +54,7 @@ export default {
       this.chart.setOption({
         backgroundColor: '#344b58',
         title: {
-          text: 'statistics',
+          text: 'analysis',
           x: '20',
           top: '20',
           textStyle: {

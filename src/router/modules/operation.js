@@ -5,7 +5,7 @@ const operationRouter = {
   path: '/operation',
   component: Layout,
   name: 'operation',
-  redirect: '/operation/online-announcement',
+  redirect: 'noRedirect',
   meta: {
     title: 'operation',
     icon: 'el-icon-s-help'
