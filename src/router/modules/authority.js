@@ -13,13 +13,13 @@ const authorityRouter = {
   children: [
     {
       path: 'manage-account',
-      component: () => import('@/views/authority/manage-account'),
+      component: () => import('@/views/authority/manageAccount'),
       name: 'manageAccount',
       meta: { title: 'manageAccount', roles: '查詢管理帳號', noCache: true }
     },
     {
       path: 'authority-setting',
-      component: () => import('@/views/authority/authority-setting'),
+      component: () => import('@/views/authority/authoritySetting'),
       name: 'authoritySetting',
       meta: { title: 'authoritySetting', roles: '查詢權限設定', noCache: true }
     }

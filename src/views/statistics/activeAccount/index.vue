@@ -2,21 +2,19 @@
   <div v-loading="loading" class="page-container">
     <search-panel @updatedTableData="updatedTableData" />
     <div class="table-container">
-      <el-tag>新增帳戶</el-tag>
-      <chart class="account-chart" />
-      <tableData />
+      <el-tag>活躍帳戶</el-tag>
     </div>
+    <chart class="account-chart" />
   </div>
 </template>
 <script>
-import searchPanel from './search-panel'
+import searchPanel from './searchPanel'
 import chart from './chart'
-import tableData from './table-data'
-import { getAddAccount } from '@/api/statistics'
+import { getActiveAccount } from '@/api/statistics'
 
 export default {
   name: 'Index',
-  components: { searchPanel, chart, tableData },
+  components: { searchPanel, chart },
   data() {
     return {
       loading: false,
@@ -31,7 +29,7 @@ export default {
   methods: {
     updatedTableData(formData, loading) {
       this.loading = loading
-      getAddAccount(formData)
+      getActiveAccount(formData)
         .then((response) => {
           const { data } = response
           if (data.success) {

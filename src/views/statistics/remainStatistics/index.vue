@@ -8,8 +8,8 @@
   </div>
 </template>
 <script>
-import searchPanel from './search-panel'
-import tablePanel from './table-panel'
+import searchPanel from './searchPanel'
+import tablePanel from './tablePanel'
 export default {
   name: 'Index',
   components: { searchPanel, tablePanel },

@@ -41,15 +41,15 @@
         <el-button type="primary" @click="createSuspension">建 立</el-button>
       </div>
     </el-dialog>
-    <AddAccounts ref="addAcounts" :form-data="formData" @setInit="setInit" />
+    <AddAcounts ref="addAcounts" :form-data="formData" @setInit="setInit" />
   </div>
 </template>
 <script>
-import AddAccounts from './add-accounts'
+import AddAcounts from './addAcounts'
 import moment from 'moment'
 import { createSuspension } from '@/api/suspension'
 export default {
-  components: { AddAccounts },
+  components: { AddAcounts },
   data() {
     return {
       formData: {
@@ -155,8 +155,8 @@ export default {
       })
     },
     addAccounts() {
-      this.$refs.addAccounts.handleOpen()
-      this.$refs.addAccounts.createInit()
+      this.$refs.addAcounts.handleOpen()
+      this.$refs.addAcounts.createInit()
     },
     setInit(formData) {
       this.formData = formData

@@ -14,7 +14,7 @@
 </template>
 <script>
 import LineMarker from '@/components/Charts/LineMarker'
-import tableData from './table-data'
+import tableData from './tableData'
 
 export default {
   name: 'Chart',
