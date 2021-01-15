@@ -65,7 +65,6 @@ import checkPermission from '@/utils/permission'
 import moment from 'moment'
 import { deleteAnnounce, updateAnnounce } from '@/api/announcement'
 import permission from '@/directive/permission'
-import { getToken } from '@/utils/auth'
 
 export default {
   name: 'Announcement',
@@ -123,7 +122,6 @@ export default {
       }
       formData.append('content', row.content)
       formData.append('id', row.id)
-      formData.append('token', getToken())
       updateAnnounce(formData)
         .then((response) => {
           const { data } = response

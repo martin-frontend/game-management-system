@@ -61,7 +61,6 @@
 <script>
 import moment from 'moment'
 import { createAnnounce, updateAnnounce } from '@/api/announcement'
-import { getToken } from '@/utils/auth'
 
 export default {
   components: {},
@@ -179,7 +178,6 @@ export default {
           formData.append('onsaleDate', this.getdatetime(this.formData.onsaleDate))
           formData.append('nosaleDate', this.getdatetime(this.formData.nosaleDate))
           formData.append('content', this.formData.content)
-          formData.append('token', getToken())
           createAnnounce(formData)
             .then((resopnse) => {
               this.$emit('initdata')
@@ -201,7 +199,6 @@ export default {
           formData.append('onsaleDate', this.getdatetime(this.formData.onsaleDate))
           formData.append('nosaleDate', this.getdatetime(this.formData.nosaleDate))
           formData.append('content', this.formData.content)
-          formData.append('token', getToken())
           updateAnnounce(formData)
             .then((response) => {
               const { data } = response
