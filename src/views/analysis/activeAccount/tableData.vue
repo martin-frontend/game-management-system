@@ -37,7 +37,7 @@ export default {
   data() {
     return {
       headerStyle: {
-        backgroundColor: '#f5f7fa'
+        // backgroundColor: '#f5f7fa'
       }
     }
   },

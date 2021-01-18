@@ -78,16 +78,21 @@ export default {
     changeType(type) {
       if (this.date === type) return
       this.date = type
+      this.initPage()
       this.$refs.searchPanel.changeType(type)
       this.$refs.searchPanel.handleSearch()
     },
     handleSizeChange(val) {
       this.pageData.pagesize = val
+      this.initPage()
       this.$refs.searchPanel.handleSearch()
     },
     handleCurrentChange(val) {
       this.pageData.page = val
       this.$refs.searchPanel.handleSearch()
+    },
+    initPage() {
+      this.pageData.page = 1
     }
   }
 }

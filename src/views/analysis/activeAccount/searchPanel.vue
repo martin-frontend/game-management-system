@@ -39,7 +39,7 @@
           <el-option v-for="item in typeOptions" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
       </el-form-item> -->
-      <el-button type="primary" @click="handleSearch">查詢</el-button>
+      <el-button type="primary" @click="$parent.initPage();handleSearch()">查詢</el-button>
     </el-form>
   </div>
 </template>
