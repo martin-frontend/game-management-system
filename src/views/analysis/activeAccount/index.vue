@@ -4,7 +4,7 @@
     <div class="table-container">
       <el-tag>活躍帳戶</el-tag>
       <chart class="account-chart" />
-      <tableData :date="date" />
+      <tableData :account-total="accountTotal" :date="date" />
     </div>
   </div>
 </template>
@@ -22,7 +22,15 @@ export default {
     return {
       loading: false,
       tableData: [],
-      date: 'DAU'
+      date: 'DAU',
+      totalAmount: 0,
+      createdTimes: 0,
+      accountdata: [],
+      accountTotal: 0,
+      pageData: {
+        pagesize: 25,
+        page: 1
+      }
     }
   },
   provide() {
@@ -51,7 +59,8 @@ export default {
     callbackSuccess(response) {
       const { data } = response
       if (data.success) {
-        this.tableData = data.content
+        this.accountTotal = data.content.total
+        this.tableData = data.content.data
         this.tableData.sort(function(a, b) {
           return b[0] - a[0]
         })
@@ -70,6 +79,14 @@ export default {
       if (this.date === type) return
       this.date = type
       this.$refs.searchPanel.changeType(type)
+      this.$refs.searchPanel.handleSearch()
+    },
+    handleSizeChange(val) {
+      this.pageData.pagesize = val
+      this.$refs.searchPanel.handleSearch()
+    },
+    handleCurrentChange(val) {
+      this.pageData.page = val
       this.$refs.searchPanel.handleSearch()
     }
   }

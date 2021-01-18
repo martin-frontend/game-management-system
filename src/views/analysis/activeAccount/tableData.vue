@@ -12,7 +12,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <!-- <div class="table-pagination">
+    <div class="table-pagination">
       <el-pagination
         :current-page="1"
         :page-sizes="[25, 50, 75, 10]"
@@ -22,39 +22,31 @@
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
       />
-    </div> -->
+    </div>
   </div>
 </template>
 <script>
 export default {
   name: 'TableData',
   props: {
-    date: {
-      type: String,
-      default: ''
+    accountTotal: {
+      type: Number,
+      default: 0
     }
   },
   data() {
     return {
       headerStyle: {
         backgroundColor: '#f5f7fa'
-      },
-      totalAmount: 0,
-      createdTimes: 0,
-      accountdata: [],
-      accountTotal: 0,
-      pageData: {
-        pagesize: 25,
-        page: 1
       }
     }
   },
   methods: {
     handleSizeChange(val) {
-      this.pageData.pagesize = val
+      this.$parent.handleSizeChange(val)
     },
     handleCurrentChange(val) {
-      this.pageData.page = val
+      this.$parent.handleCurrentChange(val)
     }
   }
 }

@@ -126,6 +126,8 @@ export default {
           } else {
             formData.endDate = moment(this.searchform.startDate).endOf('year').valueOf()
           }
+          formData.page = this.$parent.pageData.page
+          formData.pageSize = this.$parent.pageData.pagesize
           // if (this.searchform.typeOptions && this.searchform.typeOptions !== 'all') { formData.append('type', this.searchform.typeOptions) }
           this.$emit('updatedTableData', formData, this.loading)
         } else {
