@@ -3,11 +3,22 @@
     <div class="table-container">
       <el-tag>帳號停權</el-tag>
       <el-button v-if="checkPermission(['修改帳號停權'])" icon="el-icon-plus" type="primary" circle style="float: right" @click="add" />
-      <el-tabs v-model="activeName" style="margin-top:10px;">
+      <el-tabs v-model="activeName" style="margin-top:10px;" @tab-click="tabChange">
         <el-tab-pane v-for="item in tabMapOptions" :key="item.key" :label="item.label" :name="item.key">
           <template>
-            <List v-if="activeName === 'banList'" v-loading="loading" :table-data="filterData(tableData)" :page-total="pageTotal" @initdata="initdata" @pageChange="pageChange" />
+            <List v-if="activeName === 'banList'" v-loading="loading" :table-data="tableData" :page-total="pageTotal" @initdata="initdata" @pageChange="pageChange" />
             <HistoryList v-if="activeName === 'history'" v-loading="loading" :table-data="tableData" :page-total="pageTotal" @initdata="initdata" @pageChange="pageChange" />
+            <div class="table-pagination">
+              <el-pagination
+                :current-page="1"
+                :page-sizes="[25, 50, 75, 100]"
+                :page-size="25"
+                layout="total, sizes, prev, pager, next, jumper"
+                :total="pageTotal"
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+              />
+            </div>
           </template>
         </el-tab-pane>
       </el-tabs>
@@ -51,21 +62,34 @@ export default {
   },
   methods: {
     checkPermission,
+    handleSizeChange(val) {
+      this.pageData.pagesize = val
+      this.$emit('pageChange', this.pageData)
+      this.initdata()
+    },
+    handleCurrentChange(val) {
+      this.pageData.page = val
+      this.$emit('pageChange', this.pageData)
+      this.initdata()
+    },
     add() {
       this.$refs.dialog.handleOpen()
+    },
+    tabChange() {
+      this.initdata()
     },
     initdata() {
       this.loading = true
       const formData = {}
       formData.pageSize = this.pageData.pagesize
       formData.page = this.pageData.page
+      if (this.activeName === 'banList') { formData.isbanned = '1' }
       getSuspension(formData)
         .then((response) => {
           const { data } = response
           if (data.success) {
             this.tableData = [...data.content.data]
             this.pageTotal = data.content.total
-            console.log(this.pageTotal)
           } else {
             this.tableData = []
             this.$message.warning(data.msg)
@@ -79,9 +103,6 @@ export default {
     pageChange(data) {
       this.pageData.pagesize = data.pagesize
       this.pageData.page = data.page
-    },
-    filterData(arr) {
-      if (arr) { return arr.filter(item => item.isbanned) }
     }
   }
 }

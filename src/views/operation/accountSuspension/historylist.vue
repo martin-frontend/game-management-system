@@ -30,17 +30,6 @@
         label="原因"
       />
     </el-table>
-    <div class="table-pagination">
-      <el-pagination
-        :current-page="1"
-        :page-sizes="[25, 50, 75, 100]"
-        :page-size="25"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="pageTotal"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-      />
-    </div>
   </div>
 </template>
 <script>

@@ -31,17 +31,7 @@
         label="原因"
       />
     </el-table>
-    <div class="table-pagination">
-      <el-pagination
-        :current-page="1"
-        :page-sizes="[25, 50, 75, 100]"
-        :page-size="25"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="pageTotal"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-      />
-    </div>
+
   </div>
 </template>
 <script>
@@ -76,16 +66,6 @@ export default {
   },
   methods: {
     checkPermission,
-    handleSizeChange(val) {
-      this.pageData.pagesize = val
-      this.$emit('pageChange', this.pageData)
-      this.$emit('initdata')
-    },
-    handleCurrentChange(val) {
-      this.pageData.page = val
-      this.$emit('pageChange', this.pageData)
-      this.$emit('initdata', this.pageData)
-    },
     recovery(row) {
       const formData = new FormData()
       formData.append('id', row.id)
