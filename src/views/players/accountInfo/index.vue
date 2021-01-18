@@ -1,6 +1,6 @@
 <template>
-  <div class="page-container">
-    <searchPanel :page-data="pageData" @onSearch="onSearch" />
+  <div ref="pageContainer" class="page-container">
+    <searchPanel :page-data="pageData" @onSearch="onSearch" @setLoading="setLoading" />
     <div class="table-container">
       <el-tag>帳號資訊</el-tag>
       <el-tabs v-model="activeName" style="margin-top: 10px">
@@ -11,7 +11,7 @@
           :name="item.key"
         >
           <template v-if="activeName === 'account'">
-            <el-table :data="accountdata" style="width: 100%" border>
+            <el-table ref="table" v-loading="loading" :data="accountdata" style="width: 100%" border>
               <!-- <el-table-column prop="account" label="id" width="200">
                 <template slot-scope="scope">{{ scope.row._id }}</template>
               </el-table-column> -->
@@ -67,7 +67,8 @@ export default {
       pageData: {
         pagesize: 25,
         page: 1
-      }
+      },
+      loading: false
     }
   },
   computed: {},
@@ -88,9 +89,15 @@ export default {
           this.accountdata = []
         }
       }
+      this.$nextTick(() => {
+        this.$refs.pageContainer.scrollTo({ top: 0, behavior: 'smooth' })
+      })
     },
     TransformTime(time) {
       return moment(time).format('YYYY-MM-DD HH:mm:ss')
+    },
+    setLoading(loading) {
+      this.loading = loading
     }
   }
 }

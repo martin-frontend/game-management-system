@@ -1,5 +1,5 @@
 <template>
-  <div v-loading="loading" class="page-container">
+  <div ref="pageContainer" v-loading="loading" class="page-container">
     <search-panel ref="searchPanel" @updatedTableData="updatedTableData" />
     <div class="table-container">
       <el-tag>活躍帳戶</el-tag>
@@ -68,6 +68,9 @@ export default {
         this.tableData = []
         this.$message.warning(data.msg)
       }
+      this.$nextTick(() => {
+        this.$refs.pageContainer.scrollTo({ top: 0, behavior: 'smooth' })
+      })
       this.loading = false
     },
     callbackError(error) {

@@ -79,6 +79,7 @@ export default {
           }
           formData.pageSize = this.pageData.pagesize
           formData.page = this.pageData.page
+          this.$emit('setLoading', true)
           getUser(formData)
             .then((response) => {
               const { data } = response
@@ -87,6 +88,7 @@ export default {
               } else {
                 this.$message.warning(data.msg)
               }
+              this.$emit('setLoading', false)
             })
             .catch((error) => {
               console.log(error)

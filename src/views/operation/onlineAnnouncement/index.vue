@@ -1,5 +1,5 @@
 <template>
-  <div class="page-container">
+  <div ref="pageContainer" class="page-container">
     <div class="table-container">
       <el-tag>線上公告</el-tag>
       <el-button
@@ -139,6 +139,9 @@ export default {
           } else {
             this.$message.warning(data.msg)
           }
+          this.$nextTick(() => {
+            this.$refs.pageContainer.scrollTo({ top: 0, behavior: 'smooth' })
+          })
         })
         .catch((error) => {
           console.log(error)

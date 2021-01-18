@@ -1,5 +1,5 @@
 <template>
-  <div class="page-container">
+  <div ref="pageContainer" v-loading="loading" class="page-container">
     <div class="table-container">
       <el-tag>帳號停權</el-tag>
       <el-button v-if="checkPermission(['修改帳號停權'])" icon="el-icon-plus" type="primary" circle style="float: right" @click="add" />
@@ -93,6 +93,9 @@ export default {
             this.$message.warning(data.msg)
           }
           this.loading = false
+          this.$nextTick(() => {
+            this.$refs.pageContainer.scrollTo({ top: 0, behavior: 'smooth' })
+          })
         })
         .catch((error) => {
           console.log(error)

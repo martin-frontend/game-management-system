@@ -1,5 +1,5 @@
 <template>
-  <div class="page-container">
+  <div ref="pageContainer" class="page-container">
     <searchPanel :page-data="pageData" @onSearch="onSearch" />
     <div class="table-container">
       <el-tag style="margin-bottom:10px;">遊戲歷程</el-tag>
@@ -61,6 +61,9 @@ export default {
           this.tableData = []
         }
       }
+      this.$nextTick(() => {
+        this.$refs.pageContainer.scrollTo({ top: 0, behavior: 'smooth' })
+      })
     },
     handleSizeChange(val) {
       this.pageData.pagesize = val
