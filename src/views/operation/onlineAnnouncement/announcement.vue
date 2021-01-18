@@ -47,17 +47,6 @@
       <el-table-column prop="creator" label="建立者" width="100" />
       <el-table-column prop="content" label="內容" />
     </el-table>
-    <div class="table-pagination">
-      <el-pagination
-        :current-page="1"
-        :page-sizes="[100, 200, 300, 400]"
-        :page-size="100"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="tableData.length"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-      />
-    </div>
   </div>
 </template>
 <script>
@@ -83,12 +72,6 @@ export default {
   },
   methods: {
     checkPermission,
-    handleSizeChange(val) {
-      console.log(`每页 ${val} 条`)
-    },
-    handleCurrentChange(val) {
-      console.log(`当前页: ${val}`)
-    },
     edit(title, row) {
       this.$emit('edit', { title, row })
     },

@@ -1,9 +1,10 @@
 import request from '@/utils/request'
 
-export function getAnnounce() {
+export function getAnnounce(data) {
   return request({
     url: '/operation/announce',
-    method: 'get'
+    method: 'get',
+    params: data
   })
 }
 export function createAnnounce(data) {

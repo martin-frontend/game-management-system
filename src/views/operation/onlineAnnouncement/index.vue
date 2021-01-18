@@ -29,6 +29,17 @@
           <Announcement v-loading="loading" :table-data="filterData()" @edit="edit" @initdata="initdata" />
         </el-tab-pane>
       </el-tabs>
+      <div v-if="activeName==='all'" class="table-pagination">
+        <el-pagination
+          :current-page="1"
+          :page-sizes="[25, 50, 75, 100]"
+          :page-size="5"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="pageTotal"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+        />
+      </div>
     </div>
     <AddAcounts ref="addAcounts" :form-data="formData" @setInit="setInit" />
     <Dialog ref="dialog" @initdata="initdata" />
@@ -63,7 +74,12 @@ export default {
             key: Date.now()
           }
         ]
-      }
+      },
+      pageData: {
+        pagesize: 25,
+        page: 1
+      },
+      pageTotal: 0
     }
   },
   mounted() {
@@ -77,6 +93,14 @@ export default {
     },
     edit({ title, row }) {
       this.$refs.dialog.handleOpen(title, row)
+    },
+    handleSizeChange(val) {
+      this.pageData.pagesize = val
+      this.initdata()
+    },
+    handleCurrentChange(val) {
+      this.pageData.page = val
+      this.initdata()
     },
     filterData() {
       switch (this.activeName) {
@@ -122,27 +146,20 @@ export default {
     },
     initdata() {
       this.loading = true
-      // let state = ''
-      // switch (this.activeName) {
-      //   case 'launched':
-      //     state = '0'
-      //     break
-      //   case 'notLaunch':
-      //     state = '1'
-      //     break
-      //   case 'removed':
-      //     state = '2'
-      //     break
-      // }
-      getAnnounce()
+      const formData = {}
+      formData.pageSize = this.pageData.pagesize
+      formData.page = this.pageData.page
+      getAnnounce(formData)
         .then((response) => {
           const { data } = response
+          console.log(data)
           if (data.success) {
-            this.tableData = [...data.content]
+            this.tableData = [...data.content.data]
             this.tableData = this.tableData.map((item) => ({
               ...item,
               id: item.id
             }))
+            this.pageTotal = data.content.total
           } else {
             this.tableData = []
             this.$message.warning(data.msg)

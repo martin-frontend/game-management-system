@@ -6,8 +6,8 @@
       <el-tabs v-model="activeName" style="margin-top:10px;" @tab-click="tabChange">
         <el-tab-pane v-for="item in tabMapOptions" :key="item.key" :label="item.label" :name="item.key">
           <template>
-            <List v-if="activeName === 'banList'" v-loading="loading" :table-data="tableData" :page-total="pageTotal" @initdata="initdata" @pageChange="pageChange" />
-            <HistoryList v-if="activeName === 'history'" v-loading="loading" :table-data="tableData" :page-total="pageTotal" @initdata="initdata" @pageChange="pageChange" />
+            <List v-if="activeName === 'banList'" v-loading="loading" :table-data="tableData" :page-total="pageTotal" @initdata="initdata" />
+            <HistoryList v-if="activeName === 'history'" v-loading="loading" :table-data="tableData" :page-total="pageTotal" @initdata="initdata" />
             <div class="table-pagination">
               <el-pagination
                 :current-page="1"
@@ -64,12 +64,10 @@ export default {
     checkPermission,
     handleSizeChange(val) {
       this.pageData.pagesize = val
-      this.$emit('pageChange', this.pageData)
       this.initdata()
     },
     handleCurrentChange(val) {
       this.pageData.page = val
-      this.$emit('pageChange', this.pageData)
       this.initdata()
     },
     add() {
@@ -99,10 +97,6 @@ export default {
         .catch((error) => {
           console.log(error)
         })
-    },
-    pageChange(data) {
-      this.pageData.pagesize = data.pagesize
-      this.pageData.page = data.page
     }
   }
 }

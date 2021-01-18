@@ -84,7 +84,6 @@ export default {
               const { data } = response
               if (data.success) {
                 this.$emit('onSearch', data.content)
-                // this.$message.success(data.msg)
               } else {
                 this.$message.warning(data.msg)
               }
