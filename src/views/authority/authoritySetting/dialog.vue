@@ -3,12 +3,13 @@
     <el-dialog
       :title="title + '權限'"
       :before-close="handleClose"
+      :v-if="dialogFormVisible"
       :visible.sync="dialogFormVisible"
       :close-on-click-modal="false"
       width="60%"
     >
-      <el-form :model="formData">
-        <el-form-item label="權限名稱" :label-width="formLabelWidth">
+      <el-form ref="form" :model="formData" :rules="rules">
+        <el-form-item label="權限名稱" :prop="'name'" :label-width="formLabelWidth">
           <el-input
             v-model="formData.name"
             autocomplete="off"
@@ -55,7 +56,12 @@ export default {
       formLabelWidth: '80px',
       title: '',
       roleList: getRoles(),
-      activeName: '玩家資料'
+      activeName: '玩家資料',
+      rules: {
+        name: [
+          { required: true, message: '請輸入權限', trigger: 'change' }
+        ]
+      }
     }
   },
   methods: {
@@ -82,41 +88,53 @@ export default {
       }
     },
     createRole() {
-      const formData = new FormData()
-      formData.append('name', this.formData.name)
-      formData.append('roles', this.formData.roles.join())
-      createRole(formData)
-        .then((response) => {
-          if (response.data.success) {
-            this.$emit('initData')
-            this.$message.success(response.data.msg)
+      this.$refs.form.validate(valid => {
+        if (valid) {
+          if (this.formData.roles.length) {
+            const formData = new FormData()
+            formData.append('name', this.formData.name)
+            formData.append('roles', this.formData.roles.join())
+            createRole(formData)
+              .then((response) => {
+                if (response.data.success) {
+                  this.$emit('initData')
+                  this.$message.success(response.data.msg)
+                } else {
+                  this.$message.warning(response.data.msg)
+                }
+                this.dialogFormVisible = false
+              })
+              .catch((err) => {
+                console.log(err)
+              })
           } else {
-            this.$message.warning(response.data.msg)
+            this.$message.warning('權限不可全為空')
           }
-          this.dialogFormVisible = false
-        })
-        .catch((err) => {
-          console.log(err)
-        })
+        }
+      })
     },
     updateRole() {
-      const formData = new FormData()
-      formData.append('name', this.formData.name)
-      formData.append('roles', this.formData.roles.join())
-      formData.append('id', this.formData.id)
-      updateRole(formData)
-        .then((response) => {
-          if (response.data.success) {
-            this.$emit('initData')
-            this.$message.success(response.data.msg)
-          } else {
-            this.$message.warning(response.data.msg)
-          }
-          this.dialogFormVisible = false
-        })
-        .catch((err) => {
-          console.log(err)
-        })
+      this.$refs.form.validate(valid => {
+        if (valid) {
+          const formData = new FormData()
+          formData.append('name', this.formData.name)
+          formData.append('roles', this.formData.roles.join())
+          formData.append('id', this.formData.id)
+          updateRole(formData)
+            .then((response) => {
+              if (response.data.success) {
+                this.$emit('initData')
+                this.$message.success(response.data.msg)
+              } else {
+                this.$message.warning(response.data.msg)
+              }
+              this.dialogFormVisible = false
+            })
+            .catch((err) => {
+              console.log(err)
+            })
+        }
+      })
     },
     defaultPage(subitem) {
       const defaultPage = getDefaultRoles()

@@ -1,10 +1,11 @@
 import request from '@/utils/request'
 
 // user
-export function getUser() {
+export function getUser(data) {
   return request({
     url: 'user',
-    method: 'get'
+    method: 'get',
+    params: data
   })
 }
 export function createUser(data) {
@@ -30,10 +31,11 @@ export function deleteUser(data) {
 }
 
 // role
-export function getRole() {
+export function getRole(data) {
   return request({
     url: 'authority/role',
-    method: 'get'
+    method: 'get',
+    params: data
   })
 }
 export function createRole(data) {

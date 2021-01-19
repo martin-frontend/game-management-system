@@ -1,37 +1,44 @@
 <template>
-  <div class="page-container">
+  <div ref="pageContainer" class="page-container">
     <div class="table-container">
-      <p>後台帳號</p>
-      <el-button
-        icon="el-icon-plus"
-        type="primary"
-        circle
-        style="float: right"
-        @click="createUser"
-      />
+      <div class="table-head">
+        <el-tag>後台帳號</el-tag>
+        <el-button icon="el-icon-plus" type="primary" circle style="float: right" @click="createUser" />
+      </div>
+      <el-table :data="tabledata" border>
+        <el-table-column label="功能" width="180">
+          <template v-if="scope.row.roleLevel" slot-scope="scope">
+            <el-button type="primary" @click="modifyUser(scope.row)">修改</el-button>
+            <el-button type="danger" @click="deleteUser(scope.row.id)">刪除</el-button>
+          </template>
+        </el-table-column>
+        <el-table-column label="帳號" width="180">
+          <template slot-scope="scope">{{ scope.row.account }}</template>
+        </el-table-column>
+        <el-table-column label="狀態" width="180">
+          <template slot-scope="scope">{{
+            statusName(scope.row.status)
+          }}</template>
+        </el-table-column>
+        <el-table-column label="權限" width="180">
+          <template slot-scope="scope">{{ scope.row.roleName }}</template>
+        </el-table-column>
+        <el-table-column prop="createdAt" label="建立時間" sortable>
+          <template slot-scope="scope">{{ scope.row.createdAt }}</template>
+        </el-table-column>
+      </el-table>
+      <div class="table-pagination">
+        <el-pagination
+          :current-page="1"
+          :page-sizes="[25, 50, 75, 100]"
+          :page-size="25"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="pageTotal"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+        />
+      </div>
     </div>
-    <el-table style="width: 100%" :data="tabledata" border>
-      <el-table-column label="功能" width="180">
-        <template v-if="scope.row.roleLevel" slot-scope="scope">
-          <el-button type="primary" @click="modifyUser(scope.row)">修改</el-button>
-          <el-button type="danger" @click="deleteUser(scope.row.id)">刪除</el-button>
-        </template>
-      </el-table-column>
-      <el-table-column label="帳號" width="180">
-        <template slot-scope="scope">{{ scope.row.account }}</template>
-      </el-table-column>
-      <el-table-column label="狀態" width="180">
-        <template slot-scope="scope">{{
-          statusName(scope.row.status)
-        }}</template>
-      </el-table-column>
-      <el-table-column label="權限" width="180">
-        <template slot-scope="scope">{{ scope.row.roleName }}</template>
-      </el-table-column>
-      <el-table-column prop="createdAt" label="建立時間" sortable>
-        <template slot-scope="scope">{{ scope.row.createdAt }}</template>
-      </el-table-column>
-    </el-table>
     <Dialog ref="dialog" @initData="initData" />
   </div>
 </template>
@@ -45,7 +52,12 @@ export default {
   components: { Dialog },
   data() {
     return {
-      tabledata: []
+      tabledata: [],
+      pageData: {
+        pagesize: 25,
+        page: 1
+      },
+      pageTotal: 0
     }
   },
   computed: {},
@@ -53,6 +65,14 @@ export default {
     this.initData()
   },
   methods: {
+    handleSizeChange(val) {
+      this.pageData.pagesize = val
+      this.initData()
+    },
+    handleCurrentChange(val) {
+      this.pageData.page = val
+      this.initData()
+    },
     createUser() {
       this.$refs.dialog.handleOpen('新增')
     },
@@ -65,10 +85,17 @@ export default {
       }
     },
     initData() {
-      getUser()
+      const formData = {}
+      formData.pageSize = this.pageData.pagesize
+      formData.page = this.pageData.page
+      getUser(formData)
         .then((response) => {
           if (response.data.success) {
-            this.tabledata = [...response.data.content]
+            this.tabledata = [...response.data.content.data]
+            this.pageTotal = response.data.content.total
+            this.$nextTick(() => {
+              this.$refs.pageContainer.scrollTo({ top: 0, behavior: 'smooth' })
+            })
           } else {
             this.tabledata = []
             this.$message.warning(response.data.msg)
@@ -95,17 +122,15 @@ export default {
         })
     },
     modifyUser(data) {
-      console.log(data)
       this.$refs.dialog.handleOpen('修改', data)
     }
   }
 }
 </script>
 <style lang="scss" scoped>
-.table-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-}
+  .table-head{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
 </style>
