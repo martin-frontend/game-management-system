@@ -116,23 +116,27 @@ export default {
     updateRole() {
       this.$refs.form.validate(valid => {
         if (valid) {
-          const formData = new FormData()
-          formData.append('name', this.formData.name)
-          formData.append('roles', this.formData.roles.join())
-          formData.append('id', this.formData.id)
-          updateRole(formData)
-            .then((response) => {
-              if (response.data.success) {
-                this.$emit('initData')
-                this.$message.success(response.data.msg)
-              } else {
-                this.$message.warning(response.data.msg)
-              }
-              this.dialogFormVisible = false
-            })
-            .catch((err) => {
-              console.log(err)
-            })
+          if (this.formData.roles.length) {
+            const formData = new FormData()
+            formData.append('name', this.formData.name)
+            formData.append('roles', this.formData.roles.join())
+            formData.append('id', this.formData.id)
+            updateRole(formData)
+              .then((response) => {
+                if (response.data.success) {
+                  this.$emit('initData')
+                  this.$message.success(response.data.msg)
+                } else {
+                  this.$message.warning(response.data.msg)
+                }
+                this.dialogFormVisible = false
+              })
+              .catch((err) => {
+                console.log(err)
+              })
+          } else {
+            this.$message.warning('權限不可全為空')
+          }
         }
       })
     },
