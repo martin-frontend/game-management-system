@@ -38,7 +38,7 @@ module.exports = {
     },
     proxy: {
       '/': {
-        target: 'http://localhost:3000',
+        target: `http://localhost:${process.env.PROXYPORT}`,
         changeOrigin: true,
         pathRewrite: {
           '^/': ''
